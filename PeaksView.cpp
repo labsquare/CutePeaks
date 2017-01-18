@@ -6,8 +6,15 @@ PeaksView::PeaksView(QWidget * parent)
 
     setChart(new QChart);
 
-    chart()->setMinimumWidth(1000);
 
+
+   // setDragMode(QGraphicsView::RubberBandDrag);
+
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
+    setRubberBand( QChartView::HorizontalRubberBand);
+
+    chart()->resize(2000,100);
 }
 
 void PeaksView::setFilename(const QString &filename)
@@ -46,6 +53,9 @@ void PeaksView::draw()
     }
 
 
+    chart()->createDefaultAxes();
+    QValueAxis * ax = qobject_cast<QValueAxis*>(chart()->axisX());
+    ax->setRange(1500,2000);
 
 
 
