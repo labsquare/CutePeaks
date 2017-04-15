@@ -4,6 +4,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     mView = new PeaksView;
+    mArea = new QScrollArea;
+
     setCentralWidget(mView);
 
     setFilename("/home/sacha/Dev/CutePeaks/examples/A_forward.ab1");

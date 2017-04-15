@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "PeaksView.h"
+#include <QScrollArea>
 
 class MainWindow : public QMainWindow
 {
@@ -18,6 +19,7 @@ public Q_SLOTS:
 
 private:
     PeaksView * mView;
+    QScrollArea * mArea;
 
 };
 
