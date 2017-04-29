@@ -51,7 +51,6 @@ void PeaksView::draw()
 {
     // remove old series
     mChart->removeAllSeries();
-    mSeries.clear();
 
     // parse ab1 file
     AbifReader reader(mFilename);
