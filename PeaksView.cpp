@@ -36,14 +36,16 @@ void PeaksView::rangeChanged(qreal min, qreal max)
 {
     //This methods is trigger during zoom mouse action
 
-    qDebug()<<min<<" "<<max;
+//    qDebug()<<min<<" "<<max;
 
 }
 
 void PeaksView::scrollChanged(int v)
 {
     //this methods is triggered by the scrollbar
-    qDebug()<<v;
+    int d = ax->min() - v;
+
+    mChart->scroll(1,0);
 
 }
 
@@ -77,9 +79,13 @@ void PeaksView::draw()
 
             // add serie in the chart
             mChart->addSeries(serie);
+
         }
 
     }
+
+    mScrollBar->setMinimum(0);
+    mScrollBar->setMaximum(reader.data("DATA.1").toList().count());
 
     // Create defaut axis X and Y
     mChart->createDefaultAxes();
@@ -88,7 +94,7 @@ void PeaksView::draw()
     ax = qobject_cast<QValueAxis*>(mChart->axisX());
 
     // set a defaut range to sanger plot readable
-    ax->setRange(1500,2000);
+    ax->setRange(0,500);
 
 
     // connect axis scale changed to class methods
