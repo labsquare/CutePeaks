@@ -16,7 +16,7 @@
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abifreader.h"
-#include <byteswap.h>
+#include <QtEndian>
 
 AbifDir::AbifDir()
 {
@@ -111,7 +111,10 @@ QVariant AbifReader::fromDir(const AbifDir &dir)
     if (dir.dataSize<=4){
 
         int val = dir.dataOffset;
-        val = __bswap_32(val);
+
+
+        val = qToBigEndian(val);
+
         char * data = (char*)&val;
         part.setRawData(data,dir.dataSize);
 
