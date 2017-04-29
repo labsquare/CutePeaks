@@ -4,18 +4,39 @@
 #include <QDebug>
 #include "abifreader.h"
 
-class PeaksWidget : public QScrollArea
+class PeaksWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit PeaksWidget(QWidget *parent = 0);
+    void setFilename(const QString& filename);
+public Q_SLOTS:
+    void setAmplitudeFactor(int factor);
+    void setScaleFactor(int factor);
 
-    void load();
+   protected:
+        void load();
+        void draw();
+        void paintEvent(QPaintEvent * event);
 
 
 private:
-    QPixmap pix;
+    QString mFilename;
+
+    // data
     QHash< QString, QList<QPointF>> mLineSeries;
+    int mXSize = 0; // max X
+    int mYSize = 0; // max Y
+
+    // draw
+    QPixmap mPix;
+    QList<QPainterPath> mPaths;
+
+    // scaling
+    float mYFactor = 0.2;
+    float mXFactor = 1;
+
+    // widget
     QLabel * mLabel;
 
 

@@ -3,12 +3,22 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    mView = new PeaksView;
-    mArea = new QScrollArea;
+    mView    = new PeaksView;
+    mYSlider = new QSlider(Qt::Horizontal);
+    mXSlider = new QSlider(Qt::Horizontal);
 
     setCentralWidget(mView);
 
-    setFilename("/home/sacha/Dev/CutePeaks/examples/A_forward.ab1");
+    QToolBar * bar = addToolBar("actions");
+    mYSlider->setRange(20,100);
+    mXSlider->setRange(1,10);
+
+    bar->addWidget(mYSlider);
+    bar->addWidget(mXSlider);
+
+    connect(mYSlider,SIGNAL(valueChanged(int)),mView,SLOT(setAmplitudeFactor(int)));
+    connect(mXSlider,SIGNAL(valueChanged(int)),mView,SLOT(setScaleFactor(int)));
+
 
 
 }

@@ -15,10 +15,10 @@ TEMPLATE = app
 SOURCES += main.cpp\
         MainWindow.cpp \
         abifreader.cpp \
-    PeaksView.cpp \
-    PeaksWidget.cpp
+    PeaksWidget.cpp \
+    peaksview.cpp
 
 HEADERS  += MainWindow.h \
     abifreader.h \
-    PeaksView.h \
-    PeaksWidget.h
+    PeaksWidget.h \
+    peaksview.h
