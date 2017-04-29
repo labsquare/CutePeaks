@@ -43,9 +43,12 @@ void PeaksView::rangeChanged(qreal min, qreal max)
 void PeaksView::scrollChanged(int v)
 {
     //this methods is triggered by the scrollbar
-    int d = ax->min() - v;
+//    int d = v- ax->min();
 
-    mChart->scroll(1,0);
+    qDebug()<<v;
+    ax->setMin(v);
+    ax->setMax(v+500);
+
 
 }
 
