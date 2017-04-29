@@ -1,6 +1,7 @@
 #ifndef PEAKSWIDGET_H
 #define PEAKSWIDGET_H
 #include <QtWidgets>
+#include <QDebug>
 #include "abifreader.h"
 
 class PeaksWidget : public QScrollArea
@@ -9,11 +10,13 @@ class PeaksWidget : public QScrollArea
 public:
     explicit PeaksWidget(QWidget *parent = 0);
 
+    void load();
 
-    void draw();
 
 private:
     QPixmap pix;
+    QHash< QString, QList<QPointF>> mLineSeries;
+    QLabel * mLabel;
 
 
 
