@@ -45,9 +45,9 @@ void PeaksView::scrollChanged(int v)
     //this methods is triggered by the scrollbar
 //    int d = v- ax->min();
 
-    qDebug()<<v;
+    int zoomFactor = ax->max()- ax->min();
     ax->setMin(v);
-    ax->setMax(v+500);
+    ax->setMax(v+zoomFactor);
 
 
 }
