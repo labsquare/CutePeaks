@@ -17,6 +17,9 @@ public Q_SLOTS:
     void rangeChanged(qreal min, qreal max);
     void scrollChanged(int v);
 
+    void ampliChanged(int v);
+    void zoomChanged(int v);
+
 protected:
     void draw();
 
@@ -28,8 +31,13 @@ private:
     QChartView * mView;
     QScrollBar * mScrollBar;
     QValueAxis * ax ;
+    QValueAxis * ay ;
+
     bool scrolling = false;
     int sv = 0;
+    QSlider * mA;
+    QSlider * mB;
+
 
 
 };

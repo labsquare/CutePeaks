@@ -8,18 +8,32 @@ PeaksView::PeaksView(QWidget * parent)
     mChart     = new QChart;
     mScrollBar = new QScrollBar(Qt::Horizontal);
 
+    mA = new QSlider(Qt::Horizontal);
+    mB = new QSlider(Qt::Horizontal);
+
+
     mView->setChart(mChart);
 
     //enable zoom mouse selection
     mView->setRubberBand( QChartView::HorizontalRubberBand);
     mChart->setBackgroundRoundness(0);
     QVBoxLayout * cLayout = new QVBoxLayout;
+
+    QHBoxLayout * zLayout = new QHBoxLayout;
+    zLayout->addWidget(mA);
+    zLayout->addWidget(mB);
+
+    cLayout->addLayout(zLayout);
     cLayout->addWidget(mView);
     cLayout->addWidget(mScrollBar);
     cLayout->setSpacing(0);
 
     setLayout(cLayout);
     setMaximumHeight(300);
+
+    connect(mA,SIGNAL(valueChanged(int)),this,SLOT(ampliChanged(int)));
+    connect(mB,SIGNAL(valueChanged(int)),this,SLOT(zoomChanged(int)));
+
 
 }
 
@@ -36,20 +50,35 @@ void PeaksView::rangeChanged(qreal min, qreal max)
 {
     //This methods is trigger during zoom mouse action
 
-//    qDebug()<<min<<" "<<max;
+    //    qDebug()<<min<<" "<<max;
 
 }
 
 void PeaksView::scrollChanged(int v)
 {
     //this methods is triggered by the scrollbar
-//    int d = v- ax->min();
+    //    int d = v- ax->min();
 
-    int zoomFactor = ax->max()- ax->min();
-    ax->setMin(v);
-    ax->setMax(v+zoomFactor);
+    qDebug()<<"scroll changed";
+    qDebug()<<mChart->rect().width();
 
 
+       int zoomFactor = ax->max()- ax->min();
+       ax->setMin(v);
+       ax->setMax(v+zoomFactor);
+
+
+}
+
+void PeaksView::ampliChanged(int v)
+{
+    qDebug()<<"ampli "<<v;
+    ay->setMax(v*50);
+}
+
+void PeaksView::zoomChanged(int v)
+{
+    qDebug()<<"zoom "<<v;
 }
 
 void PeaksView::draw()
@@ -87,17 +116,27 @@ void PeaksView::draw()
 
     }
 
-    mScrollBar->setMinimum(0);
-    mScrollBar->setMaximum(reader.data("DATA.1").toList().count());
+    QLineSeries * s  = qobject_cast<QLineSeries*>(mChart->series().first());
+
+
 
     // Create defaut axis X and Y
     mChart->createDefaultAxes();
 
     // store axisX pointer as class member
     ax = qobject_cast<QValueAxis*>(mChart->axisX());
+    ay = qobject_cast<QValueAxis*>(mChart->axisY());
+    ay->hide();
 
     // set a defaut range to sanger plot readable
-    ax->setRange(0,500);
+    ax->setRange(0,200);
+
+
+
+
+    mScrollBar->setMinimum(0);
+    mScrollBar->setMaximum(s->points().size());
+    mScrollBar->setPageStep(1000);
 
 
     // connect axis scale changed to class methods
