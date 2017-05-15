@@ -2,8 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "PeaksView.h"
-#include <QScrollArea>
+#include "peaksview.h"
 
 class MainWindow : public QMainWindow
 {
@@ -13,13 +12,21 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    // Overriden methods
+    void closeEvent(QCloseEvent*);
+
 public Q_SLOTS:
+    void openFile();
     void setFilename(const QString& filename);
+    void writeSettings();
+    void restoreSettings();
 
 
 private:
     PeaksView * mView;
-    QScrollArea * mArea;
+    QSlider * mYSlider;
+    QSlider * mXSlider;
+    QString mFile;
 
 };
 
