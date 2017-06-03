@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui charts
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,9 +16,7 @@ SOURCES += main.cpp\
         MainWindow.cpp \
         abifreader.cpp \
     PeaksWidget.cpp \
-    peaksview.cpp
 
 HEADERS  += MainWindow.h \
     abifreader.h \
     PeaksWidget.h \
-    peaksview.h
