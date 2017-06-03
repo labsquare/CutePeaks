@@ -2,30 +2,31 @@
 
 PeaksWidget::PeaksWidget(QWidget *parent) : QWidget(parent)
 {
-   resize(1000,200);
+    resize(1000,200);
 }
 void PeaksWidget::setFilename(const QString &filename)
 {
     mFilename = filename;
     load();
-    draw();
+    update();
 }
 
 void PeaksWidget::setAmplitudeFactor(int factor)
 {
     mYFactor = float(factor) / 100;
-    draw();
+    update();
 }
 
 void PeaksWidget::setScaleFactor(int factor)
 {
     mXFactor = factor;
-    draw();
+    update();
 }
 
 
 void PeaksWidget::load()
 {
+    qDebug()<<"load";
     mLineSeries.clear();
     // load data ===================
     AbifReader reader(mFilename);
@@ -42,7 +43,7 @@ void PeaksWidget::load()
         if (reader.directoryKeys().contains(key))
         {
             // create a line serie
-            QList<QPointF> serie;
+            QVector<QPointF> serie;
             // get data according key
             QVariantList datas = reader.data(key).toList();
 
@@ -51,9 +52,8 @@ void PeaksWidget::load()
                 serie.append(QPointF(i, datas[i].toInt()));
                 mYSize = qMax(mYSize,  datas[i].toInt());
             }
-                mXSize = datas.length();
+            mXSize = datas.length();
 
-            qDebug()<<datas.size();
 
             // add serie in the chart
             mLineSeries[key] = serie;
@@ -64,10 +64,42 @@ void PeaksWidget::load()
 
 void PeaksWidget::paintEvent(QPaintEvent *event)
 {
+
     QPainter painter(this);
-    painter.drawPixmap(0,0,mPix);
+    // inverse y axis
+    painter.translate(rect().bottomLeft());
+    painter.scale(1.0, -1.0);
+
+
+    QPainterPath path;
+    path.moveTo(0,0);
+    QVector<QPointF> data = mLineSeries["DATA.11"];
+
+    for ( int x = 0 ; x < qMin(rect().width(),data.size()) ; ++x)
+    {
+        QPointF p = mLineSeries["DATA.11"][x];
+        path.lineTo(p.x() * mXFactor , p.y() * mYFactor);
+
+    }
+
+
+    QPen pen;
+    pen.setWidth(2);
+    pen.setColor(Qt::red);
+    painter.setPen(pen);
+    painter.setBrush(Qt::transparent);
+    painter.drawPath(path);
+
+
+
+
+
+
+
 
 }
+
+
 
 void PeaksWidget::draw()
 {
@@ -93,20 +125,21 @@ void PeaksWidget::draw()
     mPaths.clear();
     while (i != mLineSeries.constEnd()) {
 
-        QPainterPath path;
 
-        for ( QPointF p : mLineSeries[i.key()])
+        for (int ii=0; ii <  mLineSeries[i.key()].size(); ii+=1)
         {
-            path.lineTo(p.x() * mXFactor, p.y() * cHeight / mYSize * mYFactor);
+            QPointF p = mLineSeries[i.key()][ii];
+            painter.drawPoint(p);
+            //            path.lineTo(p.x() * mXFactor, p.y() * cHeight / mYSize * mYFactor);
 
         }
-        mPaths.append(path);
+        //        mPaths.append(path);
 
         QPen pen(colors[colId]);
-        pen.setWidth(1);
+        pen.setWidth(2);
         painter.setPen(pen);
         painter.setBrush(Qt::transparent);
-        painter.drawPath(path);
+        //        painter.drawPath(path);
 
         colId++;
         i++;

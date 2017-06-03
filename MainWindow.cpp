@@ -3,15 +3,26 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    mView    = new PeaksView;
+    mView    = new PeaksWidget;
     mYSlider = new QSlider(Qt::Horizontal);
     mXSlider = new QSlider(Qt::Horizontal);
+    mScrollBar = new QScrollBar(Qt::Horizontal);
 
-    setCentralWidget(mView);
+
+    QVBoxLayout* mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(mView);
+    mainLayout->addWidget(mScrollBar);
+
+    QWidget * mainWidget = new QWidget;
+    mainWidget->setLayout(mainLayout);
+
+
+    setCentralWidget(mainWidget);
 
     QToolBar * bar = addToolBar("actions");
     mYSlider->setRange(20,100);
     mXSlider->setRange(1,10);
+
 
     bar->addWidget(mYSlider);
     bar->addWidget(mXSlider);

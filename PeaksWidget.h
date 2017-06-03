@@ -24,7 +24,7 @@ private:
     QString mFilename;
 
     // data
-    QHash< QString, QList<QPointF>> mLineSeries;
+    QHash< QString, QVector<QPointF>> mLineSeries;
     int mXSize = 0; // max X
     int mYSize = 0; // max Y
 

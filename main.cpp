@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
+
     w.setFilename("/home/sacha/Dev/CutePeaks/examples/A_forward.ab1");
 
     w.show();
