@@ -76,29 +76,42 @@ void PeaksWidget::paintEvent(QPaintEvent *event)
     painter.translate(rect().bottomLeft());
     painter.scale(1.0, -1.0);
 
+    // loop over A,C,G,T
 
-    QPainterPath path;
-    path.moveTo(0,0);
-    QVector<QPointF> data = mLineSeries["DATA.11"];
-    qDebug()<<data.size();
+    QList<QColor>cols = {Qt::red,Qt::green, Qt::blue, Qt::black};
 
-    for ( int x = mXStart ; x < rect().width() + mXStart; ++x)
-    {
-        QPointF p = mLineSeries["DATA.11"][x];
-        p.setX(p.x() - mXStart);
-        path.lineTo((p.x()) * mXFactor , p.y() * mYFactor);
+    auto i = mLineSeries.constBegin();
+    int iColor = 0;
+    while (i != mLineSeries.constEnd()) {
+
+        // draw curves as path
+        QPainterPath path;
+        path.moveTo(0,0);
+        QVector<QPointF> data = i.value();
+
+        for ( int x = mXStart ; x < rect().width() + mXStart; ++x)
+        {
+            if (x >= data.size())
+                break;
+
+            QPointF p = data[x];
+            p.setX(p.x() - mXStart);
+            path.lineTo((p.x()) * mXFactor , p.y() * mYFactor);
+
+        }
+
+        // draw path
+        QPen pen;
+        pen.setWidth(2);
+        pen.setColor(cols[iColor]);
+        painter.setPen(pen);
+        painter.setBrush(Qt::transparent);
+        painter.drawPath(path);
+
+        ++i;
+        ++iColor;
 
     }
-
-
-    QPen pen;
-    pen.setWidth(2);
-    pen.setColor(Qt::red);
-    painter.setPen(pen);
-    painter.setBrush(Qt::transparent);
-    painter.drawPath(path);
-
-
 
 
 
