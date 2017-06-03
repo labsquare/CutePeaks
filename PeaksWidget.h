@@ -13,10 +13,11 @@ public:
 public Q_SLOTS:
     void setAmplitudeFactor(int factor);
     void setScaleFactor(int factor);
+    void scrollTo(int x);
 
    protected:
         void load();
-        void draw();
+//        void draw();
         void paintEvent(QPaintEvent * event);
 
 
@@ -35,6 +36,9 @@ private:
     // scaling
     float mYFactor = 0.2;
     float mXFactor = 1;
+
+    // scrolling
+    int mXStart = 0;
 
     // widget
     QLabel * mLabel;

@@ -23,6 +23,12 @@ void PeaksWidget::setScaleFactor(int factor)
     update();
 }
 
+void PeaksWidget::scrollTo(int x)
+{
+    mXStart = x ;
+    update();
+}
+
 
 void PeaksWidget::load()
 {
@@ -74,11 +80,13 @@ void PeaksWidget::paintEvent(QPaintEvent *event)
     QPainterPath path;
     path.moveTo(0,0);
     QVector<QPointF> data = mLineSeries["DATA.11"];
+    qDebug()<<data.size();
 
-    for ( int x = 0 ; x < qMin(rect().width(),data.size()) ; ++x)
+    for ( int x = mXStart ; x < rect().width() + mXStart; ++x)
     {
         QPointF p = mLineSeries["DATA.11"][x];
-        path.lineTo(p.x() * mXFactor , p.y() * mYFactor);
+        p.setX(p.x() - mXStart);
+        path.lineTo((p.x()) * mXFactor , p.y() * mYFactor);
 
     }
 
@@ -101,53 +109,53 @@ void PeaksWidget::paintEvent(QPaintEvent *event)
 
 
 
-void PeaksWidget::draw()
-{
-    // repaint ================================
-    int cHeight = height();
-    mPix = QPixmap(mXSize * mXFactor ,cHeight );
-    mPix.fill(Qt::white);
-    resize(mPix.size());
+//void PeaksWidget::draw()
+//{
+//    // repaint ================================
+//    int cHeight = height();
+//    mPix = QPixmap(mXSize * mXFactor ,cHeight );
+//    mPix.fill(Qt::white);
+//    resize(mPix.size());
 
 
-    QPainter painter;
-    painter.begin(&mPix);
-    //painter.setRenderHints(QPainter::HighQualityAntialiasing|QPainter::TextAntialiasing);
-    // Invert axis
-    painter.translate(mPix.rect().bottomLeft());
-    painter.scale(1.0, -1.0);
+//    QPainter painter;
+//    painter.begin(&mPix);
+//    //painter.setRenderHints(QPainter::HighQualityAntialiasing|QPainter::TextAntialiasing);
+//    // Invert axis
+//    painter.translate(mPix.rect().bottomLeft());
+//    painter.scale(1.0, -1.0);
 
 
-    QList <QColor> colors = {Qt::red, Qt::green , Qt::blue, Qt::black};
+//    QList <QColor> colors = {Qt::red, Qt::green , Qt::blue, Qt::black};
 
-    auto i = mLineSeries.constBegin();
-    int colId = 0;
-    mPaths.clear();
-    while (i != mLineSeries.constEnd()) {
+//    auto i = mLineSeries.constBegin();
+//    int colId = 0;
+//    mPaths.clear();
+//    while (i != mLineSeries.constEnd()) {
 
 
-        for (int ii=0; ii <  mLineSeries[i.key()].size(); ii+=1)
-        {
-            QPointF p = mLineSeries[i.key()][ii];
-            painter.drawPoint(p);
-            //            path.lineTo(p.x() * mXFactor, p.y() * cHeight / mYSize * mYFactor);
+//        for (int ii=0; ii <  mLineSeries[i.key()].size(); ii+=1)
+//        {
+//            QPointF p = mLineSeries[i.key()][ii];
+//            painter.drawPoint(p);
+//            //            path.lineTo(p.x() * mXFactor, p.y() * cHeight / mYSize * mYFactor);
 
-        }
-        //        mPaths.append(path);
+//        }
+//        //        mPaths.append(path);
 
-        QPen pen(colors[colId]);
-        pen.setWidth(2);
-        painter.setPen(pen);
-        painter.setBrush(Qt::transparent);
-        //        painter.drawPath(path);
+//        QPen pen(colors[colId]);
+//        pen.setWidth(2);
+//        painter.setPen(pen);
+//        painter.setBrush(Qt::transparent);
+//        //        painter.drawPath(path);
 
-        colId++;
-        i++;
+//        colId++;
+//        i++;
 
-    }
-    painter.end();
-    update();
-}
+//    }
+//    painter.end();
+//    update();
+//}
 
 
 

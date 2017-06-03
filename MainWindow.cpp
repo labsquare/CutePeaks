@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     QToolBar * bar = addToolBar("actions");
     mYSlider->setRange(20,100);
     mXSlider->setRange(1,10);
+    mScrollBar->setRange(0,10014 - mainWidget->width());
 
 
     bar->addWidget(mYSlider);
@@ -29,7 +30,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(mYSlider,SIGNAL(valueChanged(int)),mView,SLOT(setAmplitudeFactor(int)));
     connect(mXSlider,SIGNAL(valueChanged(int)),mView,SLOT(setScaleFactor(int)));
+    connect(mScrollBar,SIGNAL(valueChanged(int)),mView,SLOT(scrollTo(int)));
 
+
+    resize(1000, 400);
 
 
 }
