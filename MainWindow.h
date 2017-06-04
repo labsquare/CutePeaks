@@ -23,9 +23,11 @@ public Q_SLOTS:
 
 
 private:
-    PeaksView * mView;
+
+    PeaksWidget * mView;
     QSlider * mYSlider;
     QSlider * mXSlider;
+    QScrollBar * mScrollBar;
     QString mFile;
 
 };

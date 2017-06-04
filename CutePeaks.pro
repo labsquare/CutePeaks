@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui charts
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,8 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         MainWindow.cpp \
         abifreader.cpp \
-    PeaksView.cpp
+    PeaksWidget.cpp \
+    AbstractSequenceTrace.cpp \
+    AbifSequenceTrace.cpp \
+    SequenceTraceFactory.cpp
 
 HEADERS  += MainWindow.h \
     abifreader.h \
-    PeaksView.h
+    PeaksWidget.h \
+    AbstractSequenceTrace.h \
+    AbifSequenceTrace.h \
+    SequenceTraceFactory.h
