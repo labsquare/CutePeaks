@@ -13,15 +13,18 @@ public:
 public Q_SLOTS:
     void setAmplitudeFactor(int factor);
     void setScaleFactor(int factor);
+
     void scrollTo(int x);
+    int dataCount() const;
 
    protected:
         void load();
 //        void draw();
         void paintEvent(QPaintEvent * event);
+        void wheelEvent(QWheelEvent * event);
 
 
-private:
+public:
     QString mFilename;
 
     // data
@@ -40,8 +43,10 @@ private:
     // scrolling
     int mXStart = 0;
 
+
     // widget
     QLabel * mLabel;
+
 
 
 

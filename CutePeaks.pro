@@ -16,7 +16,13 @@ SOURCES += main.cpp\
         MainWindow.cpp \
         abifreader.cpp \
     PeaksWidget.cpp \
+    AbstractSequenceTrace.cpp \
+    AbifSequenceTrace.cpp \
+    SequenceTraceFactory.cpp
 
 HEADERS  += MainWindow.h \
     abifreader.h \
     PeaksWidget.h \
+    AbstractSequenceTrace.h \
+    AbifSequenceTrace.h \
+    SequenceTraceFactory.h

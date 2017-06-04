@@ -20,9 +20,12 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(mainWidget);
 
     QToolBar * bar = addToolBar("actions");
-    mYSlider->setRange(20,100);
-    mXSlider->setRange(1,10);
-    mScrollBar->setRange(0,10014 - mainWidget->width());
+    mYSlider->setRange(0,100);
+    mXSlider->setRange(1,100);
+
+    mYSlider->setValue(0.2);
+
+
 
 
     bar->addWidget(mYSlider);
@@ -49,5 +52,12 @@ void MainWindow::setFilename(const QString &filename)
     mView->setFilename(filename);
     else
         QMessageBox::warning(this,"error","cannot find file " + filename);
+
+    qDebug()<< mView->dataCount();
+    mScrollBar->setRange(0, mView->dataCount());
+    mScrollBar->setPageStep(mView->width() / mView->mXFactor);
+//    mScrollBar->setSingleStep(10);
+
+
 
 }

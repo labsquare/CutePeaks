@@ -26,7 +26,13 @@ void PeaksWidget::setScaleFactor(int factor)
 void PeaksWidget::scrollTo(int x)
 {
     mXStart = x ;
+    qDebug()<<mXStart;
     update();
+}
+
+int PeaksWidget::dataCount() const
+{
+    return mXSize;
 }
 
 
@@ -76,13 +82,26 @@ void PeaksWidget::paintEvent(QPaintEvent *event)
     painter.translate(rect().bottomLeft());
     painter.scale(1.0, -1.0);
 
+    painter.setBrush(QBrush(Qt::white));
+    painter.drawRect(rect());
+
+    painter.setRenderHint(QPainter::Antialiasing, true);
+
     // loop over A,C,G,T
 
-    QList<QColor>cols = {Qt::red,Qt::green, Qt::blue, Qt::black};
+    QHash<QString,QColor>cols = {
+                     {"DATA.9",QColor("#000000")},
+                     {"DATA.10",QColor("#009000")},
+                     {"DATA.11",QColor("#ff0000")},
+                     {"DATA.12",QColor("#0000ff")}
+    };
+
+
 
     auto i = mLineSeries.constBegin();
     int iColor = 0;
     while (i != mLineSeries.constEnd()) {
+
 
         // draw curves as path
         QPainterPath path;
@@ -102,8 +121,11 @@ void PeaksWidget::paintEvent(QPaintEvent *event)
 
         // draw path
         QPen pen;
-        pen.setWidth(2);
-        pen.setColor(cols[iColor]);
+        pen.setWidth(1);
+        pen.setColor(cols[i.key()]);
+        pen.setCosmetic(false);
+        pen.setWidthF(1);
+        pen.setJoinStyle(Qt::RoundJoin);
         painter.setPen(pen);
         painter.setBrush(Qt::transparent);
         painter.drawPath(path);
@@ -116,6 +138,18 @@ void PeaksWidget::paintEvent(QPaintEvent *event)
 
 
 
+
+
+}
+
+void PeaksWidget::wheelEvent(QWheelEvent *event)
+{
+
+    if (event->delta() > 0 )
+        mXStart++;
+
+    else
+        mXStart--;
 
 
 }
