@@ -34,7 +34,7 @@ private:
 
     // scaling
     float mYFactor = 0.2;
-    float mXFactor = 1;
+    float mXFactor = 3;
 
     // scrolling
     int mXStart = 0;

@@ -36,9 +36,14 @@ void TraceView::paintEvent(QPaintEvent *event)
         return;
 
     QPainter painter(viewport());
+
+
+    // draw bases
+
+
+
     // inverse y axis
-    painter.translate(viewport()->rect().bottomLeft());
-    painter.scale(1.0, -1.0);
+
 
     // draw background
     painter.setBrush(QBrush(Qt::white));
@@ -47,10 +52,39 @@ void TraceView::paintEvent(QPaintEvent *event)
     // set antialiasing
     painter.setRenderHints(QPainter::HighQualityAntialiasing|QPainter::Antialiasing, true);
 
+
+    // draw base
+    int yMargin = 40;
+
+    for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i)
+    {
+        int pos = mSequenceTrace->baseLocations().at(i);
+
+        if (pos >= mXStart && pos <=  viewport()->rect().width() + mXStart )
+        {
+            QPointF p ((pos - mXStart) * mXFactor, 15);
+
+            // Draw Base
+            QChar base = mSequenceTrace->baseCalls().at(i);
+            QFontMetrics metrics(painter.font());
+            QPointF textPos (p.x() - metrics.width(base)/2, p.y());
+            textPos.setY(viewport()->height() - yMargin + 20);
+            painter.setPen(QPen(mTraceColors[base]));
+            painter.drawText(textPos, QString(base));
+        }
+
+
+    }
+
+
+
+    painter.translate(viewport()->rect().bottomLeft());
+    painter.scale(1.0, -1.0);
+    // Draw traces
     for (QChar base : mSequenceTrace->bases())
     {
 
-        // draw curves as path
+        // load paths to draw
         QPainterPath path;
         path.moveTo(0,0);
         QVector<int> data = mSequenceTrace->traces(base);
@@ -61,7 +95,7 @@ void TraceView::paintEvent(QPaintEvent *event)
                 break;
 
             QPointF p ( x - mXStart, data[x]);
-            path.lineTo((p.x()) * mXFactor , p.y() * mYFactor);
+            path.lineTo((p.x()) * mXFactor , p.y() * mYFactor + yMargin);
 
         }
 
@@ -75,6 +109,11 @@ void TraceView::paintEvent(QPaintEvent *event)
         painter.setPen(pen);
         painter.setBrush(Qt::transparent);
         painter.drawPath(path);
+
+
+
+
+
     }
 
 }
