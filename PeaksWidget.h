@@ -24,6 +24,7 @@ public Q_SLOTS:
         void wheelEvent(QWheelEvent * event);
 
 
+
 public:
     QString mFilename;
 

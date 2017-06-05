@@ -19,7 +19,7 @@ void PeaksWidget::setAmplitudeFactor(int factor)
 
 void PeaksWidget::setScaleFactor(int factor)
 {
-    mXFactor = factor;
+    mXFactor = float(factor) / 10;
     update();
 }
 
@@ -72,20 +72,22 @@ void PeaksWidget::load()
         }
     }
 
+
 }
 
 void PeaksWidget::paintEvent(QPaintEvent *event)
 {
 
+    qDebug()<<"paint";
     QPainter painter(this);
     // inverse y axis
     painter.translate(rect().bottomLeft());
     painter.scale(1.0, -1.0);
 
-    painter.setBrush(QBrush(Qt::white));
+    painter.setBrush(QBrush(Qt::blue));
     painter.drawRect(rect());
 
-    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHints(QPainter::HighQualityAntialiasing|QPainter::Antialiasing, true);
 
     // loop over A,C,G,T
 

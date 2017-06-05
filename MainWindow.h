@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "peaksview.h"
+#include "traceview.h"
 
 class MainWindow : public QMainWindow
 {
@@ -24,10 +24,9 @@ public Q_SLOTS:
 
 private:
 
-    PeaksWidget * mView;
+    TraceView * mView;
     QSlider * mYSlider;
     QSlider * mXSlider;
-    QScrollBar * mScrollBar;
     QString mFile;
 
 };

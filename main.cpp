@@ -3,6 +3,7 @@
 #include <QScrollArea>
 #include "PeaksWidget.h"
 #include "SequenceTraceFactory.h"
+#include "traceview.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,11 +14,8 @@ int main(int argc, char *argv[])
     a.setApplicationVersion("0.0.a");
 
     MainWindow w;
-
-
-//    w.setFilename("/home/sacha/Dev/CutePeaks/examples/A_forward.ab1");
-
-//    w.show();
+    w.setFilename("/home/sacha/Dev/CutePeaks/examples/A_forward.ab1");
+    w.show();
 
     return a.exec();
 }

@@ -18,11 +18,13 @@ SOURCES += main.cpp\
     PeaksWidget.cpp \
     AbstractSequenceTrace.cpp \
     AbifSequenceTrace.cpp \
-    SequenceTraceFactory.cpp
+    SequenceTraceFactory.cpp \
+    traceview.cpp
 
 HEADERS  += MainWindow.h \
     abifreader.h \
     PeaksWidget.h \
     AbstractSequenceTrace.h \
     AbifSequenceTrace.h \
-    SequenceTraceFactory.h
+    SequenceTraceFactory.h \
+    traceview.h
