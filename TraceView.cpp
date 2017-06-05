@@ -8,6 +8,9 @@ TraceView::TraceView(QWidget *parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents, true);
 
+    QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
+
+
 
     mTraceColors = {
         {'A',"#009000"},    // green
@@ -146,6 +149,7 @@ bool TraceView::viewportEvent(QEvent *event)
 
 void TraceView::setupViewport()
 {
+    qDebug()<<"after";
 //    mScroller = QScroller::scroller(viewport());
 
 
@@ -171,6 +175,8 @@ void TraceView::setFilename(const QString &filename)
 
     viewport()->update();
     updateScrollbar();
+
+
 
 
 }
