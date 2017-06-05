@@ -14,15 +14,9 @@ int main(int argc, char *argv[])
     a.setOrganizationDomain("Labsquare.org");
     a.setApplicationVersion("0.0.a");
 
-    QFile file("/home/sacha/Dev/CutePeaks/examples/A_forward.ab1");
-
-    AbifSequenceTrace * reader = new AbifSequenceTrace(&file);
-
-    qDebug()<<reader->confScores();
-
-//    MainWindow w;
-//    w.setFilename("/home/sacha/Dev/CutePeaks/examples/A_forward.ab1");
-//    w.show();
+    MainWindow w;
+    w.setFilename("/home/sacha/Dev/CutePeaks/examples/A_forward.ab1");
+    w.show();
 
     return a.exec();
 }

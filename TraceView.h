@@ -1,6 +1,9 @@
 #ifndef TESTVIEW_H
 #define TESTVIEW_H
 #include <QtWidgets>
+#include "SequenceTraceFactory.h"
+#include "AbifSequenceTrace.h"
+
 class TraceView : public QAbstractScrollArea
 {
 public:
@@ -21,17 +24,13 @@ protected :
     void load();
     void updateScrollbar();
 
-
-
-
 private:
 
     QString mFilename;
+    AbstractSequenceTrace * mSequenceTrace;
 
     // data
     QHash< QString, QVector<QPointF>> mLineSeries;
-    int mXSize = 0; // max X
-    int mYSize = 0; // max Y
 
     // scaling
     float mYFactor = 0.2;
@@ -39,6 +38,9 @@ private:
 
     // scrolling
     int mXStart = 0;
+
+    // trace colors
+    QHash<QChar, QColor> mTraceColors;
 
 };
 

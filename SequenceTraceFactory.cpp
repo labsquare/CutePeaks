@@ -9,12 +9,12 @@ SequenceTraceFactory::FileType SequenceTraceFactory::filetype(QIODevice *device)
         QByteArray magic = device->read(8);
 
         if (magic.left(4) == "ABIF")
-            return ABIFType;
+            return ABIF;
 
         device->close();
     }
 
-    return UnknownType;
+    return Unknown;
 
 }
 
@@ -22,6 +22,19 @@ SequenceTraceFactory::FileType SequenceTraceFactory::filetype(const QString &fil
 {
     QFile file(filename);
     return SequenceTraceFactory::filetype(&file);
+}
+
+AbstractSequenceTrace *SequenceTraceFactory::loadTraceFile(const QString &filename)
+{
+
+    QFile * file = new QFile(filename);
+
+    if (SequenceTraceFactory::filetype(filename) == ABIF)
+        return new AbifSequenceTrace(file);
+
+    delete file;
+    return nullptr;
+
 }
 
 SequenceTraceFactory::SequenceTraceFactory()

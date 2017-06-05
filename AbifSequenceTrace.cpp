@@ -56,10 +56,11 @@ void AbifSequenceTrace::readTraces()
 {
     // read base order
     QString baseorder = data("FWO_.1").toString();
+
     // read traces
     // DATA between 9-12 will contain the processed data.
     int start = 9;
-    for (int i=start; i<= start + baseorder.size()  ; ++i)
+    for (int i=start; i< start + baseorder.size()  ; ++i)
     {
         QString key = QString("DATA.%1").arg(i);
         QVector<int> trace;

@@ -6,10 +6,12 @@ class AbstractSequenceTrace
 {
 public:
     explicit AbstractSequenceTrace(QIODevice * device);
-    const QVector<int>& traces(const QChar& base) const;
+    QVector<int> traces(const QChar& base) const;
     const QByteArray& baseCalls()const;
     const QVector<int>& baseLocations()const;
     const QVector<int>& confScores()const;
+    int traceLength() const;
+    QList<QChar> bases() const;
 
 
 protected:
@@ -27,6 +29,8 @@ private:
     QVector<int> mConfScores;
     QByteArray mBaseCalls;
     QIODevice * mDevice;
+    int mTraceLength = 0;
+    int mTraceHeight = 0;
 
 };
 

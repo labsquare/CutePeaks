@@ -7,9 +7,9 @@ AbstractSequenceTrace::AbstractSequenceTrace(QIODevice *device)
 
 }
 
-const QVector<int> &AbstractSequenceTrace::traces(const QChar &base) const
+ QVector<int> AbstractSequenceTrace::traces(const QChar &base) const
 {
-    return mTraces[base];
+    return mTraces[base.toUpper()];
 }
 
 const QByteArray &AbstractSequenceTrace::baseCalls() const
@@ -27,10 +27,29 @@ const QVector<int> &AbstractSequenceTrace::confScores() const
     return mConfScores;
 }
 
+int AbstractSequenceTrace::traceLength() const
+{
+    return mTraceLength;
+}
+
+QList<QChar> AbstractSequenceTrace::bases() const
+{
+    return mTraces.keys();
+}
+
 
 void AbstractSequenceTrace::setTrace(const QChar &base, const QVector<int>& data)
 {
-    mTraces[base] = data;
+    mTraces[base.toUpper()] = data;
+    // get max x
+    mTraceLength = qMax(mTraceLength, data.length());
+
+    // get max y
+    for (int i : data)
+    {
+        mTraceHeight = qMax(mTraceHeight, i);
+    }
+
 }
 
 void AbstractSequenceTrace::setBaseCalls(const QByteArray &data)

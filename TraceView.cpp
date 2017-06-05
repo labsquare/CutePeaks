@@ -4,22 +4,36 @@ TraceView::TraceView(QWidget *parent)
     :QAbstractScrollArea(parent)
 {
 
-    qDebug()<<"construct";
-
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-
-
-    horizontalScrollBar()->setPageStep(10);
-    horizontalScrollBar()->setRange(0,1000);
-
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents, true);
+
+    mTraceColors = {
+        {'A',"#009000"},    // green
+        {'C',"#0000ff"},    // blue
+        {'G',"#000000"},    // black
+        {'T',"#ff0000"},    // red
+        {'W',"#804800"},    // mix of A and T
+        {'S',"#000080"},    // mix of C and G
+        {'M',"#004880"},    // mix of A and C
+        {'K',"#800000"},    // mix of G and T
+        {'R',"#004800"},    // mix of A and G
+        {'Y',"#800080"},    // mix of C and T
+        {'B',"#550055"},    // mix of C, G, and T
+        {'D',"#553000"},    // mix of A, G, and T
+        {'H',"#553055"},    // mix of A, C, and T
+        {'V',"#003055"},    // mix of A, C, and G
+        {'N',"#999"}        // gray
+    };
 
 }
 
 void TraceView::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
+
+    if (!mSequenceTrace)
+        return;
 
     QPainter painter(viewport());
     // inverse y axis
@@ -33,31 +47,20 @@ void TraceView::paintEvent(QPaintEvent *event)
     // set antialiasing
     painter.setRenderHints(QPainter::HighQualityAntialiasing|QPainter::Antialiasing, true);
 
-    // loop over A,C,G,T
-    QHash<QString,QColor>cols = {
-                     {"DATA.9",QColor("#000000")},
-                     {"DATA.10",QColor("#009000")},
-                     {"DATA.11",QColor("#ff0000")},
-                     {"DATA.12",QColor("#0000ff")}
-    };
-
-
-    auto i = mLineSeries.constBegin();
-    int iColor = 0;
-    while (i != mLineSeries.constEnd()) {
+    for (QChar base : mSequenceTrace->bases())
+    {
 
         // draw curves as path
         QPainterPath path;
         path.moveTo(0,0);
-        QVector<QPointF> data = i.value();
+        QVector<int> data = mSequenceTrace->traces(base);
 
         for ( int x = mXStart ; x < viewport()->rect().width() + mXStart; ++x)
         {
             if (x >= data.size())
                 break;
 
-            QPointF p = data[x];
-            p.setX(p.x() - mXStart);
+            QPointF p ( x - mXStart, data[x]);
             path.lineTo((p.x()) * mXFactor , p.y() * mYFactor);
 
         }
@@ -65,16 +68,15 @@ void TraceView::paintEvent(QPaintEvent *event)
         // draw path
         QPen pen;
         pen.setWidth(1);
-        pen.setColor(cols[i.key()]);
+        pen.setColor(mTraceColors[base]);
         pen.setCosmetic(false);
         pen.setWidthF(1);
         pen.setJoinStyle(Qt::RoundJoin);
         painter.setPen(pen);
         painter.setBrush(Qt::transparent);
         painter.drawPath(path);
-        ++i;
-        ++iColor;
     }
+
 }
 
 void TraceView::scrollContentsBy(int dx, int dy)
@@ -103,23 +105,31 @@ bool TraceView::viewportEvent(QEvent *event)
 {
 
 
-return QAbstractScrollArea::viewportEvent(event);
+    return QAbstractScrollArea::viewportEvent(event);
 }
 
 void TraceView::updateScrollbar()
 {
-
-    horizontalScrollBar()->setRange(0, mXSize - viewport()->width());
+    int maxXSize = mSequenceTrace->traceLength();
+    horizontalScrollBar()->setRange(0, maxXSize - viewport()->width());
     horizontalScrollBar()->setPageStep(viewport()->width()/ mXFactor);
-
-    qDebug()<<mXSize;
 }
 
 void TraceView::setFilename(const QString &filename)
 {
     mFilename = filename;
-    load();
+    mSequenceTrace = SequenceTraceFactory::loadTraceFile(filename);
+
+    if (!mSequenceTrace){
+        qCritical()<<Q_FUNC_INFO<<"Cannot read the file";
+        return ;
+    }
+
+
     viewport()->update();
+    updateScrollbar();
+
+
 }
 
 void TraceView::setAmplitudeFactor(float factor)
@@ -138,39 +148,39 @@ void TraceView::setScaleFactor(float factor)
 
 void TraceView::load()
 {
-//    qDebug()<<"load";
-//    mLineSeries.clear();
-//    // load data ===================
-//    AbifReader reader(mFilename);
+    //    qDebug()<<"load";
+    //    mLineSeries.clear();
+    //    // load data ===================
+    //    AbifReader reader(mFilename);
 
 
-//    // loop over 4 series A,C,T,G
-//    for (int i=9; i<=12 ; ++i)
-//    {
-//        // create DATA.x key
-//        QString key = QString("DATA.%1").arg(i);
+    //    // loop over 4 series A,C,T,G
+    //    for (int i=9; i<=12 ; ++i)
+    //    {
+    //        // create DATA.x key
+    //        QString key = QString("DATA.%1").arg(i);
 
 
-//        // if key exists in ab1 file
-//        if (reader.directoryKeys().contains(key))
-//        {
-//            // create a line serie
-//            QVector<QPointF> serie;
-//            // get data according key
-//            QVariantList datas = reader.data(key).toList();
+    //        // if key exists in ab1 file
+    //        if (reader.directoryKeys().contains(key))
+    //        {
+    //            // create a line serie
+    //            QVector<QPointF> serie;
+    //            // get data according key
+    //            QVariantList datas = reader.data(key).toList();
 
-//            // fill serie with x,y values
-//            for (int i=0; i<datas.length(); ++i) {
-//                serie.append(QPointF(i, datas[i].toInt()));
-//                mYSize = qMax(mYSize,  datas[i].toInt());
-//            }
-//            mXSize = datas.length();
-//            // add serie in the chart
-//            mLineSeries[key] = serie;
-//        }
-//    }
+    //            // fill serie with x,y values
+    //            for (int i=0; i<datas.length(); ++i) {
+    //                serie.append(QPointF(i, datas[i].toInt()));
+    //                mYSize = qMax(mYSize,  datas[i].toInt());
+    //            }
+    //            mXSize = datas.length();
+    //            // add serie in the chart
+    //            mLineSeries[key] = serie;
+    //        }
+    //    }
 
-//    updateScrollbar();
+    //    updateScrollbar();
 
 
 }
