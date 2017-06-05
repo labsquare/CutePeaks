@@ -14,14 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         MainWindow.cpp \
-        abifreader.cpp \
     AbstractSequenceTrace.cpp \
     AbifSequenceTrace.cpp \
     SequenceTraceFactory.cpp \
     TraceView.cpp
 
 HEADERS  += \
-    abifreader.h \
     SequenceTraceFactory.h \
     MainWindow.h \
     AbstractSequenceTrace.h \

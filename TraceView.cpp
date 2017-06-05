@@ -13,6 +13,8 @@ TraceView::TraceView(QWidget *parent)
     horizontalScrollBar()->setPageStep(10);
     horizontalScrollBar()->setRange(0,1000);
 
+    viewport()->setAttribute(Qt::WA_AcceptTouchEvents, true);
+
 }
 
 void TraceView::paintEvent(QPaintEvent *event)
@@ -88,6 +90,22 @@ void TraceView::resizeEvent(QResizeEvent *event)
     updateScrollbar();
 }
 
+void TraceView::mouseMoveEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton)
+    {
+
+        qDebug()<< event->x();
+    }
+}
+
+bool TraceView::viewportEvent(QEvent *event)
+{
+
+
+return QAbstractScrollArea::viewportEvent(event);
+}
+
 void TraceView::updateScrollbar()
 {
 
@@ -120,39 +138,39 @@ void TraceView::setScaleFactor(float factor)
 
 void TraceView::load()
 {
-    qDebug()<<"load";
-    mLineSeries.clear();
-    // load data ===================
-    AbifReader reader(mFilename);
+//    qDebug()<<"load";
+//    mLineSeries.clear();
+//    // load data ===================
+//    AbifReader reader(mFilename);
 
 
-    // loop over 4 series A,C,T,G
-    for (int i=9; i<=12 ; ++i)
-    {
-        // create DATA.x key
-        QString key = QString("DATA.%1").arg(i);
+//    // loop over 4 series A,C,T,G
+//    for (int i=9; i<=12 ; ++i)
+//    {
+//        // create DATA.x key
+//        QString key = QString("DATA.%1").arg(i);
 
 
-        // if key exists in ab1 file
-        if (reader.directoryKeys().contains(key))
-        {
-            // create a line serie
-            QVector<QPointF> serie;
-            // get data according key
-            QVariantList datas = reader.data(key).toList();
+//        // if key exists in ab1 file
+//        if (reader.directoryKeys().contains(key))
+//        {
+//            // create a line serie
+//            QVector<QPointF> serie;
+//            // get data according key
+//            QVariantList datas = reader.data(key).toList();
 
-            // fill serie with x,y values
-            for (int i=0; i<datas.length(); ++i) {
-                serie.append(QPointF(i, datas[i].toInt()));
-                mYSize = qMax(mYSize,  datas[i].toInt());
-            }
-            mXSize = datas.length();
-            // add serie in the chart
-            mLineSeries[key] = serie;
-        }
-    }
+//            // fill serie with x,y values
+//            for (int i=0; i<datas.length(); ++i) {
+//                serie.append(QPointF(i, datas[i].toInt()));
+//                mYSize = qMax(mYSize,  datas[i].toInt());
+//            }
+//            mXSize = datas.length();
+//            // add serie in the chart
+//            mLineSeries[key] = serie;
+//        }
+//    }
 
-    updateScrollbar();
+//    updateScrollbar();
 
 
 }

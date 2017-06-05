@@ -1,7 +1,6 @@
 #ifndef TESTVIEW_H
 #define TESTVIEW_H
 #include <QtWidgets>
-#include "abifreader.h"
 class TraceView : public QAbstractScrollArea
 {
 public:
@@ -16,6 +15,8 @@ protected :
     void paintEvent(QPaintEvent * event)  Q_DECL_OVERRIDE;
     void scrollContentsBy(int dx, int dy) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent * event)Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent * event);
+    bool viewportEvent(QEvent * event) Q_DECL_OVERRIDE;
 
     void load();
     void updateScrollbar();
