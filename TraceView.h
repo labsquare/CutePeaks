@@ -1,6 +1,7 @@
 #ifndef TESTVIEW_H
 #define TESTVIEW_H
 #include <QtWidgets>
+#include <QScroller>
 #include "SequenceTraceFactory.h"
 #include "AbifSequenceTrace.h"
 
@@ -20,6 +21,7 @@ protected :
     void resizeEvent(QResizeEvent * event)Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent * event);
     bool viewportEvent(QEvent * event) Q_DECL_OVERRIDE;
+    virtual void setupViewport();
 
     void load();
     void updateScrollbar();
@@ -41,6 +43,8 @@ private:
 
     // trace colors
     QHash<QChar, QColor> mTraceColors;
+
+    QScroller * mScroller;
 
 };
 

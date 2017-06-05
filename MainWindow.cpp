@@ -19,6 +19,10 @@ MainWindow::MainWindow(QWidget *parent)
     bar->addWidget(mYSlider);
     bar->addWidget(mXSlider);
 
+    mXSlider->setToolTip("Scale");
+    mYSlider->setToolTip("Amplitude");
+
+
     connect(mYSlider, &QSlider::valueChanged, [=](){mView->setAmplitudeFactor(mYSlider->value() / 1000.0 );});
     connect(mXSlider, &QSlider::valueChanged, [=](){mView->setScaleFactor(mXSlider->value() / 100.0);});
 

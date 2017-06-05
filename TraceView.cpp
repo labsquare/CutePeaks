@@ -8,6 +8,7 @@ TraceView::TraceView(QWidget *parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents, true);
 
+
     mTraceColors = {
         {'A',"#009000"},    // green
         {'C',"#0000ff"},    // blue
@@ -133,11 +134,7 @@ void TraceView::resizeEvent(QResizeEvent *event)
 
 void TraceView::mouseMoveEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton)
-    {
-
-        qDebug()<< event->x();
-    }
+    QAbstractScrollArea::mouseMoveEvent(event);
 }
 
 bool TraceView::viewportEvent(QEvent *event)
@@ -145,6 +142,13 @@ bool TraceView::viewportEvent(QEvent *event)
 
 
     return QAbstractScrollArea::viewportEvent(event);
+}
+
+void TraceView::setupViewport()
+{
+//    mScroller = QScroller::scroller(viewport());
+
+
 }
 
 void TraceView::updateScrollbar()
