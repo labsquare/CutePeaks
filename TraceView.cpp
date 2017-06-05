@@ -1,4 +1,4 @@
-#include "traceview.h"
+#include "TraceView.h"
 
 TraceView::TraceView(QWidget *parent)
     :QAbstractScrollArea(parent)

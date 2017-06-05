@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "traceview.h"
+#include <QtWidgets>
+#include "TraceView.h"
 
 class MainWindow : public QMainWindow
 {

@@ -15,16 +15,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
         MainWindow.cpp \
         abifreader.cpp \
-    PeaksWidget.cpp \
     AbstractSequenceTrace.cpp \
     AbifSequenceTrace.cpp \
     SequenceTraceFactory.cpp \
-    traceview.cpp
+    TraceView.cpp
 
-HEADERS  += MainWindow.h \
+HEADERS  += \
     abifreader.h \
-    PeaksWidget.h \
+    SequenceTraceFactory.h \
+    MainWindow.h \
     AbstractSequenceTrace.h \
     AbifSequenceTrace.h \
-    SequenceTraceFactory.h \
-    traceview.h
+    TraceView.h

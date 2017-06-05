@@ -1,9 +1,8 @@
 #include "MainWindow.h"
 #include <QApplication>
 #include <QScrollArea>
-#include "PeaksWidget.h"
 #include "SequenceTraceFactory.h"
-#include "traceview.h"
+#include "TraceView.h"
 
 int main(int argc, char *argv[])
 {

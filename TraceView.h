@@ -1,7 +1,6 @@
 #ifndef TESTVIEW_H
 #define TESTVIEW_H
-#include <QScrollArea>
-#include "PeaksWidget.h"
+#include <QtWidgets>
 #include "abifreader.h"
 class TraceView : public QAbstractScrollArea
 {
