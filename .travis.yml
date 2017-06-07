@@ -13,7 +13,6 @@ install:
 
 
 script:
-  - cd ../..
   - /opt/qt58/bin/qmake PREFIX=/usr
   - make 
   - # Generate AppImage
