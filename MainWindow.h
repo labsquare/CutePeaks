@@ -31,6 +31,7 @@ private:
     QSlider * mXSlider;
     QString mFile;
     QLineEdit * mSearchbar;
+    QTextEdit * mSeqEdit;
 
 };
 

@@ -11,6 +11,8 @@ public:
     TraceView(QWidget * parent = 0);
     void setFilename(const QString& filename);
 
+    AbstractSequenceTrace * sequenceTrace();
+
 public Q_SLOTS:
     void setAmplitudeFactor(float factor);
     void setScaleFactor(float factor);
@@ -28,7 +30,7 @@ protected :
 private:
 
     QString mFilename;
-    AbstractSequenceTrace * mSequenceTrace;
+    AbstractSequenceTrace * mSequenceTrace = nullptr;
 
     // data
     QHash< QString, QVector<QPointF>> mLineSeries;

@@ -8,62 +8,44 @@ MainWindow::MainWindow(QWidget *parent)
     mYSlider = new QSlider(Qt::Horizontal);
     mXSlider = new QSlider(Qt::Horizontal);
     mSearchbar = new QLineEdit;
-    mSearchbar->setMaximumWidth(200);
-    mSearchbar->setPlaceholderText("Sequence ...");
-
-    setCentralWidget(mView);
+    mSeqEdit   = new QTextEdit;
+    mSearchbar->setVisible(false);
 
     QToolBar * bar = addToolBar("actions");
 
-    bar->addAction("Open");
+    setCentralWidget(mView);
 
+    mSearchbar->setMaximumWidth(200);
+    mSearchbar->setPlaceholderText("Sequence ...");
+
+    QAction * openAction = bar->addAction("Open");
     QWidget * spacer = new QWidget;
     spacer->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
-
     bar->addWidget(spacer);
     bar->addWidget(mSearchbar);
 
-
     mYSlider->setRange(0,1000);
     mXSlider->setRange(1,1000);
+    mXSlider->setToolTip("Scale");
 
     mXSlider->setMaximumWidth(100);
     mYSlider->setMaximumWidth(100);
+    mYSlider->setValue(0.2);
+    mYSlider->setToolTip("Amplitude");
 
     QStatusBar * statusBar = new QStatusBar;
 
-
     statusBar->addPermanentWidget(new QLabel("Scale"));
     statusBar->addPermanentWidget(mXSlider);
-
     statusBar->addPermanentWidget(new QLabel("Amplitude"));
     statusBar->addPermanentWidget(mYSlider);
-
     setStatusBar(statusBar);
-
-
-    mYSlider->setValue(0.2);
-
-    //    bar->addWidget(spacer);
-    //    bar->addWidget(mYSlider);
-    //    bar->addWidget(mXSlider);
-
-    mXSlider->setToolTip("Scale");
-    mYSlider->setToolTip("Amplitude");
-
 
     connect(mYSlider, &QSlider::valueChanged, [=](){mView->setAmplitudeFactor(mYSlider->value() / 1000.0 );});
     connect(mXSlider, &QSlider::valueChanged, [=](){mView->setScaleFactor(mXSlider->value() / 100.0);});
-
-
-    //    connect(mYSlider,SIGNAL(valueChanged(int)),mView,SLOT(setAmplitudeFactor(int)));
-    //    connect(mXSlider,SIGNAL(valueChanged(int)),mView,SLOT(setScaleFactor(int)));
-    //    connect(mScrollBar,SIGNAL(valueChanged(int)),mView,SLOT(scrollTo(int)));
-
+    connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
 
     resize(1000, 400);
-
-
 }
 
 MainWindow::~MainWindow()

@@ -12,10 +12,10 @@ int main(int argc, char *argv[])
     a.setApplicationName("CutePeaks");
     a.setOrganizationName("Labsquare");
     a.setOrganizationDomain("Labsquare.org");
-    a.setApplicationVersion("0.0.a");
+    a.setApplicationVersion("0.1-beta");
 
     MainWindow w;
-    w.setFilename("/home/sacha/Dev/CutePeaks/examples/A_forward.ab1");
+   // w.setFilename("/home/sacha/Dev/CutePeaks/examples/A_forward.ab1");
     w.show();
 
     return a.exec();

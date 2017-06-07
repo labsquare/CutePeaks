@@ -5,10 +5,10 @@ TraceView::TraceView(QWidget *parent)
 {
 
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents, true);
-
     QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
+    setDisabled(true);
 
 
 
@@ -165,6 +165,9 @@ void TraceView::setupViewport()
 
 void TraceView::updateScrollbar()
 {
+    if (!mSequenceTrace)
+        return;
+
     int maxXSize = mSequenceTrace->traceLength();
     qDebug()<<"max " <<maxXSize;
     horizontalScrollBar()->setRange(0, maxXSize - viewport()->width()/mXFactor);
@@ -178,16 +181,18 @@ void TraceView::setFilename(const QString &filename)
 
     if (!mSequenceTrace){
         qCritical()<<Q_FUNC_INFO<<"Cannot read the file";
+        setDisabled(true);
         return ;
     }
 
-
+    setDisabled(false);
     viewport()->update();
     updateScrollbar();
+}
 
-
-
-
+AbstractSequenceTrace *TraceView::sequenceTrace()
+{
+    return mSequenceTrace;
 }
 
 void TraceView::setAmplitudeFactor(float factor)
