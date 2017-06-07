@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Name=CutePeak
+Name=CutePeaks
 Comment=A simple sanger trace file viewer
 Exec=cutepeaks %F
 Icon=cutepeaks
