@@ -41,50 +41,41 @@ void TraceView::paintEvent(QPaintEvent *event)
 
     QPainter painter(viewport());
 
-
-    // draw bases
-
-
-
-    // inverse y axis
-
-
     // draw background
     painter.setBrush(QBrush(Qt::white));
     painter.drawRect(viewport()->rect());
 
     // set antialiasing
-    painter.setRenderHints(QPainter::HighQualityAntialiasing|QPainter::Antialiasing, true);
+    painter.setRenderHint(QPainter::Antialiasing, true);
 
 
     // draw base
     int yMargin = 40;
 
-    for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i)
-    {
-        int pos = mSequenceTrace->baseLocations().at(i);
+//    for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i)
+//    {
+//        int pos = mSequenceTrace->baseLocations().at(i);
 
-        if (pos >= mXStart && pos <=  viewport()->rect().width() + mXStart )
-        {
-            QPointF p ((pos - mXStart) * mXFactor, 15);
+//        if (pos >= mXStart && pos <=  viewport()->rect().width() + mXStart )
+//        {
+//            QPointF p ((pos - mXStart) * mXFactor, 15);
 
-            // Draw Base
-            QChar base = mSequenceTrace->baseCalls().at(i);
-            QFontMetrics metrics(painter.font());
-            QPointF textPos (p.x() - metrics.width(base)/2, p.y());
-            textPos.setY(viewport()->height() - yMargin + 20);
-            painter.setPen(QPen(mTraceColors[base]));
-            painter.drawText(textPos, QString(base));
-        }
-
-
-    }
+//            // Draw Base
+//            QChar base = mSequenceTrace->baseCalls().at(i);
+//            QFontMetrics metrics(painter.font());
+//            QPointF textPos (p.x() - metrics.width(base)/2, p.y());
+//            textPos.setY(viewport()->height() - yMargin + 20);
+//            painter.setPen(QPen(mTraceColors[base]));
+//            painter.drawText(textPos, QString(base));
+//        }
+//    }
 
 
-
+    // inverse y axis
     painter.translate(viewport()->rect().bottomLeft());
     painter.scale(1.0, -1.0);
     // Draw traces
+
     for (QChar base : mSequenceTrace->bases())
     {
 
@@ -93,10 +84,13 @@ void TraceView::paintEvent(QPaintEvent *event)
         path.moveTo(0,0);
         QVector<int> data = mSequenceTrace->traces(base);
 
-        for ( int x = mXStart ; x < viewport()->rect().width() + mXStart; ++x)
+       // qDebug()<<width()<<" "<<viewport()->width();
+
+        for ( int x = mXStart ; x < viewport()->rect().width()/mXFactor + mXStart; ++x)
         {
             if (x >= data.size())
                 break;
+
 
             QPointF p ( x - mXStart, data[x]);
             path.lineTo((p.x()) * mXFactor , p.y() * mYFactor + yMargin);
@@ -105,9 +99,7 @@ void TraceView::paintEvent(QPaintEvent *event)
 
         // draw path
         QPen pen;
-        pen.setWidth(1);
         pen.setColor(mTraceColors[base]);
-        pen.setCosmetic(false);
         pen.setWidthF(1);
         pen.setJoinStyle(Qt::RoundJoin);
         painter.setPen(pen);
@@ -158,7 +150,8 @@ void TraceView::setupViewport()
 void TraceView::updateScrollbar()
 {
     int maxXSize = mSequenceTrace->traceLength();
-    horizontalScrollBar()->setRange(0, maxXSize - viewport()->width());
+    qDebug()<<"max " <<maxXSize;
+    horizontalScrollBar()->setRange(0, maxXSize - viewport()->width()/mXFactor);
     horizontalScrollBar()->setPageStep(viewport()->width()/ mXFactor);
 }
 
@@ -193,44 +186,5 @@ void TraceView::setScaleFactor(float factor)
     mXFactor = factor;
     viewport()->update();
     updateScrollbar();
-}
-
-void TraceView::load()
-{
-    //    qDebug()<<"load";
-    //    mLineSeries.clear();
-    //    // load data ===================
-    //    AbifReader reader(mFilename);
-
-
-    //    // loop over 4 series A,C,T,G
-    //    for (int i=9; i<=12 ; ++i)
-    //    {
-    //        // create DATA.x key
-    //        QString key = QString("DATA.%1").arg(i);
-
-
-    //        // if key exists in ab1 file
-    //        if (reader.directoryKeys().contains(key))
-    //        {
-    //            // create a line serie
-    //            QVector<QPointF> serie;
-    //            // get data according key
-    //            QVariantList datas = reader.data(key).toList();
-
-    //            // fill serie with x,y values
-    //            for (int i=0; i<datas.length(); ++i) {
-    //                serie.append(QPointF(i, datas[i].toInt()));
-    //                mYSize = qMax(mYSize,  datas[i].toInt());
-    //            }
-    //            mXSize = datas.length();
-    //            // add serie in the chart
-    //            mLineSeries[key] = serie;
-    //        }
-    //    }
-
-    //    updateScrollbar();
-
-
 }
 

@@ -23,7 +23,6 @@ protected :
     bool viewportEvent(QEvent * event) Q_DECL_OVERRIDE;
     virtual void setupViewport();
 
-    void load();
     void updateScrollbar();
 
 private:
@@ -35,8 +34,8 @@ private:
     QHash< QString, QVector<QPointF>> mLineSeries;
 
     // scaling
-    float mYFactor = 0.2;
-    float mXFactor = 3;
+    float mYFactor = 0.1;
+    float mXFactor = 2;
 
     // scrolling
     int mXStart = 0;
@@ -45,6 +44,7 @@ private:
     QHash<QChar, QColor> mTraceColors;
 
     QScroller * mScroller;
+
 
 };
 

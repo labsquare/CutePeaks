@@ -7,17 +7,46 @@ MainWindow::MainWindow(QWidget *parent)
     mView    = new TraceView;
     mYSlider = new QSlider(Qt::Horizontal);
     mXSlider = new QSlider(Qt::Horizontal);
+    mSearchbar = new QLineEdit;
+    mSearchbar->setMaximumWidth(200);
+    mSearchbar->setPlaceholderText("Sequence ...");
 
     setCentralWidget(mView);
 
     QToolBar * bar = addToolBar("actions");
+
+    bar->addAction("Open");
+
+    QWidget * spacer = new QWidget;
+    spacer->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
+
+    bar->addWidget(spacer);
+    bar->addWidget(mSearchbar);
+
+
     mYSlider->setRange(0,1000);
     mXSlider->setRange(1,1000);
 
+    mXSlider->setMaximumWidth(100);
+    mYSlider->setMaximumWidth(100);
+
+    QStatusBar * statusBar = new QStatusBar;
+
+
+    statusBar->addPermanentWidget(new QLabel("Scale"));
+    statusBar->addPermanentWidget(mXSlider);
+
+    statusBar->addPermanentWidget(new QLabel("Amplitude"));
+    statusBar->addPermanentWidget(mYSlider);
+
+    setStatusBar(statusBar);
+
+
     mYSlider->setValue(0.2);
 
-    bar->addWidget(mYSlider);
-    bar->addWidget(mXSlider);
+    //    bar->addWidget(spacer);
+    //    bar->addWidget(mYSlider);
+    //    bar->addWidget(mXSlider);
 
     mXSlider->setToolTip("Scale");
     mYSlider->setToolTip("Amplitude");
@@ -27,9 +56,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(mXSlider, &QSlider::valueChanged, [=](){mView->setScaleFactor(mXSlider->value() / 100.0);});
 
 
-//    connect(mYSlider,SIGNAL(valueChanged(int)),mView,SLOT(setAmplitudeFactor(int)));
-//    connect(mXSlider,SIGNAL(valueChanged(int)),mView,SLOT(setScaleFactor(int)));
-//    connect(mScrollBar,SIGNAL(valueChanged(int)),mView,SLOT(scrollTo(int)));
+    //    connect(mYSlider,SIGNAL(valueChanged(int)),mView,SLOT(setAmplitudeFactor(int)));
+    //    connect(mXSlider,SIGNAL(valueChanged(int)),mView,SLOT(setScaleFactor(int)));
+    //    connect(mScrollBar,SIGNAL(valueChanged(int)),mView,SLOT(scrollTo(int)));
 
 
     resize(1000, 400);
@@ -92,4 +121,18 @@ void MainWindow::restoreSettings()
     resize(settings.value("size", QSize(800, 400)).toSize());
     move(settings.value("pos", QPoint(200, 200)).toPoint());
     settings.endGroup();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+
+        QSvgGenerator generator;
+        generator.setFileName("/tmp/capture.svg");
+        generator.setTitle("test");
+        generator.setDescription("description");
+        render(&generator);
+
+
+    return QMainWindow::keyPressEvent(event);
+
 }

@@ -3,8 +3,8 @@
 
 #include <QMainWindow>
 #include <QtWidgets>
+#include <QSvgGenerator>
 #include "TraceView.h"
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -15,6 +15,7 @@ public:
 
     // Overriden methods
     void closeEvent(QCloseEvent*);
+    void keyPressEvent(QKeyEvent *event);
 
 public Q_SLOTS:
     void openFile();
@@ -29,6 +30,7 @@ private:
     QSlider * mYSlider;
     QSlider * mXSlider;
     QString mFile;
+    QLineEdit * mSearchbar;
 
 };
 

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,11 +17,11 @@ SOURCES += main.cpp\
     AbstractSequenceTrace.cpp \
     AbifSequenceTrace.cpp \
     SequenceTraceFactory.cpp \
-    TraceView.cpp
+    TraceView.cpp \
 
 HEADERS  += \
     SequenceTraceFactory.h \
     MainWindow.h \
     AbstractSequenceTrace.h \
     AbifSequenceTrace.h \
-    TraceView.h
+    TraceView.h \
