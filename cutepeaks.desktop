@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=CutePeak
+Comment=A simple sanger trace file viewer
+Exec=cutepeaks %F
+Icon=cutepeaks
+Terminal=false
+Categories=Science;Biology;Qt;
