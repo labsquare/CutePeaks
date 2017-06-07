@@ -8,27 +8,29 @@ TraceView::TraceView(QWidget *parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents, true);
     QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
-    setDisabled(true);
-
-
 
     mTraceColors = {
-        {'A',"#009000"},    // green
-        {'C',"#0000ff"},    // blue
-        {'G',"#000000"},    // black
-        {'T',"#ff0000"},    // red
-        {'W',"#804800"},    // mix of A and T
-        {'S',"#000080"},    // mix of C and G
-        {'M',"#004880"},    // mix of A and C
-        {'K',"#800000"},    // mix of G and T
-        {'R',"#004800"},    // mix of A and G
-        {'Y',"#800080"},    // mix of C and T
-        {'B',"#550055"},    // mix of C, G, and T
-        {'D',"#553000"},    // mix of A, G, and T
-        {'H',"#553055"},    // mix of A, C, and T
-        {'V',"#003055"},    // mix of A, C, and G
-        {'N',"#999"}        // gray
+        {'A',QColor("#009000")},    // green
+        {'C',QColor("#0000ff")},    // blue
+        {'G',QColor("#000000")},    // black
+        {'T',QColor("#ff0000")},    // red
+        {'W',QColor("#804800")},    // mix of A and T
+        {'S',QColor("#000080")},    // mix of C and G
+        {'M',QColor("#004880")},    // mix of A and C
+        {'K',QColor("#800000")},    // mix of G and T
+        {'R',QColor("#004800")},    // mix of A and G
+        {'Y',QColor("#800080")},    // mix of C and T
+        {'B',QColor("#550055")},    // mix of C, G, and T
+        {'D',QColor("#553000")},    // mix of A, G, and T
+        {'H',QColor("#553055")},    // mix of A, C, and T
+        {'V',QColor("#003055")},    // mix of A, C, and G
+        {'N',QColor("#999")}        // gray
     };
+
+
+
+    setDisabled(true);
+
 
 }
 
@@ -169,7 +171,6 @@ void TraceView::updateScrollbar()
         return;
 
     int maxXSize = mSequenceTrace->traceLength();
-    qDebug()<<"max " <<maxXSize;
     horizontalScrollBar()->setRange(0, maxXSize - viewport()->width()/mXFactor);
     horizontalScrollBar()->setPageStep(viewport()->width()/ mXFactor);
 }

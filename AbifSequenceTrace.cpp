@@ -49,13 +49,15 @@ void AbifSequenceTrace::readDictionnaries()
             QString key = QString("%1.%2").arg(dir.name).arg(dir.number);
             mDirs.insert(key, dir);
         }
+
+
     }
 }
 
 void AbifSequenceTrace::readTraces()
 {
     // read base order
-    QString baseorder = data("FWO_.1").toString();
+    QString baseorder = data("FWO_.1").toByteArray();
 
     // read traces
     // DATA between 9-12 will contain the processed data.
@@ -138,10 +140,14 @@ QVariant AbifSequenceTrace::fromDir(const AbifDir &dir)
 
     if (dir.dataSize<=4){
 
-        int val = dir.dataOffset;
-        val = qToBigEndian(val);
-        char * data = (char*)&val;
-        part.setRawData(data,dir.dataSize);
+        qint32 val = dir.dataOffset;
+//        val = qToBigEndian(val);
+//        char * data = (char*)&val;
+//        part.setRawData(data,dir.dataSize);
+
+        QDataStream stream(&part, QIODevice::WriteOnly);
+        stream<<val;
+
     }
 
     else {

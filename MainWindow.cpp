@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     bar->addWidget(spacer);
     bar->addWidget(mSearchbar);
 
-    mYSlider->setRange(0,1000);
+    mYSlider->setRange(1,1000);
     mXSlider->setRange(1,1000);
     mXSlider->setToolTip("Scale");
 
@@ -60,8 +60,6 @@ void MainWindow::openFile()
     QString file = QFileDialog::getOpenFileName(this, tr("Open Image"), QDir::currentPath());
     setFilename(file);
 
-    QSettings settings;
-    settings.endGroup();
 }
 
 void MainWindow::setFilename(const QString &filename)
@@ -81,28 +79,16 @@ void MainWindow::setFilename(const QString &filename)
 
 void MainWindow::closeEvent(QCloseEvent *)
 {
-    writeSettings();
 }
 
 void MainWindow::writeSettings()
 {
-    QSettings settings;
-    settings.beginGroup("Main");
-    settings.setValue("currentFile", mFile);
-    settings.setValue("size", size());
-    settings.setValue("pos", pos());
-    settings.endGroup();
-}
 
+}
 
 void MainWindow::restoreSettings()
 {
-    QSettings settings;
-    settings.beginGroup("Main");
-    setFilename(settings.value("currentFile", "").toString());
-    resize(settings.value("size", QSize(800, 400)).toSize());
-    move(settings.value("pos", QPoint(200, 200)).toPoint());
-    settings.endGroup();
+
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
