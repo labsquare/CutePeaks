@@ -40,6 +40,10 @@ private:
     // scrolling
     int mXStart = 0;
 
+    // qc bar
+    float mQCHeightFactor = 1.4;
+    int mQCWidth = 10;
+
     // trace colors
     QHash<QChar, QColor> mTraceColors;
 

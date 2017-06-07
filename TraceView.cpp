@@ -42,55 +42,76 @@ void TraceView::paintEvent(QPaintEvent *event)
     QPainter painter(viewport());
 
     // draw background
+    painter.setPen(Qt::NoPen);
     painter.setBrush(QBrush(Qt::white));
     painter.drawRect(viewport()->rect());
 
     // set antialiasing
     painter.setRenderHint(QPainter::Antialiasing, true);
 
+    // ========== DRAW CONFIDENCE ===================================
+    for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i)
+    {
+        int pos = mSequenceTrace->baseLocations().at(i);
 
-    // draw base
+        if (pos >= mXStart && pos <= viewport()->rect().width()/mXFactor + mXStart)
+        {
+            QPointF p ((pos - mXStart) * mXFactor, 0);
+
+            int qcScore = mSequenceTrace->confScores().at(i);
+
+            QRect qcbar = QRect(p.x()-mQCWidth/2, 0, mQCWidth, qcScore * mQCHeightFactor);
+            painter.setBrush(QBrush(QColor("#E9EEF6")));
+            painter.setPen(Qt::NoPen);
+            painter.drawRect(qcbar);
+
+            QString score = QString::number(qcScore);
+            QFontMetrics metrics(painter.font());
+            QPointF textPos (p.x() - metrics.width(score)/2, metrics.height());
+
+            painter.setPen(QPen(QColor("#D6DEED").dark()));
+            painter.drawText(textPos, QString(score));
+        }
+    }
+
+    // ========== DRAW BASES ========================================
     int yMargin = 40;
 
-//    for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i)
-//    {
-//        int pos = mSequenceTrace->baseLocations().at(i);
+    for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i)
+    {
+        int pos = mSequenceTrace->baseLocations().at(i);
 
-//        if (pos >= mXStart && pos <=  viewport()->rect().width() + mXStart )
-//        {
-//            QPointF p ((pos - mXStart) * mXFactor, 15);
+        if (pos >= mXStart && pos <= viewport()->rect().width()/mXFactor + mXStart)
+        {
+            QPointF p ((pos - mXStart) * mXFactor, 15);
 
-//            // Draw Base
-//            QChar base = mSequenceTrace->baseCalls().at(i);
-//            QFontMetrics metrics(painter.font());
-//            QPointF textPos (p.x() - metrics.width(base)/2, p.y());
-//            textPos.setY(viewport()->height() - yMargin + 20);
-//            painter.setPen(QPen(mTraceColors[base]));
-//            painter.drawText(textPos, QString(base));
-//        }
-//    }
+            // Draw Base
+            QChar base = mSequenceTrace->baseCalls().at(i);
+            QFontMetrics metrics(painter.font());
+            QPointF textPos (p.x() - metrics.width(base)/2, p.y());
+            textPos.setY(viewport()->height() - yMargin + 20);
+            painter.setPen(QPen(mTraceColors[base]));
+            painter.drawText(textPos, QString(base));
+        }
+    }
 
 
+    // ========== DRAW TRACE ========================================
     // inverse y axis
     painter.translate(viewport()->rect().bottomLeft());
     painter.scale(1.0, -1.0);
-    // Draw traces
 
     for (QChar base : mSequenceTrace->bases())
     {
-
         // load paths to draw
         QPainterPath path;
         path.moveTo(0,0);
         QVector<int> data = mSequenceTrace->traces(base);
 
-       // qDebug()<<width()<<" "<<viewport()->width();
-
         for ( int x = mXStart ; x < viewport()->rect().width()/mXFactor + mXStart; ++x)
         {
             if (x >= data.size())
                 break;
-
 
             QPointF p ( x - mXStart, data[x]);
             path.lineTo((p.x()) * mXFactor , p.y() * mYFactor + yMargin);
@@ -105,11 +126,6 @@ void TraceView::paintEvent(QPaintEvent *event)
         painter.setPen(pen);
         painter.setBrush(Qt::transparent);
         painter.drawPath(path);
-
-
-
-
-
     }
 
 }
