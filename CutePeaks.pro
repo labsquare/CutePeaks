@@ -25,3 +25,13 @@ HEADERS  += \
     AbstractSequenceTrace.h \
     AbifSequenceTrace.h \
     TraceView.h \
+
+
+# Installation
+target.path  = /usr/local/bin
+desktop.path = /usr/share/applications
+desktop.files += cutepeaks.desktop
+icons.path = /usr/share/icons/hicolor/48x48/apps
+icons.files += cutepeaks.png
+
+INSTALLS += target desktop icons
