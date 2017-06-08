@@ -28,4 +28,20 @@ QIODevice *AbstractSequenceTrace::device()
 {
     return mDevice;
 }
+QStringList AbstractSequenceTrace::keys() const
+{
+    return mComments.keys();
+}
+QVariant AbstractSequenceTrace::value(const QString& key)
+{
+    return mComments.value(key);
+}
+void AbstractSequenceTrace::addComment(const QString& key, const QVariant& value)
+{
+    mComments[key]= value;
+}
 
+void AbstractSequenceTrace::clearComments()
+{
+    mComments.clear();
+}

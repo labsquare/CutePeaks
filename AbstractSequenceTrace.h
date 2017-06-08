@@ -29,6 +29,7 @@ public:
      */
     virtual const QVector<int>& confScores()const  = 0;
 
+
     /*!
      * \brief traceLength
      * \return the length of the trace
@@ -42,12 +43,17 @@ public:
 
      QVector<int> trace(const QChar& base) const;
 
+     QStringList keys() const;
+     QVariant value(const QString& key);
 
 protected:
     QIODevice * device();
+    void addComment(const QString& key, const QVariant& value);
+    void clearComments();
 
 private:
     QIODevice * mDevice;
+    QHash<QString, QVariant> mComments;
 
 
 };

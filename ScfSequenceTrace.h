@@ -21,16 +21,7 @@ struct ScfHeader
         quint32 spare[18];        /* Unused */
 };
 
-// Store bases as 8 bit (quint8) if sample_size = 1
-// Store bases as 16 bit (quint16) if sample_size = 2
-template <typename T>
-struct ScfSample
-{
-    T sampleA;
-    T sampleC;
-    T sampleG;
-    T sampleT;
-};
+
 
 class ScfSequenceTrace : public AbstractSequenceTrace
 {
@@ -48,6 +39,7 @@ protected:
     bool load();
 
     void readHeader();
+    void readComments();
     template <typename T>
     void readTraces();
     template<typename T>
