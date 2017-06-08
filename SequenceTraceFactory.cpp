@@ -6,13 +6,18 @@ SequenceTraceFactory::FileType SequenceTraceFactory::filetype(QIODevice *device)
 
     if (device->open(QIODevice::ReadOnly))
     {
-        QByteArray magic = device->read(8);
+        QByteArray magic = device->read(4);
 
-        if (magic.left(4) == "ABIF")
+        if (magic.toUpper() == "ABIF")
             return ABIF;
+
+        if (magic.toUpper() == ".SCF")
+            return SCF;
 
         device->close();
     }
+    else
+        qCritical()<<"Cannot open file";
 
     return Unknown;
 

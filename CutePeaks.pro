@@ -18,6 +18,7 @@ SOURCES += main.cpp\
     AbifSequenceTrace.cpp \
     SequenceTraceFactory.cpp \
     TraceView.cpp \
+    ScfSequenceTrace.cpp
 
 HEADERS  += \
     SequenceTraceFactory.h \
@@ -25,6 +26,7 @@ HEADERS  += \
     AbstractSequenceTrace.h \
     AbifSequenceTrace.h \
     TraceView.h \
+    ScfSequenceTrace.h
 
 
 # Installation
