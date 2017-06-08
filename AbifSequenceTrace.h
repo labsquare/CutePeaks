@@ -43,6 +43,14 @@ public:
         User    = 1024
     };
     AbifSequenceTrace(QIODevice * device);
+
+    const QHash<QChar, QVector<int>>& traces() const override;
+    const QByteArray& sequence()const  override;
+    const QVector<int>& baseLocations()const  override;
+    const QVector<int>& confScores()const  override;
+
+
+
     int version() const;
     QStringList keys() const;
     QVariant data(const QString& key);
@@ -53,7 +61,7 @@ protected:
      * Read abif device data
      * \return
      */
-    bool loadData() Q_DECL_OVERRIDE;
+    bool loadData();
     /*!
      * \brief readDictionnaries
      * read all AbifDir from the device
@@ -109,6 +117,14 @@ private:
     qint16 mVersion;
     QMap<QString,AbifDir> mDirs;  // keys = name.number
     AbifDir mRootDir; // root dir
+
+    // store data
+    QHash<QChar, QVector<int>> mTraces;
+    QVector<int> mBaseLocations;
+    QVector<int> mConfScores;
+    QByteArray mBaseCalls;
+    QIODevice * mDevice;
+
 
 };
 

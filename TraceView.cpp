@@ -38,10 +38,24 @@ void TraceView::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
 
-    if (!mSequenceTrace)
-        return;
 
     QPainter painter(viewport());
+
+
+    // Draw empty background
+    if (!mSequenceTrace){
+
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(QBrush(Qt::white));
+        painter.drawRect(viewport()->rect());
+
+
+
+
+
+        return;
+    }
+
 
     // draw background
     painter.setPen(Qt::NoPen);
@@ -88,7 +102,7 @@ void TraceView::paintEvent(QPaintEvent *event)
             QPointF p ((pos - mXStart) * mXFactor, 15);
 
             // Draw Base
-            QChar base = mSequenceTrace->baseCalls().at(i);
+            QChar base = mSequenceTrace->sequence().at(i);
             QFontMetrics metrics(painter.font());
             QPointF textPos (p.x() - metrics.width(base)/2, p.y());
             textPos.setY(viewport()->height() - yMargin + 20);
@@ -108,7 +122,7 @@ void TraceView::paintEvent(QPaintEvent *event)
         // load paths to draw
         QPainterPath path;
         path.moveTo(0,0);
-        QVector<int> data = mSequenceTrace->traces(base);
+        QVector<int> data = mSequenceTrace->traces()[base];
 
         for ( int x = mXStart ; x < viewport()->rect().width()/mXFactor + mXStart; ++x)
         {

@@ -7,6 +7,23 @@ AbifSequenceTrace::AbifSequenceTrace(QIODevice *device)
     loadData();
 }
 
+const QHash<QChar, QVector<int>>& AbifSequenceTrace::traces() const
+{
+    return mTraces;
+}
+const QByteArray& AbifSequenceTrace::sequence()const
+{
+    return mBaseCalls;
+}
+const QVector<int>& AbifSequenceTrace::baseLocations()const
+{
+    return mBaseLocations;
+}
+const QVector<int>& AbifSequenceTrace::confScores()const
+{
+    return mConfScores;
+}
+
 int AbifSequenceTrace::version() const
 {
     return mVersion;
@@ -57,7 +74,7 @@ void AbifSequenceTrace::readDictionnaries()
 void AbifSequenceTrace::readTraces()
 {
     // read base order
-    QString baseorder = data("FWO_.1").toByteArray();
+    QByteArray baseorder = data("FWO_.1").toByteArray();
 
     // read traces
     // DATA between 9-12 will contain the processed data.
@@ -69,33 +86,29 @@ void AbifSequenceTrace::readTraces()
         for ( QVariant val : data(key).toList())
             trace.append(val.toInt());
 
-        setTrace(baseorder[i-start], trace);
+        mTraces[baseorder.at(i-start)] =  trace;
     }
 }
 
 void AbifSequenceTrace::readBaseCalls()
 {
-    setBaseCalls(data("PBAS.1").toByteArray());
+    mBaseCalls = data("PBAS.1").toByteArray();
 }
 
 void AbifSequenceTrace::readBaseLocations()
 {
-    QVector<int> locations;
+    mBaseLocations.clear();
     for ( QVariant v : data("PLOC.1").toList())
-        locations.append(v.toInt());
-
-    setBaseLocations(locations);
+        mBaseLocations.append(v.toInt());
 
 }
 
 void AbifSequenceTrace::readConfScores()
 {
-    QVector<int> locations;
-
+    mConfScores.clear();
     for ( QVariant v : data("PCON.1").toString()){
-        locations.append(v.toInt());
+        mConfScores.append(v.toInt());
     }
-    setConfScores(locations);
 }
 
 bool AbifSequenceTrace::loadData()
@@ -141,9 +154,9 @@ QVariant AbifSequenceTrace::fromDir(const AbifDir &dir)
     if (dir.dataSize<=4){
 
         qint32 val = dir.dataOffset;
-//        val = qToBigEndian(val);
-//        char * data = (char*)&val;
-//        part.setRawData(data,dir.dataSize);
+        //        val = qToBigEndian(val);
+        //        char * data = (char*)&val;
+        //        part.setRawData(data,dir.dataSize);
 
         QDataStream stream(&part, QIODevice::WriteOnly);
         stream<<val;

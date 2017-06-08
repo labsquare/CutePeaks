@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     a.setApplicationVersion("0.1-beta");
 
     MainWindow w;
-  //  w.setFilename("C:/Users/home/Documents/GitHub/CutePeaks/examples/A_forward.ab1");
+  w.setFilename("/tmp/examples/A_forward.ab1");
     w.show();
 
     return a.exec();
