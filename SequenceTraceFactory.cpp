@@ -37,6 +37,9 @@ AbstractSequenceTrace *SequenceTraceFactory::loadTraceFile(const QString &filena
     if (SequenceTraceFactory::filetype(filename) == ABIF)
         return new AbifSequenceTrace(file);
 
+    if (SequenceTraceFactory::filetype(filename) == SCF)
+        return new ScfSequenceTrace(file);
+
     delete file;
     return nullptr;
 

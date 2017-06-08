@@ -2,6 +2,7 @@
 #define SEQUENCETRACEFACTORY_H
 #include <QtCore>
 #include "AbifSequenceTrace.h"
+#include "ScfSequenceTrace.h"
 
 class SequenceTraceFactory
 {

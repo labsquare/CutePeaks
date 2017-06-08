@@ -1,7 +1,7 @@
 #ifndef SCFSEQUENCETRACE_H
 #define SCFSEQUENCETRACE_H
 #include "AbstractSequenceTrace.h"
-
+#include <limits>
 struct ScfHeader
 {
         quint32 magic_number;
@@ -46,6 +46,13 @@ public:
 
 protected:
     bool load();
+
+    void readHeader();
+    template <typename T>
+    void readTraces();
+    template<typename T>
+    void decodeDelta(QVector<T>& data);
+
 
 
 private:

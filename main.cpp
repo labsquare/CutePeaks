@@ -15,8 +15,13 @@ int main(int argc, char *argv[])
     a.setOrganizationDomain("Labsquare.org");
     a.setApplicationVersion("0.1-beta");
 
-    ScfSequenceTrace trace(new QFile("/tmp/examples/abcZ_F.scf"));
-    qDebug()<<trace.version();
+    TraceView * view = new TraceView;
+    view->show();
+
+    view->setFilename("/tmp/examples/abcZ_F.scf");
+
+//    ScfSequenceTrace trace(new QFile("/tmp/examples/abcZ_F.scf"));
+//    qDebug()<<trace.version();
 
 
 //    MainWindow w;
