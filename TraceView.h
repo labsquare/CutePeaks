@@ -27,6 +27,11 @@ protected :
 
     void updateScrollbar();
 
+    void drawConfident(QPainter& painter);
+    void drawBases(QPainter& painter);
+    void drawTraces(QPainter& painter);
+
+
 private:
 
     QString mFilename;

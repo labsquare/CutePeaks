@@ -15,18 +15,14 @@ int main(int argc, char *argv[])
     a.setOrganizationDomain("Labsquare.org");
     a.setApplicationVersion("0.1-beta");
 
-    TraceView * view = new TraceView;
-    view->show();
 
-    view->setFilename("/tmp/examples/abcZ_F.scf");
-
-//    ScfSequenceTrace trace(new QFile("/tmp/examples/abcZ_F.scf"));
-//    qDebug()<<trace.version();
+    //    ScfSequenceTrace trace(new QFile("/tmp/examples/abcZ_F.scf"));
+    //    qDebug()<<trace.version();
 
 
-//    MainWindow w;
-//  w.setFilename("/tmp/examples/A_forward.ab1");
-//    w.show();
+    MainWindow w;
+    w.setFilename("/tmp/examples/A_forward.ab1");
+    w.show();
 
     return a.exec();
 }
