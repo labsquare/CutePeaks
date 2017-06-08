@@ -38,9 +38,11 @@ bool ScfSequenceTrace::load()
 
     if (device()->open(QIODevice::ReadOnly))
     {
-         readHeader();
+        readHeader();
+        readComments();
+        readBases();
 
-         // Traces can be encoded as 1 bytes or 2 bytes
+        // Traces can be encoded as 1 bytes or 2 bytes
         if (mHeader.sample_size == 1)
             readTraces<quint8>();
 
@@ -53,7 +55,59 @@ bool ScfSequenceTrace::load()
 
     return false;
 }
+void ScfSequenceTrace::readBases()
+{
+    // Reads base location
+    mBaseLocations.clear();
+    device()->reset();
+    device()->seek(mHeader.bases_offset);
+    QDataStream stream(device());
+    for (int i=0; i< mHeader.bases; ++i)
+    {
+        quint32 pos;
+        stream >> pos;
+        mBaseLocations.append(pos);
+    }
 
+    // Reads probability
+    for (QChar base : {'A','C','G','T'} )
+    {
+        for (int i=0; i< mHeader.bases; ++i)
+        {
+            quint8 pos;
+            stream >> pos;
+            mTempProba[base].append(pos);
+        }
+    }
+    // Reads bases
+    mBaseCalls = device()->read(mHeader.bases);
+
+    // build the confidence scores list
+    mConfScores.clear();
+    for (int i=0; i< mHeader.bases; ++i)
+    {
+        QChar base = mBaseCalls.at(i);
+        mConfScores.append(mTempProba[base].value(i));
+    }
+}
+//-------------------------------------------------------------------
+void ScfSequenceTrace::readComments()
+{
+    clearComments();
+    device()->reset();
+    device()->seek(mHeader.comments_offset);
+    int total = 0;
+    while (total < mHeader.comments_size-1)
+    {
+        QByteArray line;
+        line = device()->readLine();
+        QList<QByteArray> rows = line.split('=');
+        if (rows.size() == 2)
+            addComment(rows[0],rows[1].simplified());
+        total += line.length();
+    }
+}
+//-------------------------------------------------------------------
 void ScfSequenceTrace::readHeader()
 {
     // Read Header

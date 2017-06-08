@@ -40,6 +40,7 @@ protected:
 
     void readHeader();
     void readComments();
+    void readBases();
     template <typename T>
     void readTraces();
     template<typename T>
@@ -55,6 +56,8 @@ private:
     QVector<int> mConfScores;
     QByteArray mBaseCalls;
     QIODevice * mDevice;
+
+    QHash<QChar, QList<quint8>> mTempProba;
 
 };
 

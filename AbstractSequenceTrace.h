@@ -46,6 +46,8 @@ public:
      QStringList keys() const;
      QVariant value(const QString& key);
 
+
+
 protected:
     QIODevice * device();
     void addComment(const QString& key, const QVariant& value);
