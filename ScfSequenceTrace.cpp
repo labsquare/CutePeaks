@@ -13,9 +13,10 @@ const QHash<QChar, QVector<int>>&ScfSequenceTrace::traces() const
 }
 //-------------------------------------------------------------------
 
-const QByteArray& ScfSequenceTrace::sequence() const
+const Sequence& ScfSequenceTrace::sequence() const
 {
     return mBaseCalls;
+
 }
 //-------------------------------------------------------------------
 
@@ -80,7 +81,7 @@ void ScfSequenceTrace::readBases()
         }
     }
     // Reads bases
-    mBaseCalls = device()->read(mHeader.bases);
+    mBaseCalls = Sequence(device()->read(mHeader.bases), Sequence::Forward, Sequence::Dna);
 
     // build the confidence scores list
     mConfScores.clear();

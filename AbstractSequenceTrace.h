@@ -1,7 +1,7 @@
 #ifndef ABSTRACTSEQUENCETRACE_H
 #define ABSTRACTSEQUENCETRACE_H
 #include <QtCore>
-
+#include "sequence.h"
 class AbstractSequenceTrace
 {
 public:
@@ -17,7 +17,7 @@ public:
      * \return Sequence.
      * \todo should be a Sequence
      */
-    virtual const QByteArray& sequence()const  = 0 ;
+    virtual const Sequence& sequence()const  = 0 ;
     /*!
      * \brief baseLocations
      * \return base location in trace coordinate

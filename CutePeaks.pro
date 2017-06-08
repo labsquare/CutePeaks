@@ -18,7 +18,10 @@ SOURCES += main.cpp\
     AbifSequenceTrace.cpp \
     SequenceTraceFactory.cpp \
     TraceView.cpp \
-    ScfSequenceTrace.cpp
+    ScfSequenceTrace.cpp \
+    sequence.cpp \
+    proteinalphabet.cpp \
+    nucleotidalphabet.cpp
 
 HEADERS  += \
     SequenceTraceFactory.h \
@@ -26,7 +29,10 @@ HEADERS  += \
     AbstractSequenceTrace.h \
     AbifSequenceTrace.h \
     TraceView.h \
-    ScfSequenceTrace.h
+    ScfSequenceTrace.h \
+    sequence.h \
+    proteinalphabet.h \
+    nucleotidalphabet.h
 
 
 # Installation

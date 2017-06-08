@@ -45,7 +45,7 @@ public:
     AbifSequenceTrace(QIODevice * device);
 
     const QHash<QChar, QVector<int>>& traces() const override;
-    const QByteArray& sequence()const  override;
+    const Sequence& sequence()const  override;
     const QVector<int>& baseLocations()const  override;
     const QVector<int>& confScores()const  override;
 
@@ -122,7 +122,7 @@ private:
     QHash<QChar, QVector<int>> mTraces;
     QVector<int> mBaseLocations;
     QVector<int> mConfScores;
-    QByteArray mBaseCalls;
+    Sequence mBaseCalls;
     QIODevice * mDevice;
 
 

@@ -2,10 +2,7 @@
 #include <QApplication>
 #include <QScrollArea>
 #include <QtCore>
-#include "SequenceTraceFactory.h"
-#include "TraceView.h"
-#include "AbifSequenceTrace.h"
-#include "ScfSequenceTrace.h"
+#include "sequence.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,10 +11,6 @@ int main(int argc, char *argv[])
     a.setOrganizationName("Labsquare");
     a.setOrganizationDomain("Labsquare.org");
     a.setApplicationVersion("0.1-beta");
-
-
-    //    ScfSequenceTrace trace(new QFile("/tmp/examples/abcZ_F.scf"));
-    //    qDebug()<<trace.version();
 
 
     MainWindow w;

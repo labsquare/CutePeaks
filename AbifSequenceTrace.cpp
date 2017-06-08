@@ -11,7 +11,7 @@ const QHash<QChar, QVector<int>>& AbifSequenceTrace::traces() const
 {
     return mTraces;
 }
-const QByteArray& AbifSequenceTrace::sequence()const
+const Sequence& AbifSequenceTrace::sequence()const
 {
     return mBaseCalls;
 }
@@ -92,7 +92,7 @@ void AbifSequenceTrace::readTraces()
 
 void AbifSequenceTrace::readBaseCalls()
 {
-    mBaseCalls = data("PBAS.1").toByteArray();
+    mBaseCalls = Sequence(data("PBAS.1").toByteArray(), Sequence::Forward, Sequence::Dna);
 }
 
 void AbifSequenceTrace::readBaseLocations()
