@@ -53,9 +53,9 @@ void TraceView::paintEvent(QPaintEvent *event)
     // set antialiasing
     painter.setRenderHint(QPainter::Antialiasing, true);
 
-    drawConfident(painter);
     drawBases(painter);
     drawTraces(painter);
+    drawConfident(painter);
 
 }
 //-------------------------------------------------------------------------------
@@ -111,6 +111,21 @@ void TraceView::updateScrollbar()
 
 void TraceView::drawConfident(QPainter& painter)
 {
+
+    // @IKIT
+
+    // Get Score for each bases
+    // mSequenceTrace->confScores() ;
+
+    // Get bases
+    // mSequenceTrace->sequence().byteArray();
+
+    // Get base location
+    // mSequenceTrace->baseLocations();
+
+    // painter is ready
+    // painter.drawRect(...)
+
 
 }
 //-------------------------------------------------------------------------------

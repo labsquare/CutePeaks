@@ -24,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent)
     bar->addWidget(spacer);
     bar->addWidget(mSearchbar);
 
-    mYSlider->setRange(1,1000);
-    mXSlider->setRange(1,1000);
+    mYSlider->setRange(6,1000);
+    mXSlider->setRange(10,1000);
     mXSlider->setToolTip("Scale");
 
     mXSlider->setMaximumWidth(100);
