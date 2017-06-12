@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     mYSlider = new QSlider(Qt::Horizontal);
     mXSlider = new QSlider(Qt::Horizontal);
     mSearchbar = new QLineEdit;
-    mSeqEdit   = new QTextEdit;
+    mSeqView  = new SequenceView();
     mSearchbar->setVisible(false);
 
     QToolBar * bar = addToolBar("actions");
@@ -41,6 +41,13 @@ MainWindow::MainWindow(QWidget *parent)
     statusBar->addPermanentWidget(mYSlider);
     setStatusBar(statusBar);
 
+
+    QDockWidget * editDock = new QDockWidget;
+    editDock->setWidget(mSeqView);
+
+    addDockWidget(Qt::BottomDockWidgetArea, editDock);
+
+
     connect(mYSlider, &QSlider::valueChanged, [=](){mView->setAmplitudeFactor(mYSlider->value() / 1000.0 );});
     connect(mXSlider, &QSlider::valueChanged, [=](){mView->setScaleFactor(mXSlider->value() / 100.0);});
     connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
@@ -68,8 +75,10 @@ void MainWindow::setFilename(const QString &filename)
 
     if (filename.isEmpty()) return;
 
-    if (QFile::exists(filename))
+    if (QFile::exists(filename)){
         mView->setFilename(filename);
+        mSeqView->setSequence(mView->sequenceTrace()->sequence());
+    }
     else
         QMessageBox::warning(this,"error","cannot find file " + filename);
 

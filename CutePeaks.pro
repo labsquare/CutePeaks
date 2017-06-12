@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     ScfSequenceTrace.cpp \
     sequence.cpp \
     proteinalphabet.cpp \
-    nucleotidalphabet.cpp
+    nucleotidalphabet.cpp \
+    sequenceview.cpp
 
 HEADERS  += \
     SequenceTraceFactory.h \
@@ -32,7 +33,8 @@ HEADERS  += \
     ScfSequenceTrace.h \
     sequence.h \
     proteinalphabet.h \
-    nucleotidalphabet.h
+    nucleotidalphabet.h \
+    sequenceview.h
 
 
 # Installation

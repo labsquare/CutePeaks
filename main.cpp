@@ -3,7 +3,7 @@
 #include <QScrollArea>
 #include <QtCore>
 #include "sequence.h"
-
+#include "sequenceview.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

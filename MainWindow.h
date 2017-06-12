@@ -5,6 +5,7 @@
 #include <QtWidgets>
 #include <QSvgGenerator>
 #include "TraceView.h"
+#include "sequenceview.h"
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -31,7 +32,7 @@ private:
     QSlider * mXSlider;
     QString mFile;
     QLineEdit * mSearchbar;
-    QTextEdit * mSeqEdit;
+    SequenceView * mSeqView;
 
 };
 
