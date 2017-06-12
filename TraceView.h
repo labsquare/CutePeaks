@@ -5,6 +5,12 @@
 #include "SequenceTraceFactory.h"
 #include "AbifSequenceTrace.h"
 
+struct Selection
+{
+    int pos;
+    int length;
+};
+
 class TraceView : public QAbstractScrollArea
 {
 public:
@@ -16,6 +22,7 @@ public:
 public Q_SLOTS:
     void setAmplitudeFactor(float factor);
     void setScaleFactor(float factor);
+    void setSelection(int pos, int length = 1);
 
 protected :
     void paintEvent(QPaintEvent * event)  Q_DECL_OVERRIDE;
@@ -24,12 +31,14 @@ protected :
     void mouseMoveEvent(QMouseEvent * event);
     bool viewportEvent(QEvent * event) Q_DECL_OVERRIDE;
     virtual void setupViewport();
+    bool inView(int pos);
 
     void updateScrollbar();
 
     void drawConfident(QPainter& painter);
     void drawBases(QPainter& painter);
     void drawTraces(QPainter& painter);
+    void drawSelection(QPainter& painter);
 
 
 private:
@@ -55,6 +64,8 @@ private:
     QHash<QChar, QColor> mTraceColors;
 
     QScroller * mScroller;
+
+    Selection mCurrentSelection = { 20, 10};
 
 
 };

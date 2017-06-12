@@ -51,8 +51,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(mYSlider, &QSlider::valueChanged, [=](){mView->setAmplitudeFactor(mYSlider->value() / 1000.0 );});
     connect(mXSlider, &QSlider::valueChanged, [=](){mView->setScaleFactor(mXSlider->value() / 100.0);});
     connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
+    connect(mSeqView, &SequenceView::selectionChanged, this, &MainWindow::updateSelection);
 
-    resize(1000, 400);
+    resize(1000, 800);
 }
 
 MainWindow::~MainWindow()
@@ -97,6 +98,21 @@ void MainWindow::writeSettings()
 
 void MainWindow::restoreSettings()
 {
+
+}
+
+void MainWindow::updateSelection()
+{
+
+   QTextCursor cursor = mSeqView->textCursor();
+   if (cursor.hasSelection())
+   {
+       int start  = cursor.selectionStart();
+       int length = cursor.selectionEnd() + start;
+
+       mView->setSelection(start, length);
+   }
+
 
 }
 

@@ -8,6 +8,7 @@ TraceView::TraceView(QWidget *parent)
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents, true);
     QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
 
+
     mTraceColors = {
         {'A',QColor("#009000")},    // green
         {'C',QColor("#0000ff")},    // blue
@@ -56,6 +57,7 @@ void TraceView::paintEvent(QPaintEvent *event)
     drawBases(painter);
     drawTraces(painter);
     drawConfident(painter);
+    drawSelection(painter);
 
 }
 //-------------------------------------------------------------------------------
@@ -92,9 +94,15 @@ bool TraceView::viewportEvent(QEvent *event)
 void TraceView::setupViewport()
 {
     qDebug()<<"after";
-//    mScroller = QScroller::scroller(viewport());
+    //    mScroller = QScroller::scroller(viewport());
 
 
+}
+//-------------------------------------------------------------------------------
+
+bool TraceView::inView(int pos)
+{
+    return (pos >= mXStart && pos <= viewport()->rect().width()/mXFactor + mXStart);
 }
 //-------------------------------------------------------------------------------
 
@@ -111,20 +119,46 @@ void TraceView::updateScrollbar()
 
 void TraceView::drawConfident(QPainter& painter)
 {
+    QPainterPath stepCurve;
+    bool step = true; // draw Horizontal when step = 1, otherse vertical
 
-    // @IKIT
+    QPen pen;
+    pen.setColor(QColor("#ced9eb"));
+    pen.setWidthF(2);
+    painter.setPen(pen);
+    painter.setBrush(QBrush("##e9eef6"));
 
-    // Get Score for each bases
-    // mSequenceTrace->confScores() ;
+    for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i)
+    {
+        int pos = mSequenceTrace->baseLocations().at(i);
 
-    // Get bases
-    // mSequenceTrace->sequence().byteArray();
+        if (pos >= mXStart && pos <= viewport()->rect().width()/mXFactor + mXStart)
+        {
+            QPointF p ((pos - mXStart) * mXFactor, 300);
 
-    // Get base location
-    // mSequenceTrace->baseLocations();
 
-    // painter is ready
-    // painter.drawRect(...)
+
+            painter.drawPoint(p);
+
+            //            // Draw Base
+            //            QChar base = mSequenceTrace->sequence().at(i);
+
+            //            QFont font;
+            //            font.setPixelSize(15);
+            //            font.setBold(true);
+            //            painter.setFont(font);
+
+            //            QFontMetrics metrics(font);
+            //            QPointF textPos (p.x() - metrics.width(base)/2, p.y());
+            //            textPos.setY(yMargin - 8);
+            //            painter.setPen(QPen(mTraceColors[base]));
+            //            painter.drawText(textPos, QString(base));
+        }
+    }
+
+
+
+
 
 
 }
@@ -133,37 +167,37 @@ void TraceView::drawConfident(QPainter& painter)
 void TraceView::drawBases(QPainter& painter)
 {
 
-   int yMargin = 27;
-   QPen pen;
-   pen.setColor(Qt::gray);
-   painter.setPen(pen);
-   painter.setBrush(QBrush("#F5F5F5"));
-   painter.drawRect(0, 0, viewport()->width(), yMargin);
+    int yMargin = 27;
+    QPen pen;
+    pen.setColor(Qt::gray);
+    painter.setPen(pen);
+    painter.setBrush(QBrush("#F5F5F5"));
+    painter.drawRect(0, 0, viewport()->width(), yMargin);
 
 
-   for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i)
-   {
-       int pos = mSequenceTrace->baseLocations().at(i);
+    for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i)
+    {
+        int pos = mSequenceTrace->baseLocations().at(i);
 
-       if (pos >= mXStart && pos <= viewport()->rect().width()/mXFactor + mXStart)
-       {
-           QPointF p ((pos - mXStart) * mXFactor, 15);
+        if (pos >= mXStart && pos <= viewport()->rect().width()/mXFactor + mXStart)
+        {
+            QPointF p ((pos - mXStart) * mXFactor, 15);
 
-           // Draw Base
-           QChar base = mSequenceTrace->sequence().at(i);
+            // Draw Base
+            QChar base = mSequenceTrace->sequence().at(i);
 
-           QFont font;
-           font.setPixelSize(15);
-           font.setBold(true);
-           painter.setFont(font);
+            QFont font;
+            font.setPixelSize(15);
+            font.setBold(true);
+            painter.setFont(font);
 
-           QFontMetrics metrics(font);
-           QPointF textPos (p.x() - metrics.width(base)/2, p.y());
-           textPos.setY(yMargin - 8);
-           painter.setPen(QPen(mTraceColors[base]));
-           painter.drawText(textPos, QString(base));
-       }
-   }
+            QFontMetrics metrics(font);
+            QPointF textPos (p.x() - metrics.width(base)/2, p.y());
+            textPos.setY(yMargin - 8);
+            painter.setPen(QPen(mTraceColors[base]));
+            painter.drawText(textPos, QString(base));
+        }
+    }
 
 
 
@@ -200,6 +234,47 @@ void TraceView::drawTraces(QPainter& painter)
         painter.setBrush(Qt::transparent);
         painter.drawPath(path);
     }
+}
+//-------------------------------------------------------------------------------
+void TraceView::drawSelection(QPainter &painter)
+{
+    QPainterPath stepCurve;
+    bool step = true; // draw Horizontal when step = 1, otherse vertical
+
+    QPen pen;
+    QColor highlight = palette().brush(QPalette::Highlight).color();
+    pen.setColor(highlight);
+    pen.setWidthF(2);
+    painter.setPen(pen);
+    highlight.setAlphaF(0.1);
+    QBrush bgBrush = QBrush(highlight);
+    painter.setBrush(bgBrush);
+
+
+    if (mCurrentSelection.length >= mSequenceTrace->baseLocations().length())
+        return;
+
+
+    int start = mSequenceTrace->baseLocations().at(mCurrentSelection.pos);
+    int end = mSequenceTrace->baseLocations().at(mCurrentSelection.pos + mCurrentSelection.length);
+
+    QPointF up   ((start - mXStart) * mXFactor, 0);
+    QPointF down ((end - mXStart) * mXFactor, viewport()->height());
+
+    QRectF area;
+    area.setTopLeft(up);
+    area.setBottomRight(down);
+
+    painter.drawRect(area);
+
+
+
+
+
+
+
+
+
 }
 //-------------------------------------------------------------------------------
 
@@ -239,5 +314,13 @@ void TraceView::setScaleFactor(float factor)
     mXFactor = factor;
     viewport()->update();
     updateScrollbar();
+}
+//-------------------------------------------------------------------------------
+void TraceView::setSelection(int pos, int length)
+{
+
+    mCurrentSelection = {pos, length};
+    viewport()->update();
+
 }
 

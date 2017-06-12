@@ -1,3 +1,4 @@
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -24,6 +25,9 @@ public Q_SLOTS:
     void writeSettings();
     void restoreSettings();
 
+
+protected Q_SLOTS:
+    void updateSelection();
 
 private:
 
