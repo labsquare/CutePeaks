@@ -57,7 +57,7 @@ void TraceView::paintEvent(QPaintEvent *event)
     drawBases(painter);
     drawTraces(painter);
     drawConfident(painter);
-    drawSelection(painter);
+    //    drawSelection(painter);
 
 }
 //-------------------------------------------------------------------------------
@@ -100,9 +100,11 @@ void TraceView::setupViewport()
 }
 //-------------------------------------------------------------------------------
 
-bool TraceView::inView(int pos)
+bool TraceView::inView(int pos, int margin)
 {
-    return (pos >= mXStart && pos <= viewport()->rect().width()/mXFactor + mXStart);
+
+    // if base pos is in the viewport
+    return (pos >= mXStart - margin && pos <= viewport()->rect().width()/mXFactor + mXStart + margin);
 }
 //-------------------------------------------------------------------------------
 
@@ -122,39 +124,50 @@ void TraceView::drawConfident(QPainter& painter)
     QPainterPath stepCurve;
     bool step = true; // draw Horizontal when step = 1, otherse vertical
 
+    QColor color("#ced9eb");
     QPen pen;
-    pen.setColor(QColor("#ced9eb"));
+    pen.setColor(color);
     pen.setWidthF(2);
     painter.setPen(pen);
-    painter.setBrush(QBrush("##e9eef6"));
+    //    painter.setBrush(Qt::transparent);
+    color.setAlphaF(0.4);
+    painter.setBrush(color);
+
+    QPainterPath path;
+
+    QPointF oldPoint;
+
+    path.moveTo(0,-100);
 
     for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i)
     {
         int pos = mSequenceTrace->baseLocations().at(i);
+        int score  = mSequenceTrace->confScores().at(i);
 
-        if (pos >= mXStart && pos <= viewport()->rect().width()/mXFactor + mXStart)
+        if (inView(pos, 10))
         {
-            QPointF p ((pos - mXStart) * mXFactor, 300);
+
+            QPointF p ((pos - mXStart) * mXFactor, score * 5 );
+
+            QPointF delta = QPointF(oldPoint.x() +(p.x() - oldPoint.x())/2, 100);
+
+            // draw step
+
+            //            path.moveTo(oldPoint);
+            path.lineTo(QPoint(delta.x(), oldPoint.y()));
+            path.lineTo(delta.x(), p.y());
+            path.lineTo(p);
 
 
-
-            painter.drawPoint(p);
-
-            //            // Draw Base
-            //            QChar base = mSequenceTrace->sequence().at(i);
-
-            //            QFont font;
-            //            font.setPixelSize(15);
-            //            font.setBold(true);
-            //            painter.setFont(font);
-
-            //            QFontMetrics metrics(font);
-            //            QPointF textPos (p.x() - metrics.width(base)/2, p.y());
-            //            textPos.setY(yMargin - 8);
-            //            painter.setPen(QPen(mTraceColors[base]));
-            //            painter.drawText(textPos, QString(base));
+            oldPoint = p;
         }
     }
+
+    path.lineTo(oldPoint.x(), -100);
+
+    path.setFillRule(Qt::OddEvenFill);
+
+    painter.drawPath(path);
 
 
 
@@ -179,7 +192,7 @@ void TraceView::drawBases(QPainter& painter)
     {
         int pos = mSequenceTrace->baseLocations().at(i);
 
-        if (pos >= mXStart && pos <= viewport()->rect().width()/mXFactor + mXStart)
+        if (inView(pos))
         {
             QPointF p ((pos - mXStart) * mXFactor, 15);
 
@@ -266,14 +279,6 @@ void TraceView::drawSelection(QPainter &painter)
     area.setBottomRight(down);
 
     painter.drawRect(area);
-
-
-
-
-
-
-
-
 
 }
 //-------------------------------------------------------------------------------

@@ -31,7 +31,7 @@ protected :
     void mouseMoveEvent(QMouseEvent * event);
     bool viewportEvent(QEvent * event) Q_DECL_OVERRIDE;
     virtual void setupViewport();
-    bool inView(int pos);
+    bool inView(int pos, int margin = 0);
 
     void updateScrollbar();
 
