@@ -37,6 +37,7 @@ protected :
 
     void drawConfident(QPainter& painter);
     void drawBases(QPainter& painter);
+    void drawAminoAcid(QPainter& painter);
     void drawTraces(QPainter& painter);
     void drawSelection(QPainter& painter);
 

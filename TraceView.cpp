@@ -55,8 +55,10 @@ void TraceView::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing, true);
 
     drawBases(painter);
+    drawAminoAcid(painter);
     drawTraces(painter);
     drawConfident(painter);
+
     //    drawSelection(painter);
 
 }
@@ -209,11 +211,53 @@ void TraceView::drawBases(QPainter& painter)
             textPos.setY(yMargin - 8);
             painter.setPen(QPen(mTraceColors[base]));
             painter.drawText(textPos, QString(base));
+
+            if ( !(i % 10)){
+                painter.setPen(QPen(Qt::lightGray));
+                painter.drawText(textPos + QPoint(0,50), QString::number(i));
+            }
+
         }
     }
 
 
 
+}
+//-------------------------------------------------------------------------------
+
+void TraceView::drawAminoAcid(QPainter &painter)
+{
+    QPen pen;
+    pen.setColor(Qt::gray);
+    painter.setPen(pen);
+
+    for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); i+=3)
+    {
+        int pos = mSequenceTrace->baseLocations().at(i);
+
+        if (inView(pos))
+        {
+            QPointF p ((pos - mXStart) * mXFactor, 15);
+
+            // Draw Base
+            QByteArray codon = mSequenceTrace->sequence().byteArray().mid(i,3);
+            Sequence seq(codon);
+
+            QString aa = seq.translate().toString();
+
+            QFont font;
+            font.setPixelSize(15);
+            font.setBold(true);
+            painter.setFont(font);
+
+            QFontMetrics metrics(font);
+            QPointF textPos (p.x() - metrics.width(aa)/2, p.y());
+            textPos.setY(50);
+            painter.drawText(textPos, QString(aa));
+
+
+        }
+    }
 }
 //-------------------------------------------------------------------------------
 void TraceView::drawTraces(QPainter& painter)
