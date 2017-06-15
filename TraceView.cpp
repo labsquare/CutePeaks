@@ -59,7 +59,7 @@ void TraceView::paintEvent(QPaintEvent *event)
     drawTraces(painter);
     drawConfident(painter);
 
-    //    drawSelection(painter);
+    drawSelection(painter);
 
 }
 //-------------------------------------------------------------------------------
@@ -200,34 +200,34 @@ void TraceView::drawBases(QPainter& painter)
 
     // Draw BG
 
-//    for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i, ++codonCounter)
-//    {
-//        int pos = mSequenceTrace->baseLocations().at(i);
+    //    for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i, ++codonCounter)
+    //    {
+    //        int pos = mSequenceTrace->baseLocations().at(i);
 
-//        if (inView(pos,100))
-//        {
-//            QPointF p ((pos - mXStart) * mXFactor, 15);
+    //        if (inView(pos,100))
+    //        {
+    //            QPointF p ((pos - mXStart) * mXFactor, 15);
 
 
-//            // draw bg
-//            if (codonCounter % 3 == 0)
-//            {
-//                codonCounter = 0;
-//                swapBgColor = !swapBgColor;
+    //            // draw bg
+    //            if (codonCounter % 3 == 0)
+    //            {
+    //                codonCounter = 0;
+    //                swapBgColor = !swapBgColor;
 
-//                painter.setPen(Qt::NoPen);
-//                painter.setBrush(QBrush(swapBgColor? Qt::darkGray : Qt::lightGray));
+    //                painter.setPen(Qt::NoPen);
+    //                painter.setBrush(QBrush(swapBgColor? Qt::darkGray : Qt::lightGray));
 
-//                QRectF rect;
-//                rect.setTopLeft(QPointF(oldPos.x()-metrics.width('A'),0));
-//                rect.setBottomRight(QPointF(p.x()-metrics.width('A'),20));
-//                painter.drawRect(rect);
+    //                QRectF rect;
+    //                rect.setTopLeft(QPointF(oldPos.x()-metrics.width('A'),0));
+    //                rect.setBottomRight(QPointF(p.x()-metrics.width('A'),20));
+    //                painter.drawRect(rect);
 
-//                oldPos = p;
-//            }
-//        }
+    //                oldPos = p;
+    //            }
+    //        }
 
-//    }
+    //    }
 
     // Draw Base
 
