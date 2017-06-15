@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     sequence.cpp \
     proteinalphabet.cpp \
     nucleotidalphabet.cpp \
-    sequenceview.cpp
+    sequenceview.cpp \
+    InfoView.cpp
 
 HEADERS  += \
     SequenceTraceFactory.h \
@@ -34,7 +35,8 @@ HEADERS  += \
     sequence.h \
     proteinalphabet.h \
     nucleotidalphabet.h \
-    sequenceview.h
+    sequenceview.h \
+    InfoView.h
 
 
 # Installation

@@ -7,6 +7,8 @@
 #include <QSvgGenerator>
 #include "TraceView.h"
 #include "sequenceview.h"
+#include "InfoView.h"
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -29,6 +31,9 @@ public Q_SLOTS:
 protected Q_SLOTS:
     void updateSelection();
 
+protected:
+    void addDock(QWidget * widget);
+
 private:
 
     TraceView * mView;
@@ -37,6 +42,7 @@ private:
     QString mFile;
     QLineEdit * mSearchbar;
     SequenceView * mSeqView;
+
 
 };
 

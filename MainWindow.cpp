@@ -4,12 +4,12 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
 
-    mView    = new TraceView;
-    mYSlider = new QSlider(Qt::Horizontal);
-    mXSlider = new QSlider(Qt::Horizontal);
-    mSearchbar = new QLineEdit;
-    mSeqView  = new SequenceView();
-    mSearchbar->setVisible(false);
+    mView        = new TraceView;
+    mYSlider     = new QSlider(Qt::Horizontal);
+    mXSlider     = new QSlider(Qt::Horizontal);
+    mSearchbar   = new QLineEdit;
+    mSeqView     = new SequenceView;
+
 
     QToolBar * bar = addToolBar("actions");
 
@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     mSearchbar->setMaximumWidth(200);
     mSearchbar->setPlaceholderText("Sequence ...");
+    mSearchbar->setVisible(false);
 
     QAction * openAction = bar->addAction("Open");
     QWidget * spacer = new QWidget;
@@ -42,10 +43,11 @@ MainWindow::MainWindow(QWidget *parent)
     setStatusBar(statusBar);
 
 
-    QDockWidget * editDock = new QDockWidget;
-    editDock->setWidget(mSeqView);
 
-    addDockWidget(Qt::BottomDockWidgetArea, editDock);
+    addDock(mSeqView);
+    addDock(new InfoView);
+
+
 
 
     connect(mYSlider, &QSlider::valueChanged, [=](){mView->setAmplitudeFactor(mYSlider->value() / 1000.0 );});
@@ -104,14 +106,24 @@ void MainWindow::restoreSettings()
 void MainWindow::updateSelection()
 {
 
-   QTextCursor cursor = mSeqView->textCursor();
-   if (cursor.hasSelection())
-   {
-       int start  = cursor.selectionStart();
-       int length = cursor.selectionEnd() + start;
+    QTextCursor cursor = mSeqView->textCursor();
+    if (cursor.hasSelection())
+    {
+        int start  = cursor.selectionStart();
+        int length = cursor.selectionEnd() + start;
 
-       mView->setSelection(start, length);
-   }
+        mView->setSelection(start, length);
+    }
+
+
+}
+
+void MainWindow::addDock(QWidget *widget)
+{
+    QDockWidget * dock = new QDockWidget;
+    dock->setWidget(widget);
+    dock->setWindowTitle(widget->windowTitle());
+    addDockWidget(Qt::BottomDockWidgetArea, dock);
 
 
 }
@@ -119,11 +131,11 @@ void MainWindow::updateSelection()
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
 
-        QSvgGenerator generator;
-        generator.setFileName("/tmp/capture.svg");
-        generator.setTitle("test");
-        generator.setDescription("description");
-        render(&generator);
+    QSvgGenerator generator;
+    generator.setFileName("/tmp/capture.svg");
+    generator.setTitle("test");
+    generator.setDescription("description");
+    render(&generator);
 
 
     return QMainWindow::keyPressEvent(event);

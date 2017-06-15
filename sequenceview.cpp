@@ -7,7 +7,7 @@ SequenceView::SequenceView(QWidget * parent)
     setReadOnly(true);
     connect(this, &SequenceView::blockCountChanged, this, &SequenceView::updateFoo);
 
-
+    setWindowTitle("Sequence");
 
     setViewportMargins(20,0,0,0);
 
