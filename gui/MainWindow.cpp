@@ -8,18 +8,13 @@ MainWindow::MainWindow(QWidget *parent)
     mYSlider     = new QSlider(Qt::Horizontal);
     mXSlider     = new QSlider(Qt::Horizontal);
     mSearchbar   = new QLineEdit;
-    mPanelsTab   = new QTabWidget;
 
     QToolBar * bar = addToolBar("actions");
 
-    QSplitter * mainSplitter = new QSplitter(Qt::Vertical);
-    mainSplitter->addWidget(mView);
-    mainSplitter->addWidget(mPanelsTab);
+    setCentralWidget(mView);
 
-    setCentralWidget(mainSplitter);
-
-    addPanel(new SequencePanelWidget);
-    addPanel(new InfoPanelWidget);
+    addPanel(new SequencePanelWidget, Qt::BottomDockWidgetArea);
+    addPanel(new InfoPanelWidget, Qt::LeftDockWidgetArea);
 
 
     mSearchbar->setMaximumWidth(200);
@@ -120,12 +115,14 @@ void MainWindow::updateSelection()
 
 }
 
-void MainWindow::addPanel(AbstractPanelWidget *panel)
+void MainWindow::addPanel(AbstractPanelWidget *panel, Qt::DockWidgetArea area)
 {
 
     mPanels.append(panel);
-    mPanelsTab->addTab(panel, panel->windowIcon(), panel->windowTitle());
-
+    QDockWidget * dock = new QDockWidget;
+    dock->setWidget(panel);
+    dock->setWindowTitle(dock->windowTitle());
+    addDockWidget(area,dock);
 }
 
 

@@ -34,7 +34,7 @@ public Q_SLOTS:
 
 protected Q_SLOTS:
     void updateSelection();
-    void addPanel(AbstractPanelWidget * panel);
+    void addPanel(AbstractPanelWidget * panel, Qt::DockWidgetArea area);
 
 
 private:
@@ -44,7 +44,6 @@ private:
     QSlider * mXSlider;
     QString mFile;
     QLineEdit * mSearchbar;
-    QTabWidget * mPanelsTab;
 
     QList<AbstractPanelWidget*> mPanels;
 
