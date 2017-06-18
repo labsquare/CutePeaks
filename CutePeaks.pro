@@ -12,31 +12,10 @@ TARGET = cutepeaks
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        MainWindow.cpp \
-    AbstractSequenceTrace.cpp \
-    AbifSequenceTrace.cpp \
-    SequenceTraceFactory.cpp \
-    TraceView.cpp \
-    ScfSequenceTrace.cpp \
-    sequence.cpp \
-    proteinalphabet.cpp \
-    nucleotidalphabet.cpp \
-    sequenceview.cpp \
-    InfoView.cpp
+include(core/core.pri)
+include(gui/gui.pri)
 
-HEADERS  += \
-    SequenceTraceFactory.h \
-    MainWindow.h \
-    AbstractSequenceTrace.h \
-    AbifSequenceTrace.h \
-    TraceView.h \
-    ScfSequenceTrace.h \
-    sequence.h \
-    proteinalphabet.h \
-    nucleotidalphabet.h \
-    sequenceview.h \
-    InfoView.h
+SOURCES += main.cpp
 
 
 # Installation

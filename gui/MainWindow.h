@@ -7,7 +7,11 @@
 #include <QSvgGenerator>
 #include "TraceView.h"
 #include "sequenceview.h"
-#include "InfoView.h"
+#include "infopanelwidget.h"
+#include "abstractpanelwidget.h"
+
+#include "sequencepanelwidget.h"
+#include "infopanelwidget.h"
 
 class MainWindow : public QMainWindow
 {
@@ -30,9 +34,8 @@ public Q_SLOTS:
 
 protected Q_SLOTS:
     void updateSelection();
+    void addPanel(AbstractPanelWidget * panel);
 
-protected:
-    void addDock(QWidget * widget);
 
 private:
 
@@ -41,8 +44,9 @@ private:
     QSlider * mXSlider;
     QString mFile;
     QLineEdit * mSearchbar;
-    SequenceView * mSeqView;
-    InfoView * mInfoView;
+    QTabWidget * mPanelsTab;
+
+    QList<AbstractPanelWidget*> mPanels;
 
 
 };

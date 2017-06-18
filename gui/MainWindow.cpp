@@ -8,13 +8,19 @@ MainWindow::MainWindow(QWidget *parent)
     mYSlider     = new QSlider(Qt::Horizontal);
     mXSlider     = new QSlider(Qt::Horizontal);
     mSearchbar   = new QLineEdit;
-    mSeqView     = new SequenceView;
-    mInfoView    = new InfoView;
-
+    mPanelsTab   = new QTabWidget;
 
     QToolBar * bar = addToolBar("actions");
 
-    setCentralWidget(mView);
+    QSplitter * mainSplitter = new QSplitter(Qt::Vertical);
+    mainSplitter->addWidget(mView);
+    mainSplitter->addWidget(mPanelsTab);
+
+    setCentralWidget(mainSplitter);
+
+    addPanel(new SequencePanelWidget);
+    addPanel(new InfoPanelWidget);
+
 
     mSearchbar->setMaximumWidth(200);
     mSearchbar->setPlaceholderText("Sequence ...");
@@ -44,17 +50,10 @@ MainWindow::MainWindow(QWidget *parent)
     setStatusBar(statusBar);
 
 
-
-    addDock(mSeqView);
-    addDock(mInfoView);
-
-
-
-
     connect(mYSlider, &QSlider::valueChanged, [=](){mView->setAmplitudeFactor(mYSlider->value() / 1000.0 );});
     connect(mXSlider, &QSlider::valueChanged, [=](){mView->setScaleFactor(mXSlider->value() / 100.0);});
     connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
-    connect(mSeqView, &SequenceView::selectionChanged, this, &MainWindow::updateSelection);
+//    connect(mSeqView, &SequenceView::selectionChanged, this, &MainWindow::updateSelection);
 
     resize(1000, 800);
 }
@@ -81,8 +80,8 @@ void MainWindow::setFilename(const QString &filename)
 
     if (QFile::exists(filename)){
         mView->setFilename(filename);
-        mSeqView->setSequence(mView->sequenceTrace()->sequence());
-        mInfoView->setTrace(mView->sequenceTrace());
+        for (AbstractPanelWidget * panel : mPanels)
+            panel->setTrace(mView->sequenceTrace());
 
     }
     else
@@ -109,27 +108,27 @@ void MainWindow::restoreSettings()
 void MainWindow::updateSelection()
 {
 
-    QTextCursor cursor = mSeqView->textCursor();
-    if (cursor.hasSelection())
-    {
-        int start  = cursor.selectionStart();
-        int length = cursor.selectionEnd() + start;
+//    QTextCursor cursor = mSeqView->textCursor();
+//    if (cursor.hasSelection())
+//    {
+//        int start  = cursor.selectionStart();
+//        int length = cursor.selectionEnd() + start;
 
-        mView->setSelection(start, length);
-    }
+//        mView->setSelection(start, length);
+//    }
 
 
 }
 
-void MainWindow::addDock(QWidget *widget)
+void MainWindow::addPanel(AbstractPanelWidget *panel)
 {
-    QDockWidget * dock = new QDockWidget;
-    dock->setWidget(widget);
-    dock->setWindowTitle(widget->windowTitle());
-    addDockWidget(Qt::BottomDockWidgetArea, dock);
 
+    mPanels.append(panel);
+    mPanelsTab->addTab(panel, panel->windowIcon(), panel->windowTitle());
 
 }
+
+
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
