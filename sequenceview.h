@@ -10,6 +10,8 @@ public:
     SequenceView(QWidget * parent = 0);
     void setSequence(const Sequence& sequence);
 
+protected:
+    void resizeEvent(QResizeEvent * event);
 
 protected Q_SLOTS:
     void updateFoo(int v);

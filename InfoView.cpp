@@ -7,7 +7,11 @@ InfoView::InfoView(QWidget *parent)
     mModel = new QStandardItemModel;
     mModel->setColumnCount(2);
 
-
+    setSelectionBehavior(QAbstractItemView::SelectRows);
+    setSelectionMode(QAbstractItemView::SingleSelection);
+    verticalHeader()->hide();
+    setWindowTitle("Information");
+    setAlternatingRowColors(true);
 
     setModel(mModel);
 
@@ -31,6 +35,10 @@ void InfoView::setTrace(AbstractSequenceTrace *trace)
 
 
     }
+    mModel->setHorizontalHeaderLabels({"Key","Value"});
+
+    horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
+    horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
 
 
 }

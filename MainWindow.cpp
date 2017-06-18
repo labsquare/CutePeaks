@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     mXSlider     = new QSlider(Qt::Horizontal);
     mSearchbar   = new QLineEdit;
     mSeqView     = new SequenceView;
+    mInfoView    = new InfoView;
 
 
     QToolBar * bar = addToolBar("actions");
@@ -45,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     addDock(mSeqView);
-    addDock(new InfoView);
+    addDock(mInfoView);
 
 
 
@@ -81,6 +82,8 @@ void MainWindow::setFilename(const QString &filename)
     if (QFile::exists(filename)){
         mView->setFilename(filename);
         mSeqView->setSequence(mView->sequenceTrace()->sequence());
+        mInfoView->setTrace(mView->sequenceTrace());
+
     }
     else
         QMessageBox::warning(this,"error","cannot find file " + filename);

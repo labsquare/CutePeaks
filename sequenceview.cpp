@@ -19,6 +19,14 @@ void SequenceView::setSequence(const Sequence &sequence)
     setPlainText(sequence.byteArray());
 }
 
+void SequenceView::resizeEvent(QResizeEvent *event)
+{
+    // display h
+    qDebug()<<document()->documentLayout()->documentSize();
+
+    QPlainTextEdit::resizeEvent(event);
+}
+
 
 
 void SequenceView::updateFoo(int v)

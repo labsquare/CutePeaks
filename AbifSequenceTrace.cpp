@@ -119,6 +119,16 @@ bool AbifSequenceTrace::loadData()
     readBaseLocations();
     readConfScores();
 
+    //save data as comments
+    clearComments();
+    for (QString key : keys())
+    {
+        QVariant val = data(key);
+        if (val.type() != QVariant::List)
+            addComment(key, data(key));
+
+    }
+
     return true;
 }
 

@@ -42,6 +42,7 @@ private:
     QString mFile;
     QLineEdit * mSearchbar;
     SequenceView * mSeqView;
+    InfoView * mInfoView;
 
 
 };

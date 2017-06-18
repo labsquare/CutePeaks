@@ -59,7 +59,7 @@ void TraceView::paintEvent(QPaintEvent *event)
     drawTraces(painter);
     drawConfident(painter);
 
-    drawSelection(painter);
+//    drawSelection(painter);
 
 }
 //-------------------------------------------------------------------------------
