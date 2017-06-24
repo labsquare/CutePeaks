@@ -77,8 +77,10 @@ void MainWindow::setFilename(const QString &filename)
 
             QFileInfo info(filename);
             setWindowTitle(info.fileName());
-
-
+        }
+        else
+        {
+            QMessageBox::critical(this,"error reading","Cannot read file");
         }
 
     }
