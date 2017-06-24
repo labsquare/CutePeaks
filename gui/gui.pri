@@ -5,7 +5,8 @@ HEADERS += \
     $$PWD/TraceView.h \
     $$PWD/abstractpanelwidget.h \
     $$PWD/sequencepanelwidget.h \
-    $$PWD/infopanelwidget.h
+    $$PWD/infopanelwidget.h \
+    $$PWD/aboutdialog.h
 
 SOURCES += \
     $$PWD/MainWindow.cpp \
@@ -13,4 +14,7 @@ SOURCES += \
     $$PWD/TraceView.cpp \
     $$PWD/sequencepanelwidget.cpp \
     $$PWD/abstractpanelwidget.cpp \
-    $$PWD/infopanelwidget.cpp
+    $$PWD/infopanelwidget.cpp \
+    $$PWD/aboutdialog.cpp
+
+RESOURCES +=

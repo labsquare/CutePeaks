@@ -9,6 +9,7 @@
 #include "sequenceview.h"
 #include "infopanelwidget.h"
 #include "abstractpanelwidget.h"
+#include "aboutdialog.h"
 
 #include "sequencepanelwidget.h"
 #include "infopanelwidget.h"
@@ -31,11 +32,16 @@ public Q_SLOTS:
     void writeSettings();
     void restoreSettings();
 
+    void about();
+
 
 protected Q_SLOTS:
     void updateSelection();
     void addPanel(AbstractPanelWidget * panel, Qt::DockWidgetArea area);
 
+
+protected:
+    void setupActions();
 
 private:
 

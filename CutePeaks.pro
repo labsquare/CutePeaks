@@ -14,6 +14,7 @@ TEMPLATE = app
 
 include(core/core.pri)
 include(gui/gui.pri)
+include(QFontIcon/QFontIcon.pri)
 
 SOURCES += main.cpp
 
@@ -26,3 +27,6 @@ icons.path = /usr/share/icons/hicolor/48x48/apps
 icons.files += cutepeaks.png
 
 INSTALLS += target desktop icons
+
+RESOURCES += \
+    resource.qrc

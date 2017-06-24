@@ -9,11 +9,10 @@ MainWindow::MainWindow(QWidget *parent)
     mXSlider     = new QSlider(Qt::Horizontal);
     mSearchbar   = new QLineEdit;
 
-    QToolBar * bar = addToolBar("actions");
 
     setCentralWidget(mView);
 
-    addPanel(new SequencePanelWidget, Qt::BottomDockWidgetArea);
+//    addPanel(new SequencePanelWidget, Qt::BottomDockWidgetArea);
     addPanel(new InfoPanelWidget, Qt::LeftDockWidgetArea);
 
 
@@ -21,11 +20,6 @@ MainWindow::MainWindow(QWidget *parent)
     mSearchbar->setPlaceholderText("Sequence ...");
     mSearchbar->setVisible(false);
 
-    QAction * openAction = bar->addAction("Open");
-    QWidget * spacer = new QWidget;
-    spacer->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
-    bar->addWidget(spacer);
-    bar->addWidget(mSearchbar);
 
     mYSlider->setRange(6,1000);
     mXSlider->setRange(10,1000);
@@ -47,10 +41,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(mYSlider, &QSlider::valueChanged, [=](){mView->setAmplitudeFactor(mYSlider->value() / 1000.0 );});
     connect(mXSlider, &QSlider::valueChanged, [=](){mView->setScaleFactor(mXSlider->value() / 100.0);});
-    connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
 //    connect(mSeqView, &SequenceView::selectionChanged, this, &MainWindow::updateSelection);
 
-    resize(1000, 800);
+    setupActions();
+
+    resize(1000, 400);
 }
 
 MainWindow::~MainWindow()
@@ -100,6 +95,12 @@ void MainWindow::restoreSettings()
 
 }
 
+void MainWindow::about()
+{
+    AboutDialog dialog(this);
+    dialog.exec();
+}
+
 void MainWindow::updateSelection()
 {
 
@@ -123,6 +124,23 @@ void MainWindow::addPanel(AbstractPanelWidget *panel, Qt::DockWidgetArea area)
     dock->setWidget(panel);
     dock->setWindowTitle(dock->windowTitle());
     addDockWidget(area,dock);
+}
+
+void MainWindow::setupActions()
+{
+    QMenuBar * bar = new QMenuBar;
+    setMenuBar(bar);
+
+    QMenu * openMenu = bar->addMenu("&File");
+    openMenu->addAction("&Open", this, SLOT(openFile()), QKeySequence::Open);
+    openMenu->addAction("Quit", qApp, SLOT(quit()));
+
+    QMenu * helpMenu = bar->addMenu("&Help");
+    helpMenu->addAction("&About", this, SLOT(about()));
+    helpMenu->addAction("About Qt", qApp, SLOT(aboutQt()));
+
+
+
 }
 
 
