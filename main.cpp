@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     a.setApplicationName("CutePeaks");
     a.setOrganizationName("Labsquare");
     a.setOrganizationDomain("Labsquare.org");
-    a.setApplicationVersion("0.1-beta");
+    a.setApplicationVersion("0.1");
 
 
     MainWindow w;
