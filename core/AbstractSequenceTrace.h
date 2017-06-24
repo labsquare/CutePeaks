@@ -47,6 +47,8 @@ public:
      QVariant value(const QString& key);
 
 
+     bool isValid() const;
+
 
 protected:
     QIODevice * device();

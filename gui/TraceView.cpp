@@ -389,6 +389,16 @@ AbstractSequenceTrace *TraceView::sequenceTrace()
 {
     return mSequenceTrace;
 }
+
+bool TraceView::isValid() const
+{
+    if (mSequenceTrace == nullptr)
+        return false;
+
+    return mSequenceTrace->isValid();
+}
+
+
 //-------------------------------------------------------------------------------
 
 void TraceView::setAmplitudeFactor(float factor)

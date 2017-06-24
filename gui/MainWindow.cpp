@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setCentralWidget(mView);
 
-//    addPanel(new SequencePanelWidget, Qt::BottomDockWidgetArea);
+    //    addPanel(new SequencePanelWidget, Qt::BottomDockWidgetArea);
     addPanel(new InfoPanelWidget, Qt::LeftDockWidgetArea);
 
 
@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(mYSlider, &QSlider::valueChanged, [=](){mView->setAmplitudeFactor(mYSlider->value() / 1000.0 );});
     connect(mXSlider, &QSlider::valueChanged, [=](){mView->setScaleFactor(mXSlider->value() / 100.0);});
-//    connect(mSeqView, &SequenceView::selectionChanged, this, &MainWindow::updateSelection);
+    //    connect(mSeqView, &SequenceView::selectionChanged, this, &MainWindow::updateSelection);
 
     setupActions();
 
@@ -70,8 +70,16 @@ void MainWindow::setFilename(const QString &filename)
 
     if (QFile::exists(filename)){
         mView->setFilename(filename);
-        for (AbstractPanelWidget * panel : mPanels)
-            panel->setTrace(mView->sequenceTrace());
+        if (mView->isValid())
+        {
+            for (AbstractPanelWidget * panel : mPanels)
+                panel->setTrace(mView->sequenceTrace());
+
+            QFileInfo info(filename);
+            setWindowTitle(info.fileName());
+
+
+        }
 
     }
     else
@@ -104,14 +112,14 @@ void MainWindow::about()
 void MainWindow::updateSelection()
 {
 
-//    QTextCursor cursor = mSeqView->textCursor();
-//    if (cursor.hasSelection())
-//    {
-//        int start  = cursor.selectionStart();
-//        int length = cursor.selectionEnd() + start;
+    //    QTextCursor cursor = mSeqView->textCursor();
+    //    if (cursor.hasSelection())
+    //    {
+    //        int start  = cursor.selectionStart();
+    //        int length = cursor.selectionEnd() + start;
 
-//        mView->setSelection(start, length);
-//    }
+    //        mView->setSelection(start, length);
+    //    }
 
 
 }
@@ -122,7 +130,8 @@ void MainWindow::addPanel(AbstractPanelWidget *panel, Qt::DockWidgetArea area)
     mPanels.append(panel);
     QDockWidget * dock = new QDockWidget;
     dock->setWidget(panel);
-    dock->setWindowTitle(dock->windowTitle());
+    dock->setWindowTitle(panel->windowTitle());
+    dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     addDockWidget(area,dock);
 }
 

@@ -36,6 +36,23 @@ QVariant AbstractSequenceTrace::value(const QString& key)
 {
     return mComments.value(key);
 }
+
+bool AbstractSequenceTrace::isValid() const
+{
+    // need to improve
+
+        if (trace('A').isEmpty())
+            return false;
+
+        if (baseLocations().length() == 0)
+            return false;
+
+        if (baseLocations().length() != sequence().length())
+            return false;
+
+    return true;
+
+}
 void AbstractSequenceTrace::addComment(const QString& key, const QVariant& value)
 {
     mComments[key]= value;

@@ -19,6 +19,8 @@ public:
 
     AbstractSequenceTrace * sequenceTrace();
 
+    bool isValid() const;
+
 public Q_SLOTS:
     void setAmplitudeFactor(float factor);
     void setScaleFactor(float factor);
