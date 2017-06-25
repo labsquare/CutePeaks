@@ -50,6 +50,7 @@ private:
     QSlider * mXSlider;
     QString mFile;
     QLineEdit * mSearchbar;
+    QDockWidget * mMetaDock;
 
     QList<AbstractPanelWidget*> mPanels;
 

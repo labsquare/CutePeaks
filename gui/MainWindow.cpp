@@ -131,11 +131,12 @@ void MainWindow::addPanel(AbstractPanelWidget *panel, Qt::DockWidgetArea area)
 {
 
     mPanels.append(panel);
-    QDockWidget * dock = new QDockWidget;
-    dock->setWidget(panel);
-    dock->setWindowTitle(panel->windowTitle());
-    dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
-    addDockWidget(area,dock);
+    mMetaDock = new QDockWidget;
+    mMetaDock->setWidget(panel);
+    mMetaDock->setWindowTitle(panel->windowTitle());
+    mMetaDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    addDockWidget(area,mMetaDock);
+    mMetaDock->setVisible(false);
 }
 
 void MainWindow::setupActions()
@@ -146,6 +147,13 @@ void MainWindow::setupActions()
     QMenu * openMenu = bar->addMenu("&File");
     openMenu->addAction("&Open", this, SLOT(openFile()), QKeySequence::Open);
     openMenu->addAction("Quit", qApp, SLOT(quit()));
+
+    QMenu * viewMenu = bar->addMenu("&View");
+    QAction * viewMetaAction = viewMenu->addAction("&Show metadata", mMetaDock, SLOT(setVisible(bool)));
+    viewMetaAction->setCheckable(true);
+    viewMetaAction->setChecked(false);
+
+
 
     QMenu * helpMenu = bar->addMenu("&Help");
     helpMenu->addAction("&About", this, SLOT(about()));
