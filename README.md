@@ -12,7 +12,7 @@ Support AB1 and SCF 3.0 file format.
 
 # Installation 
 ## Linux 
-For now, only Linux binary has been done. 
+Linux binary is avaible as [appImage](http://appimage.org/).
 Download the appimage from [here](https://github.com/labsquare/CutePeaks/releases) 
 Run it as follow : 
 
