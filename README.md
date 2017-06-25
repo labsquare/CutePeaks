@@ -55,4 +55,4 @@ Cutepeaks support following trace file:
 - *.scf
 
 ## How to cite CutePeaks 
-Labsquare Team, et al (2017). CutePeaks: a simple sanger trace file avaible at https://github.com/labsquare/CutePeaks
+Labsquare Team, et al (2017). CutePeaks: a simple Sanger trace file avaible at https://github.com/labsquare/CutePeaks
