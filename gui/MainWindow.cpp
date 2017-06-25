@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupActions();
 
     resize(1000, 400);
+    setWindowIcon(QIcon("qrc:/icons/cutepeaks.png"));
 }
 
 MainWindow::~MainWindow()
