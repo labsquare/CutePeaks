@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 
 
     MainWindow w;
-    w.setFilename("/tmp/examples/A_forward.ab1");
+//    w.setFilename("/tmp/examples/A_forward.ab1");
     w.show();
 
     return a.exec();
