@@ -39,7 +39,7 @@ For exemple from xenial
 
     sudo dnf install qt5-qtbase-devel qt5-qtcharts-devel 
 
-### Compile FastQt 
+### Compile CutePeaks 
 Be sure you have the correct version of Qt (>5.7) by using qmake --version. For exemple, if you have installed Qt from ppa:beineri, you will find it under /opt/qt57/bin/qmake. Then launch the compilation from FastQC folder as follow.
 
      /opt/qt57/bin/qmake --version
