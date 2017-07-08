@@ -1,35 +1,35 @@
 # CutePeaks
 
 ![](https://travis-ci.org/labsquare/CutePeaks.svg?branch=master)
-[![Join the chat at https://gitter.im/labsquare/CutePeaks](https://badges.gitter.im/labsquare/CutePeaks.svg)](https://gitter.im/labsquare/CutePeaks?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/labsquare/CutePeaks](https://badges.gitter.im/labsquare/CutePeaks.svg)](https://gitter.im/labsquare/CutePeaks?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.824556.svg)](https://doi.org/10.5281/zenodo.824556)
 
 
-A simple viewer for Sanger trace file made with Qt5. 
-Support AB1 and SCF 3.0 file format. 
+A simple viewer for Sanger trace file made with Qt5.
+Support AB1 and SCF 3.0 file format.
 
 ![Preview](https://raw.githubusercontent.com/labsquare/CutePeaks/master/cutepeaks.gif)
 
 
-# Installation 
-## Linux 
+# Installation
+## Linux
 Linux binary is avaible as [appImage](http://appimage.org/).
-Download the appimage from [here](https://github.com/labsquare/CutePeaks/releases) 
-Run it as follow : 
+Download the appimage from [here](https://github.com/labsquare/CutePeaks/releases)
+Run it as follow :
 
 
     chmod +x cutepeaks-0.1.0-linux-x86_64.appimage
     ./cutepeaks-0.1.0-linux-x86_64.appimage
 
-    
-## Compilation 
+
+## Compilation
 ### Prerequisites - Install KArchive
 ### Install Qt >5.7
 
-**From website** : Download Qt > 5.7 from https://www.qt.io/.   
-Don't forget to check QtChart module during installation. 
+**From website** : Download Qt > 5.7 from https://www.qt.io/.
+Don't forget to check QtChart module during installation.
 
-**From ubuntu** : Qt 5.7 is not yet avaible with ubuntu. But you can add PPA to your software system. 
-For exemple from xenial 
+**From ubuntu** : Qt 5.7 is not yet avaible with ubuntu. But you can add PPA to your software system.
+For exemple from xenial
 
     sudo add-apt-repository ppa:beineri/opt-qt57-xenial
     sudo apt-get install qt57base qt57charts-no-lgpl
@@ -37,15 +37,15 @@ For exemple from xenial
 
 **From fedora** : Qt 5.7 is avaible
 
-    sudo dnf install qt5-qtbase-devel qt5-qtcharts-devel 
+    sudo dnf install qt5-qtbase-devel qt5-qtcharts-devel
 
-### Compile CutePeaks 
+### Compile CutePeaks
 Be sure you have the correct version of Qt (>5.7) by using qmake --version. For exemple, if you have installed Qt from ppa:beineri, you will find it under /opt/qt57/bin/qmake. Then launch the compilation from CutePeaks folder as follow.
 
      /opt/qt57/bin/qmake --version
-     /opt/qt57/bin/qmake 
-     make 
-     sudo make install 
+     /opt/qt57/bin/qmake
+     make
+     sudo make install
 
 ## Usage
 
@@ -54,5 +54,5 @@ Cutepeaks support following trace file:
 - *.ab1
 - *.scf
 
-## How to cite CutePeaks 
-Labsquare Team, et al (2017). CutePeaks: a simple Sanger trace file avaible at https://github.com/labsquare/CutePeaks
+## How to cite CutePeaks
+Labsquare Team, et al (2017). CutePeaks: a simple Sanger trace file. Avaible online at https://github.com/labsquare/CutePeaks doi:10.5281/zenodo.824556
