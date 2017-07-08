@@ -1,7 +1,7 @@
 # CutePeaks
 
 ![](https://travis-ci.org/labsquare/CutePeaks.svg?branch=master)
-[![Join the chat at https://gitter.im/labsquare/CutePeaks](https://badges.gitter.im/labsquare/CutePeaks.svg)](https://gitter.im/labsquare/CutePeaks?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.824556.svg)](https://doi.org/10.5281/zenodo.824556)
+[![Join the chat at https://gitter.im/labsquare/CutePeaks](https://badges.gitter.im/labsquare/CutePeaks.svg)](https://gitter.im/labsquare/CutePeaks?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.824555.svg)](https://doi.org/10.5281/zenodo.824555)
 
 
 A simple viewer for Sanger trace file made with Qt5.
@@ -55,4 +55,4 @@ Cutepeaks support following trace file:
 - *.scf
 
 ## How to cite CutePeaks
-Labsquare Team, et al (2017). CutePeaks: a simple Sanger trace file. Avaible online at https://github.com/labsquare/CutePeaks doi:10.5281/zenodo.824556
+Labsquare Team, et al (2017). CutePeaks: a simple Sanger trace file. Avaible online at https://github.com/labsquare/CutePeaks doi:10.5281/zenodo.824555
