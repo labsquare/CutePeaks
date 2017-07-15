@@ -17,7 +17,7 @@ SequenceTraceFactory::FileType SequenceTraceFactory::filetype(QIODevice *device)
         device->close();
     }
     else
-        qCritical()<<"Cannot open file";
+        qCritical()<<QObject::tr("Cannot open file");
 
     return Unknown;
 
