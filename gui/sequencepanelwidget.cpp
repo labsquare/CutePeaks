@@ -6,7 +6,7 @@ SequencePanelWidget::SequencePanelWidget(QWidget * parent)
     mEdit = new QPlainTextEdit;
     setCentralWidget(mEdit);
 
-    setWindowTitle("Sequence");
+    setWindowTitle(tr("Sequence"));
 
 
 }

@@ -28,7 +28,7 @@ Sequence Sequence::complement() const
 {
     if (type() == Protein)
     {
-        qWarning()<<"cannot complement a protein";
+        qWarning()<<QObject::tr("cannot complement a protein");
         return Sequence();
     }
 
@@ -56,7 +56,7 @@ Sequence Sequence::translate(ReadFame frame) const
     // TODO
     if (type() == Protein)
     {
-        qWarning()<<"cannot translate a protein";
+        qWarning()<<QObject::tr("cannot translate a protein");
         return Sequence();
     }
 
@@ -139,10 +139,10 @@ QString Sequence::typeName()
 {
     switch ( type())
     {
-    case Dna: return "dna";
-    case Rna: return "rna";
-    case Protein:return "protein";
-    default : return "unknown";
+    case Dna: return QObject::tr("dna");
+    case Rna: return QObject::tr("rna");
+    case Protein:return QObject::tr("protein");
+    default : return QObject::tr("unknown");
     }
 }
 

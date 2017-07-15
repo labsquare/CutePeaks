@@ -374,7 +374,7 @@ void TraceView::setFilename(const QString &filename)
     mSequenceTrace = SequenceTraceFactory::loadTraceFile(filename);
 
     if (!mSequenceTrace){
-        qCritical()<<Q_FUNC_INFO<<"Cannot read the file";
+        qCritical()<<Q_FUNC_INFO<<tr("Cannot read the file");
         setDisabled(true);
         return ;
     }
