@@ -30,3 +30,5 @@ INSTALLS += target desktop icons
 
 RESOURCES += \
     resource.qrc
+
+TRANSLATIONS = translations/cutepeaks_fr.ts
