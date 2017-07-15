@@ -15,7 +15,7 @@ InfoPanelWidget::InfoPanelWidget(QWidget *parent)
     mView->setAlternatingRowColors(true);
     mView->setModel(mModel);
 
-    setWindowTitle("Metadata");
+    setWindowTitle(tr("Metadata"));
 
 
 }

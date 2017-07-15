@@ -54,7 +54,7 @@ QIcon QFontIcon::icon(const QChar &code, const QColor &baseColor, const QString 
 {
     if (instance()->families().isEmpty())
     {
-        qWarning()<<Q_FUNC_INFO<<"No font family installed";
+        qWarning()<<Q_FUNC_INFO<<tr("No font family installed");
         return QIcon();
     }
 

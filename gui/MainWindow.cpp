@@ -17,24 +17,24 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     mSearchbar->setMaximumWidth(200);
-    mSearchbar->setPlaceholderText("Sequence ...");
+    mSearchbar->setPlaceholderText(tr("Sequence..."));
     mSearchbar->setVisible(false);
 
 
     mYSlider->setRange(6,1000);
     mXSlider->setRange(10,1000);
-    mXSlider->setToolTip("Scale");
+    mXSlider->setToolTip(tr("Scale"));
 
     mXSlider->setMaximumWidth(100);
     mYSlider->setMaximumWidth(100);
     mYSlider->setValue(0.2);
-    mYSlider->setToolTip("Amplitude");
+    mYSlider->setToolTip(tr("Amplitude"));
 
     QStatusBar * statusBar = new QStatusBar;
 
-    statusBar->addPermanentWidget(new QLabel("Scale"));
+    statusBar->addPermanentWidget(new QLabel(tr("Scale")));
     statusBar->addPermanentWidget(mXSlider);
-    statusBar->addPermanentWidget(new QLabel("Amplitude"));
+    statusBar->addPermanentWidget(new QLabel(tr("Amplitude")));
     statusBar->addPermanentWidget(mYSlider);
     setStatusBar(statusBar);
 
@@ -58,7 +58,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::openFile()
 {
-    QString file = QFileDialog::getOpenFileName(this, tr("Open Image"), QDir::currentPath());
+    QString file = QFileDialog::getOpenFileName(this, tr("Open file"), QDir::currentPath());
     setFilename(file);
 
 }
@@ -81,12 +81,12 @@ void MainWindow::setFilename(const QString &filename)
         }
         else
         {
-            QMessageBox::critical(this,"error reading","Cannot read file");
+            QMessageBox::critical(this,tr("Error reading"),tr("Cannot read file"));
         }
 
     }
     else
-        QMessageBox::warning(this,"error","cannot find file " + filename);
+        QMessageBox::warning(this,tr("Error"),tr("Cannot find file ") + filename);
 
 
 }
@@ -144,20 +144,20 @@ void MainWindow::setupActions()
     QMenuBar * bar = new QMenuBar;
     setMenuBar(bar);
 
-    QMenu * openMenu = bar->addMenu("&File");
-    openMenu->addAction("&Open", this, SLOT(openFile()), QKeySequence::Open);
-    openMenu->addAction("Quit", qApp, SLOT(quit()));
+    QMenu * openMenu = bar->addMenu(tr("&File"));
+    openMenu->addAction(tr("&Open"), this, SLOT(openFile()), QKeySequence::Open);
+    openMenu->addAction(tr("Quit"), qApp, SLOT(quit()));
 
-    QMenu * viewMenu = bar->addMenu("&View");
-    QAction * viewMetaAction = viewMenu->addAction("&Show metadata", mMetaDock, SLOT(setVisible(bool)));
+    QMenu * viewMenu = bar->addMenu(tr("&View"));
+    QAction * viewMetaAction = viewMenu->addAction(tr("&Show metadata"), mMetaDock, SLOT(setVisible(bool)));
     viewMetaAction->setCheckable(true);
     viewMetaAction->setChecked(false);
 
 
 
-    QMenu * helpMenu = bar->addMenu("&Help");
-    helpMenu->addAction("&About", this, SLOT(about()));
-    helpMenu->addAction("About Qt", qApp, SLOT(aboutQt()));
+    QMenu * helpMenu = bar->addMenu(tr("&Help"));
+    helpMenu->addAction(tr("&About"), this, SLOT(about()));
+    helpMenu->addAction(tr("About Qt"), qApp, SLOT(aboutQt()));
 
 
 
