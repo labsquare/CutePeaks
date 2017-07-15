@@ -1,5 +1,3 @@
-#include <QMainWindow>
-#include <QTranslator>
 #include "SequenceTraceFactory.h"
 
 
