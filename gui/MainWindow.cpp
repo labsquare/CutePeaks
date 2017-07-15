@@ -28,13 +28,13 @@ MainWindow::MainWindow(QWidget *parent)
     mXSlider->setMaximumWidth(100);
     mYSlider->setMaximumWidth(100);
     mYSlider->setValue(0.2);
-    mYSlider->setToolTip("Amplitude");
+    mYSlider->setToolTip(tr("Amplitude"));
 
     QStatusBar * statusBar = new QStatusBar;
 
-    statusBar->addPermanentWidget(new QLabel("Scale"));
+    statusBar->addPermanentWidget(new QLabel(tr("Scale")));
     statusBar->addPermanentWidget(mXSlider);
-    statusBar->addPermanentWidget(new QLabel("Amplitude"));
+    statusBar->addPermanentWidget(new QLabel(tr("Amplitude")));
     statusBar->addPermanentWidget(mYSlider);
     setStatusBar(statusBar);
 
