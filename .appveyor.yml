@@ -11,8 +11,10 @@ build_script:
   - qmake CutePeaks.pro
   - mingw32-make
 after_build:
+  - lrelease CutePeaks.pro
+  - cp translations/*.qm release/translations
   - windeployqt release/cutepeaks.exe
-  - cmd: cp LICENSE release/LICENSE.txt"
+  - cmd: cp LICENSE release/LICENSE.txt
   - iscc innosetup.iss
   - rm release/*.o
   - rm release/*.cpp
