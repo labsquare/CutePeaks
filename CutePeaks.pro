@@ -34,4 +34,4 @@ INSTALLS += target desktop icons
 RESOURCES += \
     resource.qrc
 
-TRANSLATIONS = localization/cutepeaks_fr.ts
+TRANSLATIONS = translations/cutepeaks_fr.ts
