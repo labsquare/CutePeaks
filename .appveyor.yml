@@ -14,10 +14,8 @@ after_build:
   - lrelease CutePeaks.pro
   - windeployqt release/cutepeaks.exe
   - cp translations/*.qm release/translations
-  - cmd: cp LICENSE release/LICENSE.txt
+  - cp LICENSE release/LICENSE.txt
   - iscc innosetup.iss
-  - rm release/*.o
-  - rm release/*.cpp
 
 artifacts:
   - path: Output\cutepeaks-*.exe
