@@ -1,6 +1,7 @@
 branches:
   only:
     - master
+    - devel
 
 install:
   - set QTDIR=C:\Qt\5.8\mingw53_32
@@ -10,11 +11,11 @@ build_script:
   - qmake CutePeaks.pro
   - mingw32-make
 after_build:
+  - lrelease CutePeaks.pro
   - windeployqt release/cutepeaks.exe
-  - cmd: cp LICENSE release/LICENSE.txt"
-  #- iscc innosetup.iss
-  - rm release/*.o
-  - rm release/*.cpp
+  - cp translations/*.qm release/translations
+  - cp LICENSE release/LICENSE.txt
+  - iscc innosetup.iss
 
 artifacts:
   - path: Output\cutepeaks-*.exe

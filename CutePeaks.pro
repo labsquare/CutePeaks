@@ -18,7 +18,6 @@ include(QFontIcon/QFontIcon.pri)
 
 SOURCES += main.cpp
 
-
 # Installation
 target.path  = /usr/local/bin
 desktop.path = /usr/share/applications
@@ -31,4 +30,4 @@ INSTALLS += target desktop icons
 RESOURCES += \
     resource.qrc
 
-TRANSLATIONS = localization/cutepeaks_fr.ts
+TRANSLATIONS = translations/cutepeaks_fr.ts
