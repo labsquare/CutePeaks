@@ -12,7 +12,7 @@ build_script:
 after_build:
   - windeployqt release/cutepeaks.exe
   - cmd: cp LICENSE release/LICENSE.txt"
-  #- iscc innosetup.iss
+  - iscc innosetup.iss
   - rm release/*.o
   - rm release/*.cpp
 
