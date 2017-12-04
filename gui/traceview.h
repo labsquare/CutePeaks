@@ -2,6 +2,7 @@
 #define TESTVIEW_H
 #include <QtWidgets>
 #include <QScroller>
+#include <QSvgGenerator>
 #include "SequenceTraceFactory.h"
 #include "AbifSequenceTrace.h"
 #include "tracecolor.h"
@@ -36,6 +37,10 @@ public:
      */
     bool isValid() const;
 
+    bool toSvg(const QString& filename);
+    bool toPng(const QString& filename);
+
+
 public Q_SLOTS:
     void setAmplitudeFactor(float factor);
     void setScaleFactor(float factor);
@@ -58,6 +63,8 @@ protected :
     bool inView(int pos, int margin = 0);
 
     void updateScrollbar();
+
+    void drawAll(QPainter& painter);
 
     /*!
      * \brief drawConfident

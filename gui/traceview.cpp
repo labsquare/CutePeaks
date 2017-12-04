@@ -28,21 +28,7 @@ void TraceView::paintEvent(QPaintEvent *event)
         return;
     }
 
-
-    // draw background
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(QBrush(Qt::white));
-    painter.drawRect(viewport()->rect());
-
-    // set antialiasing
-    painter.setRenderHint(QPainter::Antialiasing, true);
-
-    drawBases(painter);
-    drawAminoAcid(painter);
-    drawTraces(painter);
-    drawConfident(painter);
-
-    drawSelection(painter);
+    drawAll(painter);
 
 }
 //-------------------------------------------------------------------------------
@@ -97,6 +83,24 @@ void TraceView::updateScrollbar()
     int maxXSize = mSequenceTrace->traceLength();
     horizontalScrollBar()->setRange(0, maxXSize - viewport()->width()/mXFactor);
     horizontalScrollBar()->setPageStep(viewport()->width()/ mXFactor);
+}
+//-------------------------------------------------------------------------------
+void TraceView::drawAll(QPainter &painter)
+{
+    // draw background
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QBrush(Qt::white));
+    painter.drawRect(viewport()->rect());
+
+    // set antialiasing
+    painter.setRenderHint(QPainter::Antialiasing, true);
+
+    drawBases(painter);
+    drawAminoAcid(painter);
+    drawTraces(painter);
+    drawConfident(painter);
+
+    drawSelection(painter);
 }
 //-------------------------------------------------------------------------------
 
@@ -367,9 +371,34 @@ void TraceView::setSelection(int pos, int length)
     mCurrentSelection = {pos, length};
     viewport()->update();
 
+}
 
+bool TraceView::toSvg(const QString &filename)
+{
+    QSvgGenerator generator;
+    generator.setFileName(filename);
+    generator.setSize(viewport()->size());
+    generator.setViewBox(viewport()->rect());
+    generator.setTitle("Sanger trace file");
+    generator.setDescription(tr("An SVG rendering from cutepeaks"));
 
+    QPainter painter;
+    painter.begin(&generator);
+    drawAll(painter);
+    painter.end();
 
+    return true;
+}
+
+bool TraceView::toPng(const QString &filename)
+{
+    QPixmap image(viewport()->rect().size());
+    image.fill(Qt::white);
+    QPainter painter;
+    painter.begin(&image);
+    drawAll(painter);
+    painter.end();
+    return image.save(filename);
 }
 
 
