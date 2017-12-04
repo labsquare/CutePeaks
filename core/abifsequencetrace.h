@@ -1,6 +1,6 @@
 #ifndef ABIFSEQUENCETRACE_H
 #define ABIFSEQUENCETRACE_H
-#include "abstractsequencetrace.h"
+#include "abstracttracereader.h"
 
 
 class AbifDir;
@@ -23,7 +23,7 @@ public:
 
 };
 
-class AbifSequenceTrace : public AbstractSequenceTrace
+class AbifSequenceTrace : public AbstractTraceReader
 {
 public:
     enum Type {

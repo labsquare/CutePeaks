@@ -96,8 +96,8 @@ void MainWindow::setFilename(const QString &filename)
         QMessageBox::warning(this,tr("Error"),tr("Cannot find file ") + filename);
 
 
-    mView->toPng("/tmp/cutepeaks.png");
-    mView->toSvg("/tmp/cutepeaks.svg");
+//    mView->toPng("/tmp/cutepeaks.png");
+//    mView->toSvg("/tmp/cutepeaks.svg");
 
 
 }

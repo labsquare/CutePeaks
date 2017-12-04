@@ -29,19 +29,22 @@ SequenceTraceFactory::FileType SequenceTraceFactory::filetype(const QString &fil
     return SequenceTraceFactory::filetype(&file);
 }
 
-AbstractSequenceTrace *SequenceTraceFactory::loadTraceFile(const QString &filename)
+Trace SequenceTraceFactory::loadTraceFile(const QString &filename)
 {
 
     QFile * file = new QFile(filename);
 
+    AbstractTraceReader * reader;
+    Trace trace;
+
     if (SequenceTraceFactory::filetype(filename) == ABIF)
-        return new AbifSequenceTrace(file);
+        reader = new AbifSequenceTrace(file);
 
     if (SequenceTraceFactory::filetype(filename) == SCF)
-        return new ScfSequenceTrace(file);
+        reader = new ScfSequenceTrace(file);
 
-    delete file;
-    return nullptr;
+    return reader->trace();
+
 
 }
 

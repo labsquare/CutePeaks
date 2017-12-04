@@ -7,8 +7,9 @@ HEADERS += \
     $$PWD/scfsequencetrace.h \
     $$PWD/sequencetracefactory.h \
     $$PWD/abifsequencetrace.h \
-    $$PWD/abstractsequencetrace.h \
-    $$PWD/reversesequenceproxytrace.h
+    $$PWD/reversesequenceproxytrace.h \
+    $$PWD/trace.h \
+    $$PWD/abstracttracereader.h
 
 SOURCES += \
     $$PWD/nucleotidalphabet.cpp \
@@ -17,5 +18,6 @@ SOURCES += \
     $$PWD/scfsequencetrace.cpp \
     $$PWD/sequencetracefactory.cpp \
     $$PWD/abifsequencetrace.cpp \
-    $$PWD/abstractsequencetrace.cpp \
-    $$PWD/reversesequenceproxytrace.cpp
+    $$PWD/reversesequenceproxytrace.cpp \
+    $$PWD/trace.cpp \
+    $$PWD/abstracttracereader.cpp

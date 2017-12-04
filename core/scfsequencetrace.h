@@ -1,6 +1,6 @@
 #ifndef SCFSEQUENCETRACE_H
 #define SCFSEQUENCETRACE_H
-#include "abstractsequencetrace.h"
+#include "abstracttracereader.h"
 #include <limits>
 struct ScfHeader
 {
@@ -23,7 +23,7 @@ struct ScfHeader
 
 
 
-class ScfSequenceTrace : public AbstractSequenceTrace
+class ScfSequenceTrace : public AbstractTraceReader
 {
 public:
     ScfSequenceTrace(QIODevice * device);

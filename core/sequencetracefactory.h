@@ -3,6 +3,7 @@
 #include <QtCore>
 #include "abifsequencetrace.h"
 #include "scfsequencetrace.h"
+#include "trace.h"
 
 class SequenceTraceFactory
 {
@@ -17,7 +18,7 @@ public:
     static FileType filetype(QIODevice * device);
     static FileType filetype(const QString& filename);
 
-    static AbstractSequenceTrace * loadTraceFile(const QString& filename);
+    static Trace loadTraceFile(const QString& filename);
 
 
 

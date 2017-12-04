@@ -2,10 +2,12 @@
 #define ABSTRACTSEQUENCETRACE_H
 #include <QtCore>
 #include "sequence.h"
-class AbstractSequenceTrace
+#include "trace.h"
+
+class AbstractTraceReader
 {
 public:
-    explicit AbstractSequenceTrace(QIODevice * device);
+    explicit AbstractTraceReader(QIODevice * device);
 
     /*!
      * \brief traces
@@ -30,24 +32,7 @@ public:
     virtual const QVector<int>& confScores()const  = 0;
 
 
-    /*!
-     * \brief traceLength
-     * \return the length of the trace
-     */
-    int traceLength();
-    /*!
-     * \brief bases
-     * \return base avaible as index for trace.
-     */
-    QList<QChar> bases() const;
-
-    /*!
-      * \brief trace
-      * \param base
-      * \return Return trace vector for a specific base
-      */
-
-     QVector<int> trace(const QChar& base) const;
+    Trace trace() const;
 
      /*!
       * \brief keys
@@ -61,11 +46,6 @@ public:
       */
      QVariant value(const QString& key);
 
-     /*!
-      * \brief isValid
-      * \return true the trace is valid. Return false otherwise
-      */
-     bool isValid() const;
 
 
 

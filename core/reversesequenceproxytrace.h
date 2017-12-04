@@ -1,12 +1,12 @@
 #ifndef REVERSESEQUENCETRACE_H
 #define REVERSESEQUENCETRACE_H
 
-#include "abstractsequencetrace.h"
+#include "abstracttracereader.h"
 
-class ReverseSequenceProxyTrace : public AbstractSequenceTrace
+class ReverseSequenceProxyTrace : public AbstractTraceReader
 {
 public:
-    ReverseSequenceProxyTrace(AbstractSequenceTrace * source);
+    ReverseSequenceProxyTrace(AbstractTraceReader * source);
 
     /* \brief traces
     * \return trace vector for each nucleotids
@@ -31,7 +31,7 @@ public:
 
 
 private:
-    AbstractSequenceTrace * mSource;
+    AbstractTraceReader * mSource;
 
     QHash<QChar, QVector<int>> mTraces;
     QVector<int> mBaseLocations;

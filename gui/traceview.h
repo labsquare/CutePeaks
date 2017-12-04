@@ -30,7 +30,7 @@ public:
      * \brief sequenceTrace
      * \return the trace sequence object
      */
-    AbstractSequenceTrace * sequenceTrace();
+    Trace * sequenceTrace();
 
     /*!
      * \brief isValid
@@ -101,7 +101,8 @@ protected :
 
 private:
     QString mFilename;
-    AbstractSequenceTrace * mSequenceTrace = nullptr;
+    Trace mSequenceTrace;
+
 
     // data
     QHash< QString, QVector<QPointF>> mLineSeries;

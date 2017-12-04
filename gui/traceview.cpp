@@ -20,7 +20,7 @@ void TraceView::paintEvent(QPaintEvent *event)
 
     QPainter painter(viewport());
     // Draw empty background
-    if (!mSequenceTrace){
+    if (!mSequenceTrace.isValid()){
 
         painter.setPen(Qt::NoPen);
         painter.setBrush(QBrush(Qt::white));
@@ -77,10 +77,10 @@ bool TraceView::inView(int pos, int margin)
 
 void TraceView::updateScrollbar()
 {
-    if (!mSequenceTrace)
+    if (!mSequenceTrace.isValid())
         return;
 
-    int maxXSize = mSequenceTrace->traceLength();
+    int maxXSize = mSequenceTrace.traceLengh();
     horizontalScrollBar()->setRange(0, maxXSize - viewport()->width()/mXFactor);
     horizontalScrollBar()->setPageStep(viewport()->width()/ mXFactor);
 }
@@ -122,10 +122,10 @@ void TraceView::drawConfident(QPainter& painter)
 
     path.moveTo(0,-100);
 
-    for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i)
+    for (int i = 0 ; i < mSequenceTrace.baseLocations().length(); ++i)
     {
-        int pos = mSequenceTrace->baseLocations().at(i);
-        int score  = mSequenceTrace->confScores().at(i);
+        int pos = mSequenceTrace.baseLocations().at(i);
+        int score  = mSequenceTrace.confScores().at(i);
 
         if (inView(pos, 10))
         {
@@ -172,14 +172,14 @@ void TraceView::drawBases(QPainter& painter)
 
     int previousPos = 0;
 
-    for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i, ++codonCounter)
+    for (int i = 0 ; i < mSequenceTrace.baseLocations().length(); ++i, ++codonCounter)
     {
-        int pos = mSequenceTrace->baseLocations().at(i);
+        int pos = mSequenceTrace.baseLocations().at(i);
 
         if (inView(pos))
         {
             QPointF p ((pos - mXStart) * mXFactor, 15);
-            QChar base = mSequenceTrace->sequence().at(i);
+            QChar base = mSequenceTrace.sequence().at(i);
 
             // IKIT
             // draw point
@@ -223,16 +223,16 @@ void TraceView::drawAminoAcid(QPainter &painter)
     pen.setColor(Qt::gray);
     painter.setPen(pen);
 
-    for (int i = 0 ; i < mSequenceTrace->baseLocations().length()-3; i+=3)
+    for (int i = 0 ; i < mSequenceTrace.baseLocations().length()-3; i+=3)
     {
-        int pos = mSequenceTrace->baseLocations().at(i);
+        int pos = mSequenceTrace.baseLocations().at(i);
 
         if (inView(pos))
         {
             QPointF p ((pos - mXStart) * mXFactor, 15);
 
             // Draw Base
-            QByteArray codon = mSequenceTrace->sequence().byteArray().mid(i,3);
+            QByteArray codon = mSequenceTrace.sequence().byteArray().mid(i,3);
             Sequence seq(codon);
 
             QString aa = seq.translate().toString();
@@ -258,12 +258,12 @@ void TraceView::drawTraces(QPainter& painter)
     painter.translate(viewport()->rect().bottomLeft());
     painter.scale(1.0, -1.0);
 
-    for (QChar base : mSequenceTrace->bases())
+    for (QChar base : mSequenceTrace.bases())
     {
         // load paths to draw
         QPainterPath path;
         path.moveTo(0,0);
-        QVector<int> data = mSequenceTrace->traces()[base];
+        QVector<int> data = mSequenceTrace.traces()[base];
 
         for ( int x = mXStart ; x < viewport()->rect().width()/mXFactor + mXStart; ++x)
         {
@@ -298,12 +298,12 @@ void TraceView::drawSelection(QPainter &painter)
     QBrush bgBrush = QBrush(highlight);
     painter.setBrush(bgBrush);
 
-    if (mCurrentSelection.length >= mSequenceTrace->baseLocations().length())
+    if (mCurrentSelection.length >= mSequenceTrace.baseLocations().length())
         return;
 
 
-    int start = mSequenceTrace->baseLocations().at(mCurrentSelection.pos);
-    int end   = mSequenceTrace->baseLocations().at(mCurrentSelection.pos + mCurrentSelection.length);
+    int start = mSequenceTrace.baseLocations().at(mCurrentSelection.pos);
+    int end   = mSequenceTrace.baseLocations().at(mCurrentSelection.pos + mCurrentSelection.length);
 
     QPointF up   ((start - mXStart) * mXFactor, 0);
     QPointF down ((end - mXStart) * mXFactor, viewport()->height());
@@ -322,7 +322,7 @@ void TraceView::setFilename(const QString &filename)
     mFilename = filename;
     mSequenceTrace = SequenceTraceFactory::loadTraceFile(filename);
 
-    if (!mSequenceTrace){
+    if (!mSequenceTrace.isValid()){
         qCritical()<<Q_FUNC_INFO<<tr("Cannot read the file");
         setDisabled(true);
         return ;
@@ -334,17 +334,15 @@ void TraceView::setFilename(const QString &filename)
 }
 //-------------------------------------------------------------------------------
 
-AbstractSequenceTrace *TraceView::sequenceTrace()
+Trace *TraceView::sequenceTrace()
 {
-    return mSequenceTrace;
+    return &mSequenceTrace;
 }
 
 bool TraceView::isValid() const
 {
-    if (mSequenceTrace == nullptr)
-        return false;
 
-    return mSequenceTrace->isValid();
+    return mSequenceTrace.isValid();
 }
 
 

@@ -2,7 +2,7 @@
 
 
 AbifSequenceTrace::AbifSequenceTrace(QIODevice *device)
-    :AbstractSequenceTrace(device)
+    :AbstractTraceReader(device)
 {
     loadData();
 }

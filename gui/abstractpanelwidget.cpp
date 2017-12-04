@@ -5,7 +5,7 @@ AbstractPanelWidget::AbstractPanelWidget(QWidget *parent) : QWidget(parent)
 
 }
 
-void AbstractPanelWidget::setTrace(AbstractSequenceTrace *trace)
+void AbstractPanelWidget::setTrace(Trace *trace)
 {
     mTrace = trace;
     load();
@@ -27,7 +27,7 @@ void AbstractPanelWidget::setCentralWidget(QWidget *widget)
 
 }
 
-AbstractSequenceTrace *AbstractPanelWidget::trace()
+Trace *AbstractPanelWidget::trace()
 {
     return mTrace;
 }

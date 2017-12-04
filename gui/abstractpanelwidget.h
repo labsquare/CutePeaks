@@ -1,23 +1,24 @@
 #ifndef ABSTRACTPANELWIDGET_H
 #define ABSTRACTPANELWIDGET_H
 #include <QtWidgets>
-#include "abstractsequencetrace.h"
+#include "abstracttracereader.h"
+#include "trace.h"
 
 class AbstractPanelWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit AbstractPanelWidget(QWidget *parent = 0);
-    void setTrace(AbstractSequenceTrace * trace);
+    void setTrace(Trace * trace);
     void setCentralWidget(QWidget * widget);
 
-    AbstractSequenceTrace * trace();
+    Trace * trace();
 
     virtual void load() = 0;
 
 
 private:
-    AbstractSequenceTrace * mTrace;
+    Trace * mTrace;
     QWidget * mCentralWidget = nullptr;
 };
 

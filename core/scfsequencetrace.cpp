@@ -1,7 +1,7 @@
 #include "scfsequencetrace.h"
 
 ScfSequenceTrace::ScfSequenceTrace(QIODevice * device)
-    :AbstractSequenceTrace(device)
+    :AbstractTraceReader(device)
 {
     load();
 }

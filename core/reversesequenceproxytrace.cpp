@@ -2,8 +2,8 @@
 
 
 
-ReverseSequenceProxyTrace::ReverseSequenceProxyTrace(AbstractSequenceTrace *source)
-    :AbstractSequenceTrace(nullptr), mSource(source)
+ReverseSequenceProxyTrace::ReverseSequenceProxyTrace(AbstractTraceReader *source)
+    :AbstractTraceReader(nullptr), mSource(source)
 {
     mBaseCalls     = source->sequence().reverse();
 
