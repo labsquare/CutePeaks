@@ -166,38 +166,7 @@ void TraceView::drawBases(QPainter& painter)
     QFontMetrics metrics(font);
     painter.setFont(font);
 
-    // Draw BG
-
-    //    for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i, ++codonCounter)
-    //    {
-    //        int pos = mSequenceTrace->baseLocations().at(i);
-
-    //        if (inView(pos,100))
-    //        {
-    //            QPointF p ((pos - mXStart) * mXFactor, 15);
-
-
-    //            // draw bg
-    //            if (codonCounter % 3 == 0)
-    //            {
-    //                codonCounter = 0;
-    //                swapBgColor = !swapBgColor;
-
-    //                painter.setPen(Qt::NoPen);
-    //                painter.setBrush(QBrush(swapBgColor? Qt::darkGray : Qt::lightGray));
-
-    //                QRectF rect;
-    //                rect.setTopLeft(QPointF(oldPos.x()-metrics.width('A'),0));
-    //                rect.setBottomRight(QPointF(p.x()-metrics.width('A'),20));
-    //                painter.drawRect(rect);
-
-    //                oldPos = p;
-    //            }
-    //        }
-
-    //    }
-
-    // Draw Base
+    int previousPos = 0;
 
     for (int i = 0 ; i < mSequenceTrace->baseLocations().length(); ++i, ++codonCounter)
     {
@@ -208,8 +177,16 @@ void TraceView::drawBases(QPainter& painter)
             QPointF p ((pos - mXStart) * mXFactor, 15);
             QChar base = mSequenceTrace->sequence().at(i);
 
+            // IKIT
+            // draw point
 
+            QPoint ptest ( p.x(), yMargin + 20);
+            QPen penTest;
+            penTest.setWidth(4);
+            penTest.setColor(Qt::red);
 
+            painter.setPen(penTest);
+            painter.drawPoint(ptest);
 
             QFontMetrics metrics(font);
             QPointF textPos (p.x() - metrics.width(base)/2, p.y());
