@@ -12,7 +12,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     setCentralWidget(mView);
 
-    addPanel(new SequencePanelWidget, Qt::BottomDockWidgetArea);
+
+    SequencePanelWidget * panel = new SequencePanelWidget;
+
+    connect(panel, SIGNAL(selectionChanged(int,int)), mView, SLOT(setSelection(int,int)));
+
+
+    addPanel(panel, Qt::BottomDockWidgetArea);
     addPanel(new InfoPanelWidget, Qt::LeftDockWidgetArea);
 
 

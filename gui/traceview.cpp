@@ -180,6 +180,8 @@ void TraceView::drawBases(QPainter& painter)
             // IKIT
             // draw point
 
+
+
             QPoint ptest ( p.x(), yMargin + 20);
             QPen penTest;
             penTest.setWidth(4);
@@ -364,6 +366,9 @@ void TraceView::setSelection(int pos, int length)
 
     mCurrentSelection = {pos, length};
     viewport()->update();
+
+
+
 
 }
 

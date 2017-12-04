@@ -6,6 +6,7 @@
 
 class SequencePanelWidget : public AbstractPanelWidget
 {
+    Q_OBJECT
 public:
     SequencePanelWidget(QWidget * parent = 0);
     void load();
@@ -13,6 +14,9 @@ public:
 
 public Q_SLOTS:
     void test();
+
+Q_SIGNALS:
+    void selectionChanged(int pos, int length);
 
 private:
     QPlainTextEdit * mEdit;

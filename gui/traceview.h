@@ -14,6 +14,7 @@ struct Selection
 
 class TraceView : public QAbstractScrollArea
 {
+    Q_OBJECT
 public:
     TraceView(QWidget * parent = 0);
     /*!
@@ -39,7 +40,6 @@ public Q_SLOTS:
     void setAmplitudeFactor(float factor);
     void setScaleFactor(float factor);
     void setSelection(int pos, int length = 1);
-    void setTraceColor(const QChar base, const QColor& color);
 
 protected :
     void paintEvent(QPaintEvent * event)  override;

@@ -23,8 +23,10 @@ void SequencePanelWidget::load()
 
 void SequencePanelWidget::test()
 {
-
-
-    qDebug()<<"change";
+    int pos = mEdit->textCursor().selectionStart();
+    int length = mEdit->textCursor().selectionEnd() - mEdit->textCursor().selectionStart();
+    emit selectionChanged(pos, length);
 
 }
+
+
