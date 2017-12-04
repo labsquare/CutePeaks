@@ -43,6 +43,7 @@ protected Q_SLOTS:
 protected:
     void setupActions();
 
+
 private:
 
     TraceView * mView;

@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     resize(1000, 400);
     setWindowIcon(QIcon("qrc:/icons/cutepeaks.png"));
+    restoreSettings();
 }
 
 MainWindow::~MainWindow()
@@ -94,15 +95,25 @@ void MainWindow::setFilename(const QString &filename)
 
 void MainWindow::closeEvent(QCloseEvent *)
 {
+    writeSettings();
 }
 
 void MainWindow::writeSettings()
 {
 
+    QSettings settings;
+    settings.setValue("size", rect().size());
+    settings.setValue("pos", pos());
+
+
 }
 
 void MainWindow::restoreSettings()
 {
+
+    QSettings settings;
+    resize(settings.value("size", QSize(800,400)).toSize());
+    move(settings.value("pos").toPoint());
 
 }
 
