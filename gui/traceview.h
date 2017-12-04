@@ -5,6 +5,7 @@
 #include <QSvgGenerator>
 #include "sequencetracefactory.h"
 #include "abifsequencetrace.h"
+#include "reversesequenceproxytrace.h"
 #include "tracecolor.h"
 
 struct Selection

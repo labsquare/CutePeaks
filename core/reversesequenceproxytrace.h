@@ -3,10 +3,10 @@
 
 #include "abstractsequencetrace.h"
 
-class ReverseSequenceTrace : public AbstractSequenceTrace
+class ReverseSequenceProxyTrace : public AbstractSequenceTrace
 {
 public:
-    ReverseSequenceTrace(QIODevice * device);
+    ReverseSequenceProxyTrace(AbstractSequenceTrace * source);
 
     /* \brief traces
     * \return trace vector for each nucleotids
@@ -28,6 +28,16 @@ public:
     * \return confident score for each basecalls
     */
    virtual const QVector<int>& confScores()const;
+
+
+private:
+    AbstractSequenceTrace * mSource;
+
+    QHash<QChar, QVector<int>> mTraces;
+    QVector<int> mBaseLocations;
+    QVector<int> mConfScores;
+    Sequence mBaseCalls;
+
 };
 
 #endif // REVERSESEQUENCETRACE_H
