@@ -2,7 +2,7 @@
 #define SEQUENCEVIEW_H
 #include <QtWidgets>
 #include "sequence.h"
-
+#include "sequencehighlighter.h"
 class SequenceView : public QPlainTextEdit
 {
     Q_OBJECT
@@ -20,6 +20,7 @@ protected Q_SLOTS:
 
 private:
     Sequence mSequence;
+    SequenceHighlighter * mHighlighter;
 
 };
 

@@ -41,12 +41,30 @@ public:
      */
     QList<QChar> bases() const;
 
+    /*!
+      * \brief trace
+      * \param base
+      * \return Return trace vector for a specific base
+      */
+
      QVector<int> trace(const QChar& base) const;
 
+     /*!
+      * \brief keys
+      * \return comments keys
+      */
      QStringList keys() const;
+     /*!
+      * \brief value
+      * \param key
+      * \return return comments value for a specific keyes
+      */
      QVariant value(const QString& key);
 
-
+     /*!
+      * \brief isValid
+      * \return true the trace is valid. Return false otherwise
+      */
      bool isValid() const;
 
 

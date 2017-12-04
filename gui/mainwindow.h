@@ -5,7 +5,7 @@
 #include <QMainWindow>
 #include <QtWidgets>
 #include <QSvgGenerator>
-#include "TraceView.h"
+#include "traceview.h"
 #include "sequenceview.h"
 #include "infopanelwidget.h"
 #include "abstractpanelwidget.h"
@@ -50,7 +50,6 @@ private:
     QSlider * mXSlider;
     QString mFile;
     QLineEdit * mSearchbar;
-    QDockWidget * mMetaDock;
 
     QList<AbstractPanelWidget*> mPanels;
 

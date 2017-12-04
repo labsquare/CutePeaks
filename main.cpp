@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+#include "mainwindow.h"
 #include <QApplication>
 #include <QScrollArea>
 #include <QtCore>
@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     a.installTranslator(&translator);
 
     MainWindow w;
-//    w.setFilename("/tmp/examples/A_forward.ab1");
+    w.setFilename("/tmp/examples/A_forward.ab1");
     w.show();
 
     return a.exec();

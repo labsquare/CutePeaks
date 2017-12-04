@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+#include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setCentralWidget(mView);
 
-    //    addPanel(new SequencePanelWidget, Qt::BottomDockWidgetArea);
+    addPanel(new SequencePanelWidget, Qt::BottomDockWidgetArea);
     addPanel(new InfoPanelWidget, Qt::LeftDockWidgetArea);
 
 
@@ -131,12 +131,12 @@ void MainWindow::addPanel(AbstractPanelWidget *panel, Qt::DockWidgetArea area)
 {
 
     mPanels.append(panel);
-    mMetaDock = new QDockWidget;
-    mMetaDock->setWidget(panel);
-    mMetaDock->setWindowTitle(panel->windowTitle());
-    mMetaDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
-    addDockWidget(area,mMetaDock);
-    mMetaDock->setVisible(false);
+    QDockWidget * dock = new QDockWidget;
+    dock->setWidget(panel);
+    dock->setWindowTitle(panel->windowTitle());
+    //dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    addDockWidget(area,dock);
+    //mMetaDock->setVisible(false);
 }
 
 void MainWindow::setupActions()
@@ -148,10 +148,10 @@ void MainWindow::setupActions()
     openMenu->addAction(tr("&Open"), this, SLOT(openFile()), QKeySequence::Open);
     openMenu->addAction(tr("Quit"), qApp, SLOT(quit()));
 
-    QMenu * viewMenu = bar->addMenu(tr("&View"));
-    QAction * viewMetaAction = viewMenu->addAction(tr("&Show metadata"), mMetaDock, SLOT(setVisible(bool)));
-    viewMetaAction->setCheckable(true);
-    viewMetaAction->setChecked(false);
+ //   QMenu * viewMenu = bar->addMenu(tr("&View"));
+//    QAction * viewMetaAction = viewMenu->addAction(tr("&Show metadata"), mMetaDock, SLOT(setVisible(bool)));
+//    viewMetaAction->setCheckable(true);
+//    viewMetaAction->setChecked(false);
 
 
 

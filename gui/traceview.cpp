@@ -1,31 +1,14 @@
-#include "TraceView.h"
+#include "traceview.h"
 
 TraceView::TraceView(QWidget *parent)
     :QAbstractScrollArea(parent)
 {
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+
+    // enable touch screen
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents, true);
     QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
-
-
-    mTraceColors = {
-        {'A',QColor("#009000")},    // green
-        {'C',QColor("#0000ff")},    // blue
-        {'G',QColor("#000000")},    // black
-        {'T',QColor("#ff0000")},    // red
-        {'W',QColor("#804800")},    // mix of A and T
-        {'S',QColor("#000080")},    // mix of C and G
-        {'M',QColor("#004880")},    // mix of A and C
-        {'K',QColor("#800000")},    // mix of G and T
-        {'R',QColor("#004800")},    // mix of A and G
-        {'Y',QColor("#800080")},    // mix of C and T
-        {'B',QColor("#550055")},    // mix of C, G, and T
-        {'D',QColor("#553000")},    // mix of A, G, and T
-        {'H',QColor("#553055")},    // mix of A, C, and T
-        {'V',QColor("#003055")},    // mix of A, C, and G
-        {'N',QColor("#999")}        // gray
-    };
 
     setDisabled(true);
 }
@@ -59,7 +42,7 @@ void TraceView::paintEvent(QPaintEvent *event)
     drawTraces(painter);
     drawConfident(painter);
 
-//    drawSelection(painter);
+    drawSelection(painter);
 
 }
 //-------------------------------------------------------------------------------
@@ -87,8 +70,6 @@ void TraceView::mouseMoveEvent(QMouseEvent *event)
 
 bool TraceView::viewportEvent(QEvent *event)
 {
-
-
     return QAbstractScrollArea::viewportEvent(event);
 }
 //-------------------------------------------------------------------------------
@@ -98,13 +79,11 @@ void TraceView::setupViewport()
     qDebug()<<"after";
     //    mScroller = QScroller::scroller(viewport());
 
-
 }
 //-------------------------------------------------------------------------------
 
 bool TraceView::inView(int pos, int margin)
 {
-
     // if base pos is in the viewport
     return (pos >= mXStart - margin && pos <= viewport()->rect().width()/mXFactor + mXStart + margin);
 }
@@ -124,8 +103,6 @@ void TraceView::updateScrollbar()
 void TraceView::drawConfident(QPainter& painter)
 {
     QPainterPath stepCurve;
-    bool step = true; // draw Horizontal when step = 1, otherse vertical
-
     QColor color("#ced9eb");
     QPen pen;
     pen.setColor(color);
@@ -159,22 +136,13 @@ void TraceView::drawConfident(QPainter& painter)
             path.lineTo(QPoint(delta.x(), oldPoint.y()));
             path.lineTo(delta.x(), p.y());
             path.lineTo(p);
-
-
             oldPoint = p;
         }
     }
 
     path.lineTo(oldPoint.x(), -100);
-
     path.setFillRule(Qt::OddEvenFill);
-
     painter.drawPath(path);
-
-
-
-
-
 
 }
 //-------------------------------------------------------------------------------
@@ -246,8 +214,8 @@ void TraceView::drawBases(QPainter& painter)
             QFontMetrics metrics(font);
             QPointF textPos (p.x() - metrics.width(base)/2, p.y());
             textPos.setY(yMargin - 8);
-            painter.setPen(QPen(mTraceColors[base]));
-            painter.setBrush(QBrush(mTraceColors[base]));
+            painter.setPen(QPen(TraceColor::color(base)));
+            painter.setBrush(QBrush(TraceColor::color(base)));
 
             painter.drawText(textPos, QString(base));
 
@@ -325,7 +293,7 @@ void TraceView::drawTraces(QPainter& painter)
         }
         // draw path
         QPen pen;
-        pen.setColor(mTraceColors[base]);
+        pen.setColor(TraceColor::color(base));
         pen.setWidthF(1);
         pen.setJoinStyle(Qt::RoundJoin);
         painter.setPen(pen);
@@ -337,7 +305,6 @@ void TraceView::drawTraces(QPainter& painter)
 void TraceView::drawSelection(QPainter &painter)
 {
     QPainterPath stepCurve;
-    bool step = true; // draw Horizontal when step = 1, otherse vertical
 
     QPen pen;
     QColor highlight = palette().brush(QPalette::Highlight).color();
@@ -348,13 +315,12 @@ void TraceView::drawSelection(QPainter &painter)
     QBrush bgBrush = QBrush(highlight);
     painter.setBrush(bgBrush);
 
-
     if (mCurrentSelection.length >= mSequenceTrace->baseLocations().length())
         return;
 
 
     int start = mSequenceTrace->baseLocations().at(mCurrentSelection.pos);
-    int end = mSequenceTrace->baseLocations().at(mCurrentSelection.pos + mCurrentSelection.length);
+    int end   = mSequenceTrace->baseLocations().at(mCurrentSelection.pos + mCurrentSelection.length);
 
     QPointF up   ((start - mXStart) * mXFactor, 0);
     QPointF down ((end - mXStart) * mXFactor, viewport()->height());
@@ -423,4 +389,5 @@ void TraceView::setSelection(int pos, int length)
     viewport()->update();
 
 }
+
 
