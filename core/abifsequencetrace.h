@@ -1,6 +1,6 @@
 #ifndef ABIFSEQUENCETRACE_H
 #define ABIFSEQUENCETRACE_H
-#include "AbstractSequenceTrace.h"
+#include "abstractsequencetrace.h"
 
 
 class AbifDir;

@@ -1,4 +1,4 @@
-#include "AbifSequenceTrace.h"
+#include "abifsequencetrace.h"
 
 
 AbifSequenceTrace::AbifSequenceTrace(QIODevice *device)

@@ -1,4 +1,4 @@
-#include "AbstractSequenceTrace.h"
+#include "abstractsequencetrace.h"
 
 AbstractSequenceTrace::AbstractSequenceTrace(QIODevice *device)
     :mDevice(device)
@@ -53,6 +53,7 @@ bool AbstractSequenceTrace::isValid() const
     return true;
 
 }
+
 void AbstractSequenceTrace::addComment(const QString& key, const QVariant& value)
 {
     mComments[key]= value;

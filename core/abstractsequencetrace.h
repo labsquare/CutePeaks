@@ -68,6 +68,7 @@ public:
      bool isValid() const;
 
 
+
 protected:
     QIODevice * device();
     void addComment(const QString& key, const QVariant& value);

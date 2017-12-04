@@ -1,6 +1,6 @@
 #ifndef SCFSEQUENCETRACE_H
 #define SCFSEQUENCETRACE_H
-#include "AbstractSequenceTrace.h"
+#include "abstractsequencetrace.h"
 #include <limits>
 struct ScfHeader
 {

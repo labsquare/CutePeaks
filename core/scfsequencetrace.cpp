@@ -1,4 +1,4 @@
-#include "ScfSequenceTrace.h"
+#include "scfsequencetrace.h"
 
 ScfSequenceTrace::ScfSequenceTrace(QIODevice * device)
     :AbstractSequenceTrace(device)

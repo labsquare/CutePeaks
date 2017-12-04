@@ -1,7 +1,7 @@
 #ifndef ABSTRACTPANELWIDGET_H
 #define ABSTRACTPANELWIDGET_H
 #include <QtWidgets>
-#include "AbstractSequenceTrace.h"
+#include "abstractsequencetrace.h"
 
 class AbstractPanelWidget : public QWidget
 {

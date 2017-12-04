@@ -1,4 +1,4 @@
-#include "SequenceTraceFactory.h"
+#include "sequencetracefactory.h"
 
 
 SequenceTraceFactory::FileType SequenceTraceFactory::filetype(QIODevice *device)

@@ -1,8 +1,8 @@
 #ifndef SEQUENCETRACEFACTORY_H
 #define SEQUENCETRACEFACTORY_H
 #include <QtCore>
-#include "AbifSequenceTrace.h"
-#include "ScfSequenceTrace.h"
+#include "abifsequencetrace.h"
+#include "scfsequencetrace.h"
 
 class SequenceTraceFactory
 {

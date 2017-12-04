@@ -3,8 +3,8 @@
 #include <QtWidgets>
 #include <QScroller>
 #include <QSvgGenerator>
-#include "SequenceTraceFactory.h"
-#include "AbifSequenceTrace.h"
+#include "sequencetracefactory.h"
+#include "abifsequencetrace.h"
 #include "tracecolor.h"
 
 struct Selection
