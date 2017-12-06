@@ -56,6 +56,9 @@ public:
       * \brief keys
       * \return metadata keys
       */
+
+    const QHash<QString, QVariant>& metadatas();
+
     QStringList keys() const;
     /*!
       * \brief value

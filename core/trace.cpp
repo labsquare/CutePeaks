@@ -52,6 +52,11 @@ QVector<int> Trace::data(const QChar &base) const
     return datas()[base];
 }
 //-----------------------------------------------------------------
+const QHash<QString, QVariant> &Trace::metadatas()
+{
+    return mMetadatas;
+}
+//-----------------------------------------------------------------
 QStringList Trace::keys() const
 {
     return mMetadatas.keys();
@@ -80,11 +85,10 @@ bool Trace::isValid() const
 //-----------------------------------------------------------------
 Trace Trace::reverse() const
 {
-
     QHash<QChar, QVector<int>> new_datas;
-    QVector<int> new_baseLocations       = baseLocations();
-    QVector<int> new_baseScores          = baseScores();
-    Sequence new_sequence                = sequence().reverse();
+    QVector<int> new_baseLocations;
+    QVector<int> new_baseScores;
+    Sequence new_sequence;
 
     // reverse datas orientation
     QHashIterator<QChar, QVector<int>>i(datas());
@@ -95,10 +99,18 @@ Trace Trace::reverse() const
         new_datas[NucleotidAlphabet::complement(i.key())] = values;
     }
 
+    // reverse base location
+    new_baseLocations = baseLocations();
+    std::reverse(new_baseLocations.begin(), new_baseLocations.end());
 
+    // reverse base score
+    new_baseScores = baseScores();
+    std::reverse(new_baseScores.begin(), new_baseScores.end());
 
+    // reverse sequence
+    new_sequence = sequence().reverse();
 
-    return Trace(new_datas, new_baseLocations, new_baseScores, new_sequence);
+    return Trace(new_datas, new_baseLocations, new_baseScores, new_sequence, mMetadatas);
 
 
 }

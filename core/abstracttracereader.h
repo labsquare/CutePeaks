@@ -41,19 +41,12 @@ public:
     virtual const QHash<QString, QVariant>& metadatas() const = 0;
 
 
+    /*!
+     * \brief createTrace
+     * construct the trace using virtual methods
+     * \return Trace object
+     */
     Trace createTrace() const;
-
-     /*!
-      * \brief keys
-      * \return comments keys
-      */
-     QStringList keys() const;
-     /*!
-      * \brief value
-      * \param key
-      * \return return comments value for a specific keyes
-      */
-     QVariant value(const QString& key);
 
 protected:
     QIODevice * device();
