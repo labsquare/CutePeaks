@@ -2,7 +2,7 @@
 #define NUCLEOTIDALPHABET_H
 #include <QHash>
 #include <QVector>
-#include <QMutexLocker>
+#include <QChar>
 
 class NucleotidAlphabet
 {
@@ -13,6 +13,7 @@ public:
 
     static QString name(unsigned char iupac);
     static unsigned char complement(unsigned char iupac);
+    static QChar complement(const QChar& iupac);
 
 
     static NucleotidAlphabet * i();

@@ -32,6 +32,7 @@ public:
     const Sequence& sequence()const  override;
     const QVector<int>& baseLocations()const  override;
     const QVector<int>& baseScores()const  override;
+    const QHash<QString, QVariant>& metadatas() const override;
 
     QByteArray version() const;
 
@@ -39,7 +40,7 @@ protected:
     bool load();
 
     void readHeader();
-    void readComments();
+    void readMetadatas();
     void readBases();
     template <typename T>
     void readTraces();
@@ -52,6 +53,7 @@ private:
     ScfHeader mHeader;
     // store data
     QHash<QChar, QVector<int>> mTraces;
+    QHash<QString, QVariant> mMetadatas;
     QVector<int> mBaseLocations;
     QVector<int> mConfScores;
     Sequence mBaseCalls;

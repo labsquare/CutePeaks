@@ -19,8 +19,12 @@ int main(int argc, char *argv[])
 
 
     Trace trace = TraceFactory::createTrace("/tmp/examples/A_forward.ab1");
+    Trace rev = trace.reverse();
 
-    qDebug()<<trace.datas();
+
+    qDebug()<<trace.data('A');
+//    qDebug()<<"==============";
+//    qDebug()<<rev.data('A');
 
 
 

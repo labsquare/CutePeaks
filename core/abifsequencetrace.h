@@ -48,6 +48,7 @@ public:
     const Sequence& sequence()const  override;
     const QVector<int>& baseLocations()const  override;
     const QVector<int>& baseScores()const  override;
+    const QHash<QString, QVariant>& metadatas() const override;
 
 
 
@@ -120,6 +121,7 @@ private:
 
     // store data
     QHash<QChar, QVector<int>> mTraces;
+    QHash<QString, QVariant> mMetadatas;
     QVector<int> mBaseLocations;
     QVector<int> mConfScores;
     Sequence mBaseCalls;

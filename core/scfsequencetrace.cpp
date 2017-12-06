@@ -31,6 +31,11 @@ const QVector<int>& ScfSequenceTrace::baseScores() const
     return mConfScores;
 }
 //-------------------------------------------------------------------
+const QHash<QString, QVariant> &ScfSequenceTrace::metadatas() const
+{
+    return mMetadatas;
+}
+//-------------------------------------------------------------------
 
 bool ScfSequenceTrace::load()
 {
@@ -40,7 +45,7 @@ bool ScfSequenceTrace::load()
     if (device()->open(QIODevice::ReadOnly))
     {
         readHeader();
-        readComments();
+        readMetadatas();
         readBases();
 
         // Traces can be encoded as 1 bytes or 2 bytes
@@ -92,9 +97,9 @@ void ScfSequenceTrace::readBases()
     }
 }
 //-------------------------------------------------------------------
-void ScfSequenceTrace::readComments()
+void ScfSequenceTrace::readMetadatas()
 {
-    clearComments();
+    mMetadatas.clear();
     device()->reset();
     device()->seek(mHeader.comments_offset);
     quint32 total = 0;
@@ -104,7 +109,7 @@ void ScfSequenceTrace::readComments()
         line = device()->readLine();
         QList<QByteArray> rows = line.split('=');
         if (rows.size() == 2)
-            addComment(rows[0],rows[1].simplified());
+            mMetadatas.insert(rows[0],rows[1].simplified());
         total += line.length();
     }
 }

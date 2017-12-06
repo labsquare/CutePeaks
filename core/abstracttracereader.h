@@ -10,6 +10,7 @@ class AbstractTraceReader
 {
 public:
     explicit AbstractTraceReader(QIODevice * device);
+    virtual ~AbstractTraceReader();
 
     /*!
      * \brief traces
@@ -32,6 +33,12 @@ public:
      * \return confident score for each basecalls
      */
     virtual const QVector<int>& baseScores()const  = 0;
+    /*!
+     * \brief metadatas
+     * can be empty
+     * \return metadata
+     */
+    virtual const QHash<QString, QVariant>& metadatas() const = 0;
 
 
     Trace createTrace() const;
@@ -48,17 +55,12 @@ public:
       */
      QVariant value(const QString& key);
 
-
-
-
 protected:
     QIODevice * device();
-    void addComment(const QString& key, const QVariant& value);
-    void clearComments();
+
 
 private:
     QIODevice * mDevice;
-    QHash<QString, QVariant> mComments;
 
 
 };

@@ -24,6 +24,11 @@ const QVector<int>& AbifSequenceTrace::baseScores()const
     return mConfScores;
 }
 
+const QHash<QString, QVariant> &AbifSequenceTrace::metadatas() const
+{
+    return mMetadatas;
+}
+
 int AbifSequenceTrace::version() const
 {
     return mVersion;
@@ -119,14 +124,13 @@ bool AbifSequenceTrace::loadData()
     readBaseLocations();
     readConfScores();
 
-    //save data as comments
-    clearComments();
+    //save data as metadata
+    mMetadatas.clear();
     for (QString key : keys())
     {
         QVariant val = data(key);
         if (val.type() != QVariant::List)
-            addComment(key, data(key));
-
+            mMetadatas.insert(key, data(key));
     }
 
     return true;
@@ -254,7 +258,7 @@ QVariant AbifSequenceTrace::fromDir(const AbifDir &dir)
             stream>>minute;
             stream>>second;
             stream>>hsecond;
-            qDebug()<<hour;  // HUGE BUG... IF I remove this, QTime won't be set
+            qDebug()<<hour; // HUGE BUG... IF I remove this, QTime won't be set
             QTime time(hour,minute,second,hsecond);
             list.append(time);
         }

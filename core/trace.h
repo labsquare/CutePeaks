@@ -12,7 +12,8 @@ public:
     Trace(const QHash<QChar, QVector<int>> datas,
           const QVector<int>& baseLocations,
           const QVector<int>& baseScores,
-          const Sequence& sequence);
+          const Sequence& sequence,
+          const QHash<QString, QVariant>& metadata = QHash<QString, QVariant>());
     /*!
      * \brief datas
      * @example data['A'] = 3,4,5,12,224,42,52 ....
@@ -68,6 +69,9 @@ public:
       * \return true the trace is valid. Return false otherwise
       */
     bool isValid() const;
+
+
+    Trace reverse() const;
 
 
 private:

@@ -21,6 +21,11 @@ unsigned char NucleotidAlphabet::complement(unsigned char iupac)
     return i()->mTables.at(iupac);
 }
 
+QChar NucleotidAlphabet::complement(const QChar &iupac)
+{
+    return QChar(complement(iupac.toLatin1()));
+}
+
 bool NucleotidAlphabet::isGorC(char nuc)
 {
     return nuc == 'G' || nuc == 'C' || nuc == 'c' || nuc == 'g';
