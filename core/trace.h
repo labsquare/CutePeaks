@@ -2,52 +2,66 @@
 #define TRACE_H
 #include <QtCore>
 #include "sequence.h"
+#include "abstracttracereader.h"
 
+class AbstractTraceReader;
+class Trace;
 class Trace
 {
 public:
-    Trace();
-
-
-    const QHash<QChar, QVector<int>>& traces() const;
+    Trace(const QHash<QChar, QVector<int>> datas,
+          const QVector<int>& baseLocations,
+          const QVector<int>& baseScores,
+          const Sequence& sequence);
+    /*!
+     * \brief datas
+     * @example data['A'] = 3,4,5,12,224,42,52 ....
+     * \return data tracein pixel for each avaible bases
+     */
+    const QHash<QChar, QVector<int>>& datas() const;
+    /*!
+     * \brief baseLocations
+     * \return return peaks location in data trace coordinate
+     */
     const QVector<int>& baseLocations() const;
-    const QVector<int>& confScores() const;
-
-
-   const Sequence& sequence() const ;
-
+    /*!
+     * \brief baseScores
+     * \return return score for each bases
+     */
+    const QVector<int>& baseScores() const;
+    /*!
+     * \brief sequence
+     * \return the sequence base call
+     */
+    const Sequence& sequence() const ;
 
     /*!
      * \brief traceLength
-     * \return the length of the trace
+     * \return the length of datas in pixel
      */
-    int traceLengh();
-
+    int length();
     /*!
      * \brief bases
      * \return base avaible as index for trace.
      */
-    QList<QChar> bases() const;
-
+    QList<QChar> basesAvaible() const;
     /*!
-      * \brief trace
+      * \brief data
       * \param base
-      * \return Return trace vector for a specific base
+      * \return Return trace data ector for a specific base
       */
-
-    QVector<int> trace(const QChar& base) const;
-
+    QVector<int> data(const QChar& base) const;
     /*!
       * \brief keys
-      * \return comments keys
+      * \return metadata keys
       */
     QStringList keys() const;
     /*!
       * \brief value
       * \param key
-      * \return return comments value for a specific keyes
+      * \return return metadata value for a specific keyes
       */
-    QVariant value(const QString& key);
+    const QVariant& value(const QString& key);
 
     /*!
       * \brief isValid
@@ -56,20 +70,12 @@ public:
     bool isValid() const;
 
 
-    //should be friends ?
-    void setSequence(const Sequence& seq);
-    void setTraces(const QHash<QChar, QVector<int>> data);
-    void setBaseLocations(const QVector<int>& data);
-    void setConfScores(const QVector<int>& data);
-
-
-
-
 private:
-    QHash<QChar, QVector<int>> mTraces;
+    QHash<QChar, QVector<int>> mDatas;
     QVector<int> mBaseLocations;
-    QVector<int> mConfScores;
-    Sequence mBaseCalls;
+    QVector<int> mBaseScores;
+    Sequence mSequence;
+    QHash<QString, QVariant> mMetadatas;
 
 
 };

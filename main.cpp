@@ -1,9 +1,9 @@
-#include "mainwindow.h"
+//#include "mainwindow.h"
 #include <QApplication>
 #include <QScrollArea>
 #include <QtCore>
 #include "sequence.h"
-#include "sequenceview.h"
+#include "tracefactory.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -17,9 +17,16 @@ int main(int argc, char *argv[])
     translator.load(QString("translations/cutepeaks_")+locale);
     a.installTranslator(&translator);
 
-    MainWindow w;
-    w.setFilename("/tmp/examples/A_forward.ab1");
-    w.show();
+
+    Trace trace = TraceFactory::createTrace("/tmp/examples/A_forward.ab1");
+
+    qDebug()<<trace.datas();
+
+
+
+//    MainWindow w;
+//    w.setFilename("/tmp/examples/A_forward.ab1");
+//    w.show();
 
     return a.exec();
 }

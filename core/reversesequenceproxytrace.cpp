@@ -7,12 +7,12 @@ ReverseSequenceProxyTrace::ReverseSequenceProxyTrace(AbstractTraceReader *source
 {
     mBaseCalls     = source->sequence().reverse();
 
-    mConfScores    = source->confScores();
+    mConfScores    = source->baseScores();
     mBaseLocations = source->baseLocations();
     std::reverse(mConfScores.begin(), mConfScores.end());
     std::reverse(mBaseLocations.begin(), mBaseLocations.end());
 
-    mTraces = source->traces();
+    mTraces = source->datas();
 
     for (auto it = mTraces.begin(); it != mTraces.end(); ++it)
     {
@@ -23,7 +23,7 @@ ReverseSequenceProxyTrace::ReverseSequenceProxyTrace(AbstractTraceReader *source
 
 }
 
-const QHash<QChar, QVector<int> > &ReverseSequenceProxyTrace::traces() const
+const QHash<QChar, QVector<int> > &ReverseSequenceProxyTrace::datas() const
 {
     return mTraces;
 }
@@ -38,7 +38,7 @@ const QVector<int> &ReverseSequenceProxyTrace::baseLocations() const
     return mBaseLocations;
 }
 
-const QVector<int> &ReverseSequenceProxyTrace::confScores() const
+const QVector<int> &ReverseSequenceProxyTrace::baseScores() const
 {
     return mConfScores;
 }

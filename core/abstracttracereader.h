@@ -4,6 +4,8 @@
 #include "sequence.h"
 #include "trace.h"
 
+class Trace;
+class AbstractTraceReader;
 class AbstractTraceReader
 {
 public:
@@ -13,7 +15,7 @@ public:
      * \brief traces
      * \return trace vector for each nucleotids
      */
-    virtual const QHash<QChar, QVector<int>>& traces() const = 0;
+    virtual const QHash<QChar, QVector<int>>& datas() const = 0;
     /*!
      * \brief baseCalls
      * \return Sequence.
@@ -29,10 +31,10 @@ public:
      * \brief confScores
      * \return confident score for each basecalls
      */
-    virtual const QVector<int>& confScores()const  = 0;
+    virtual const QVector<int>& baseScores()const  = 0;
 
 
-    Trace trace() const;
+    Trace createTrace() const;
 
      /*!
       * \brief keys

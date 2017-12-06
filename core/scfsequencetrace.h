@@ -28,10 +28,10 @@ class ScfSequenceTrace : public AbstractTraceReader
 public:
     ScfSequenceTrace(QIODevice * device);
 
-    const QHash<QChar, QVector<int>>& traces() const override;
+    const QHash<QChar, QVector<int>>& datas() const override;
     const Sequence& sequence()const  override;
     const QVector<int>& baseLocations()const  override;
-    const QVector<int>& confScores()const  override;
+    const QVector<int>& baseScores()const  override;
 
     QByteArray version() const;
 

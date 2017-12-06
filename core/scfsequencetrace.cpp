@@ -7,7 +7,7 @@ ScfSequenceTrace::ScfSequenceTrace(QIODevice * device)
 }
 //-------------------------------------------------------------------
 
-const QHash<QChar, QVector<int>>&ScfSequenceTrace::traces() const
+const QHash<QChar, QVector<int>>&ScfSequenceTrace::datas() const
 {
     return mTraces;
 }
@@ -26,7 +26,7 @@ const QVector<int>& ScfSequenceTrace::baseLocations() const
 }
 //-------------------------------------------------------------------
 
-const QVector<int>& ScfSequenceTrace::confScores() const
+const QVector<int>& ScfSequenceTrace::baseScores() const
 {
     return mConfScores;
 }
@@ -63,7 +63,7 @@ void ScfSequenceTrace::readBases()
     device()->reset();
     device()->seek(mHeader.bases_offset);
     QDataStream stream(device());
-    for (int i=0; i< mHeader.bases; ++i)
+    for (quint32 i=0; i< mHeader.bases; ++i)
     {
         quint32 pos;
         stream >> pos;
@@ -73,7 +73,7 @@ void ScfSequenceTrace::readBases()
     // Reads probability
     for (QChar base : {'A','C','G','T'} )
     {
-        for (int i=0; i< mHeader.bases; ++i)
+        for (quint32 i=0; i< mHeader.bases; ++i)
         {
             quint8 pos;
             stream >> pos;
@@ -85,7 +85,7 @@ void ScfSequenceTrace::readBases()
 
     // build the confidence scores list
     mConfScores.clear();
-    for (int i=0; i< mHeader.bases; ++i)
+    for (quint32 i=0; i< mHeader.bases; ++i)
     {
         QChar base = mBaseCalls.at(i);
         mConfScores.append(mTempProba[base].value(i));
@@ -97,7 +97,7 @@ void ScfSequenceTrace::readComments()
     clearComments();
     device()->reset();
     device()->seek(mHeader.comments_offset);
-    int total = 0;
+    quint32 total = 0;
     while (total < mHeader.comments_size-1)
     {
         QByteArray line;
@@ -142,7 +142,7 @@ void ScfSequenceTrace::readTraces()
     for (QChar base : {'A','C','G','T'})
     {
         QVector<T> data;
-        for (int i=0; i<mHeader.samples; ++i)
+        for (quint32 i=0; i<mHeader.samples; ++i)
         {
             T value;
             stream >> value;

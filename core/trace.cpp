@@ -1,13 +1,15 @@
 #include "trace.h"
 
-Trace::Trace()
+
+Trace::Trace(const QHash<QChar, QVector<int> > datas, const QVector<int> &baseLocations, const QVector<int> &baseScores, const Sequence &sequence)
+    :mDatas(datas), mBaseLocations(baseLocations), mBaseScores(baseScores),mSequence(sequence)
 {
 
 }
 
-const QHash<QChar, QVector<int> > &Trace::traces() const
+const QHash<QChar, QVector<int> > &Trace::datas() const
 {
-    return mTraces;
+    return mDatas;
 }
 
 const QVector<int> &Trace::baseLocations() const
@@ -15,79 +17,60 @@ const QVector<int> &Trace::baseLocations() const
     return mBaseLocations;
 }
 
-void Trace::setTraces(const QHash<QChar, QVector<int> > data)
+const QVector<int> &Trace::baseScores() const
 {
-    mTraces = data;
-}
-
-void Trace::setBaseLocations(const QVector<int> &data)
-{
-    mBaseLocations = data;
-}
-
-void Trace::setConfScores(const QVector<int> &data)
-{
-    mConfScores = data;
-}
-
-const QVector<int> &Trace::confScores() const
-{
-    return mConfScores;
+    return mBaseScores;
 }
 
 const Sequence &Trace::sequence() const
 {
-    return mBaseCalls;
+    return mSequence;
 }
 
-int Trace::traceLengh()
+int Trace::length()
 {
-    if (traces().isEmpty())
+    if (datas().isEmpty())
         return 0;
 
-    QChar key = traces().keys().first();
-    return traces()[key].count();
+    QChar key = datas().keys().first();
+    return datas()[key].count();
 }
 
-QList<QChar> Trace::bases() const
+QList<QChar> Trace::basesAvaible() const
 {
-    return traces().keys();
+    return datas().keys();
 
 }
 
-QVector<int> Trace::trace(const QChar &base) const
+QVector<int> Trace::data(const QChar &base) const
 {
-    return traces()[base];
+    return datas()[base];
 
 }
 
 QStringList Trace::keys() const
 {
-    return QStringList();
+    return mMetadatas.keys();
 }
 
-QVariant Trace::value(const QString &key)
+const QVariant& Trace::value(const QString &key)
 {
-    return "ee";
+    return mMetadatas[key];
 }
 
 bool Trace::isValid() const
 {
     // need to improve
 
-//    if (trace('A').isEmpty())
-//        return false;
+    if (data('A').isEmpty())
+        return false;
 
-//    if (baseLocations().length() == 0)
-//        return false;
+    if (baseLocations().length() == 0)
+        return false;
 
-//    if (baseLocations().length() != sequence().length())
-//        return false;
+    if (baseLocations().length() != sequence().length())
+        return false;
 
     return true;
 }
 
-void Trace::setSequence(const Sequence &seq)
-{
-    mBaseCalls = seq;
-}

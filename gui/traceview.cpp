@@ -80,7 +80,7 @@ void TraceView::updateScrollbar()
     if (!mSequenceTrace.isValid())
         return;
 
-    int maxXSize = mSequenceTrace.traceLengh();
+    int maxXSize = mSequenceTrace.length();
     horizontalScrollBar()->setRange(0, maxXSize - viewport()->width()/mXFactor);
     horizontalScrollBar()->setPageStep(viewport()->width()/ mXFactor);
 }
@@ -125,7 +125,7 @@ void TraceView::drawConfident(QPainter& painter)
     for (int i = 0 ; i < mSequenceTrace.baseLocations().length(); ++i)
     {
         int pos = mSequenceTrace.baseLocations().at(i);
-        int score  = mSequenceTrace.confScores().at(i);
+        int score  = mSequenceTrace.baseScores().at(i);
 
         if (inView(pos, 10))
         {
@@ -258,12 +258,12 @@ void TraceView::drawTraces(QPainter& painter)
     painter.translate(viewport()->rect().bottomLeft());
     painter.scale(1.0, -1.0);
 
-    for (QChar base : mSequenceTrace.bases())
+    for (QChar base : mSequenceTrace.basesAvaible())
     {
         // load paths to draw
         QPainterPath path;
         path.moveTo(0,0);
-        QVector<int> data = mSequenceTrace.traces()[base];
+        QVector<int> data = mSequenceTrace.datas()[base];
 
         for ( int x = mXStart ; x < viewport()->rect().width()/mXFactor + mXStart; ++x)
         {
@@ -320,7 +320,7 @@ void TraceView::drawSelection(QPainter &painter)
 void TraceView::setFilename(const QString &filename)
 {
     mFilename = filename;
-    mSequenceTrace = SequenceTraceFactory::loadTraceFile(filename);
+    mSequenceTrace = TraceFactory::createTrace(filename);
 
     if (!mSequenceTrace.isValid()){
         qCritical()<<Q_FUNC_INFO<<tr("Cannot read the file");

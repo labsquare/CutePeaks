@@ -7,7 +7,7 @@ AbifSequenceTrace::AbifSequenceTrace(QIODevice *device)
     loadData();
 }
 
-const QHash<QChar, QVector<int>>& AbifSequenceTrace::traces() const
+const QHash<QChar, QVector<int>>& AbifSequenceTrace::datas() const
 {
     return mTraces;
 }
@@ -19,7 +19,7 @@ const QVector<int>& AbifSequenceTrace::baseLocations()const
 {
     return mBaseLocations;
 }
-const QVector<int>& AbifSequenceTrace::confScores()const
+const QVector<int>& AbifSequenceTrace::baseScores()const
 {
     return mConfScores;
 }

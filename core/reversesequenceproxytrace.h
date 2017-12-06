@@ -11,7 +11,7 @@ public:
     /* \brief traces
     * \return trace vector for each nucleotids
     */
-   virtual const QHash<QChar, QVector<int>>& traces() const;
+   virtual const QHash<QChar, QVector<int>>& datas() const;
    /*!
     * \brief baseCalls
     * \return Sequence.
@@ -27,7 +27,7 @@ public:
     * \brief confScores
     * \return confident score for each basecalls
     */
-   virtual const QVector<int>& confScores()const;
+   virtual const QVector<int>& baseScores()const;
 
 
 private:

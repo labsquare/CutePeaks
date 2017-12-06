@@ -6,17 +6,10 @@ AbstractTraceReader::AbstractTraceReader(QIODevice *device)
 
 }
 
-Trace AbstractTraceReader::trace() const
+Trace AbstractTraceReader::createTrace() const
 {
-    Trace tt;
-
-    tt.setBaseLocations(baseLocations());
-    tt.setConfScores(confScores());
-    tt.setTraces(traces());
-
-
+    Trace tt(datas(), baseLocations(), baseScores(), sequence());
     return tt;
-
 }
 
 QIODevice *AbstractTraceReader::device()

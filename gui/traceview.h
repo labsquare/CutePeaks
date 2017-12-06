@@ -3,7 +3,7 @@
 #include <QtWidgets>
 #include <QScroller>
 #include <QSvgGenerator>
-#include "sequencetracefactory.h"
+#include "tracefactory.h"
 #include "abifsequencetrace.h"
 #include "reversesequenceproxytrace.h"
 #include "tracecolor.h"
