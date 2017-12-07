@@ -141,9 +141,7 @@ void Trace::cut(int start, int len)
     while (i.hasNext())
     {
         i.next();
-
         QVector<int> &v = mDatas[i.key()];
-
         // erase / remove_if pattern . Thanks to std oneliner
         v.erase(v.begin()+tstart, v.begin()+tstart+tend);
 

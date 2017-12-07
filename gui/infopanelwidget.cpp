@@ -14,6 +14,7 @@ InfoPanelWidget::InfoPanelWidget(QWidget *parent)
     mView->verticalHeader()->hide();
     mView->setAlternatingRowColors(true);
     mView->setModel(mModel);
+    mView->verticalHeader()->setDefaultSectionSize(20);
 
     setWindowTitle(tr("Metadata"));
 

@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     mView        = new TraceView;
     mYSlider     = new QSlider(Qt::Horizontal);
     mXSlider     = new QSlider(Qt::Horizontal);
-    mSearchbar   = new QLineEdit;
+    mSearchbar   = new QLineEdit();
 
 
     setCentralWidget(mView);
@@ -18,13 +18,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(panel, SIGNAL(selectionChanged(int,int)), mView, SLOT(setSelection(int,int)));
 
 
-    addPanel(panel, Qt::BottomDockWidgetArea);
+    addPanel(panel, Qt::LeftDockWidgetArea);
     addPanel(new InfoPanelWidget, Qt::LeftDockWidgetArea);
 
 
     mSearchbar->setMaximumWidth(200);
     mSearchbar->setPlaceholderText(tr("Sequence..."));
-    mSearchbar->setVisible(false);
 
 
     mYSlider->setRange(6,1000);
@@ -54,6 +53,9 @@ MainWindow::MainWindow(QWidget *parent)
     resize(1000, 400);
     setWindowIcon(QIcon("qrc:/icons/cutepeaks.png"));
     restoreSettings();
+
+    //setTransparent();
+
 }
 
 MainWindow::~MainWindow()
@@ -133,6 +135,13 @@ void MainWindow::about()
     dialog.exec();
 }
 
+void MainWindow::setTransparent()
+{
+
+    setWindowOpacity(windowOpacity() == 1.0 ? 0.3 : 1.0);
+
+}
+
 void MainWindow::updateSelection()
 {
 
@@ -179,6 +188,21 @@ void MainWindow::setupActions()
     QMenu * helpMenu = bar->addMenu(tr("&Help"));
     helpMenu->addAction(tr("&About"), this, SLOT(about()));
     helpMenu->addAction(tr("About Qt"), qApp, SLOT(aboutQt()));
+
+
+    QToolBar * toolbar = addToolBar("mainbar");
+    toolbar->addAction("Open");
+    toolbar->addAction("Save");
+    toolbar->addAction("Save as ");
+    toolbar->addSeparator();
+    toolbar->addAction("Crop");
+    toolbar->addAction("Remove");
+
+    QWidget * spacer = new QWidget;
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    toolbar->addWidget(spacer);
+
+    toolbar->addWidget(mSearchbar);
 
 
 

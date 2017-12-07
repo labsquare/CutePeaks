@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QtWidgets>
 #include <QSvgGenerator>
+#include <QGraphicsOpacityEffect>
 #include "traceview.h"
 #include "sequenceview.h"
 #include "infopanelwidget.h"
@@ -34,6 +35,8 @@ public Q_SLOTS:
 
     void about();
 
+    void setTransparent();
+
 
 protected Q_SLOTS:
     void updateSelection();
@@ -53,6 +56,8 @@ private:
     QLineEdit * mSearchbar;
 
     QList<AbstractPanelWidget*> mPanels;
+
+    QGraphicsOpacityEffect * mOpacityEffect = nullptr;
 
 
 };
