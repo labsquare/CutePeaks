@@ -35,7 +35,7 @@ public:
      * Create Tracefile from any supported file
      * \return Trace object
      */
-    static Trace createTrace(const QString& filename);
+    static Trace * createTrace(const QString& filename);
 
 
 

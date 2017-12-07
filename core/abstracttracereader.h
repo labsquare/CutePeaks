@@ -46,7 +46,7 @@ public:
      * construct the trace using virtual methods
      * \return Trace object
      */
-    Trace createTrace() const;
+    Trace * createTrace() const;
 
 protected:
     QIODevice * device();

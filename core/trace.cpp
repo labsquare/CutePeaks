@@ -32,7 +32,7 @@ const Sequence &Trace::sequence() const
     return mSequence;
 }
 //-----------------------------------------------------------------
-int Trace::length()
+int Trace::length() const
 {
     if (datas().isEmpty())
         return 0;
@@ -49,7 +49,9 @@ QList<QChar> Trace::basesAvaible() const
 //-----------------------------------------------------------------
 QVector<int> Trace::data(const QChar &base) const
 {
-    return datas()[base];
+
+
+    return datas().value(base);
 }
 //-----------------------------------------------------------------
 const QHash<QString, QVariant> &Trace::metadatas()
@@ -62,9 +64,9 @@ QStringList Trace::keys() const
     return mMetadatas.keys();
 }
 //-----------------------------------------------------------------
-const QVariant& Trace::value(const QString &key)
+QVariant Trace::value(const QString &key) const
 {
-    return mMetadatas[key];
+    return mMetadatas.value(key);
 }
 //-----------------------------------------------------------------
 bool Trace::isValid() const

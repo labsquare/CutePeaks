@@ -40,7 +40,7 @@ public:
      * \brief traceLength
      * \return the length of datas in pixel
      */
-    int length();
+    int length() const;
     /*!
      * \brief bases
      * \return base avaible as index for trace.
@@ -65,7 +65,7 @@ public:
       * \param key
       * \return return metadata value for a specific keyes
       */
-    const QVariant& value(const QString& key);
+    QVariant value(const QString& key) const;
 
     /*!
       * \brief isValid

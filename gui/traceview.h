@@ -5,7 +5,6 @@
 #include <QSvgGenerator>
 #include "tracefactory.h"
 #include "abifsequencetrace.h"
-#include "reversesequenceproxytrace.h"
 #include "tracecolor.h"
 
 struct Selection
@@ -26,11 +25,13 @@ public:
      */
     void setFilename(const QString& filename);
 
+    void setTrace(Trace * trace);
+
     /*!
-     * \brief sequenceTrace
+     * \brief trace
      * \return the trace sequence object
      */
-    Trace * sequenceTrace();
+    const Trace * trace() const;
 
     /*!
      * \brief isValid
@@ -38,7 +39,19 @@ public:
      */
     bool isValid() const;
 
+    /*!
+     * \brief toSvg
+     * \param filename
+     * save current view as svg
+     * \return true if success
+     */
     bool toSvg(const QString& filename);
+    /*!
+     * \brief toPng
+     * \param filename
+     * save current view as png
+     * \return true if success
+     */
     bool toPng(const QString& filename);
 
 
@@ -61,7 +74,7 @@ protected :
      * \param margin
      * \return true if the position is in the viewport according margin
      */
-    bool inView(int pos, int margin = 0);
+    bool inView(int pos, int margin = 0) const;
 
     void updateScrollbar();
 
@@ -101,7 +114,7 @@ protected :
 
 private:
     QString mFilename;
-    Trace mSequenceTrace;
+    Trace * mTrace;
 
 
     // data

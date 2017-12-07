@@ -1,6 +1,6 @@
 INCLUDEPATH += gui
 HEADERS += \
-    $$PWD/sequenceview.h \
+#    $$PWD/sequenceview.h \
     $$PWD/abstractpanelwidget.h \
     $$PWD/sequencepanelwidget.h \
     $$PWD/infopanelwidget.h \
@@ -11,7 +11,7 @@ HEADERS += \
     $$PWD/tracecolor.h
 
 SOURCES += \
-    $$PWD/sequenceview.cpp \
+#    $$PWD/sequenceview.cpp \
     $$PWD/sequencepanelwidget.cpp \
     $$PWD/abstractpanelwidget.cpp \
     $$PWD/infopanelwidget.cpp \

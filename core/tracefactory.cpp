@@ -28,7 +28,7 @@ TraceFactory::FileType TraceFactory::filetype(const QString &filename)
     return TraceFactory::filetype(&file);
 }
 
-Trace TraceFactory::createTrace(const QString &filename)
+Trace * TraceFactory::createTrace(const QString &filename)
 {
     QFile file(filename);
 

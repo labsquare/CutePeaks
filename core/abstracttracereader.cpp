@@ -11,10 +11,10 @@ AbstractTraceReader::~AbstractTraceReader()
 
 }
 
-Trace AbstractTraceReader::createTrace() const
+Trace * AbstractTraceReader::createTrace() const
 {
-    Trace tt(datas(), baseLocations(), baseScores(), sequence(), metadatas());
-    return tt;
+    return new Trace(datas(), baseLocations(), baseScores(), sequence(), metadatas());
+
 }
 
 QIODevice *AbstractTraceReader::device()

@@ -9,16 +9,16 @@ class AbstractPanelWidget : public QWidget
     Q_OBJECT
 public:
     explicit AbstractPanelWidget(QWidget *parent = 0);
-    void setTrace(Trace * trace);
+    void setTrace(const Trace * trace);
     void setCentralWidget(QWidget * widget);
 
-    Trace * trace();
+    const Trace * trace() const;
 
     virtual void load() = 0;
 
 
 private:
-    Trace * mTrace;
+    const Trace * mTrace;
     QWidget * mCentralWidget = nullptr;
 };
 

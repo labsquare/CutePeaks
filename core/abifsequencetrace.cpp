@@ -258,7 +258,7 @@ QVariant AbifSequenceTrace::fromDir(const AbifDir &dir)
             stream>>minute;
             stream>>second;
             stream>>hsecond;
-            qDebug()<<hour; // HUGE BUG... IF I remove this, QTime won't be set
+            // qDebug()<<hour; // HUGE BUG... IF I remove this, QTime won't be set
             QTime time(hour,minute,second,hsecond);
             list.append(time);
         }

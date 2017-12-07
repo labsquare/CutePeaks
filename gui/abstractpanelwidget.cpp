@@ -5,12 +5,10 @@ AbstractPanelWidget::AbstractPanelWidget(QWidget *parent) : QWidget(parent)
 
 }
 
-void AbstractPanelWidget::setTrace(Trace *trace)
+void AbstractPanelWidget::setTrace(const Trace *trace)
 {
     mTrace = trace;
     load();
-
-
 }
 
 void AbstractPanelWidget::setCentralWidget(QWidget *widget)
@@ -23,11 +21,9 @@ void AbstractPanelWidget::setCentralWidget(QWidget *widget)
         centralLayout->setContentsMargins(0,0,0,0);
         setLayout(centralLayout);
     }
-
-
 }
 
-Trace *AbstractPanelWidget::trace()
+const Trace *AbstractPanelWidget::trace() const
 {
     return mTrace;
 }

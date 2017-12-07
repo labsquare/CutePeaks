@@ -81,7 +81,7 @@ void MainWindow::setFilename(const QString &filename)
         if (mView->isValid())
         {
             for (AbstractPanelWidget * panel : mPanels)
-                panel->setTrace(mView->sequenceTrace());
+                panel->setTrace(mView->trace());
 
             QFileInfo info(filename);
             setWindowTitle(info.fileName());

@@ -2,8 +2,8 @@
 #include <QApplication>
 #include <QScrollArea>
 #include <QtCore>
-#include "sequence.h"
-#include "tracefactory.h"
+#include "mainwindow.h"
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -18,19 +18,9 @@ int main(int argc, char *argv[])
     a.installTranslator(&translator);
 
 
-    Trace trace = TraceFactory::createTrace("/tmp/examples/A_forward.ab1");
-    Trace rev = trace.reverse();
-
-
-    qDebug()<<trace.data('A');
-//    qDebug()<<"==============";
-//    qDebug()<<rev.data('A');
-
-
-
-//    MainWindow w;
-//    w.setFilename("/tmp/examples/A_forward.ab1");
-//    w.show();
+    MainWindow w;
+    w.setFilename("/tmp/examples/A_forward.ab1");
+    w.show();
 
     return a.exec();
 }

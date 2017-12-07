@@ -13,26 +13,23 @@ TraceView::TraceView(QWidget *parent)
     setDisabled(true);
 }
 //-------------------------------------------------------------------------------
-
 void TraceView::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
 
     QPainter painter(viewport());
     // Draw empty background
-    if (!mSequenceTrace.isValid()){
-
+    if (!trace()->isValid()){
         painter.setPen(Qt::NoPen);
         painter.setBrush(QBrush(Qt::white));
         painter.drawRect(viewport()->rect());
         return;
     }
 
+    // otherwise draw trace
     drawAll(painter);
-
 }
 //-------------------------------------------------------------------------------
-
 void TraceView::scrollContentsBy(int dx, int dy)
 {
     Q_UNUSED(dy)
@@ -40,47 +37,39 @@ void TraceView::scrollContentsBy(int dx, int dy)
     viewport()->update();
 }
 //-------------------------------------------------------------------------------
-
 void TraceView::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event)
     updateScrollbar();
 }
 //-------------------------------------------------------------------------------
-
 void TraceView::mouseMoveEvent(QMouseEvent *event)
 {
     QAbstractScrollArea::mouseMoveEvent(event);
 }
 //-------------------------------------------------------------------------------
-
 bool TraceView::viewportEvent(QEvent *event)
 {
     return QAbstractScrollArea::viewportEvent(event);
 }
 //-------------------------------------------------------------------------------
-
 void TraceView::setupViewport()
 {
     qDebug()<<"after";
-    //    mScroller = QScroller::scroller(viewport());
-
 }
 //-------------------------------------------------------------------------------
-
-bool TraceView::inView(int pos, int margin)
+bool TraceView::inView(int pos, int margin) const
 {
     // if base pos is in the viewport
     return (pos >= mXStart - margin && pos <= viewport()->rect().width()/mXFactor + mXStart + margin);
 }
 //-------------------------------------------------------------------------------
-
 void TraceView::updateScrollbar()
 {
-    if (!mSequenceTrace.isValid())
+    if (!trace()->isValid())
         return;
 
-    int maxXSize = mSequenceTrace.length();
+    int maxXSize = trace()->length();
     horizontalScrollBar()->setRange(0, maxXSize - viewport()->width()/mXFactor);
     horizontalScrollBar()->setPageStep(viewport()->width()/ mXFactor);
 }
@@ -95,15 +84,14 @@ void TraceView::drawAll(QPainter &painter)
     // set antialiasing
     painter.setRenderHint(QPainter::Antialiasing, true);
 
+    // draw elements
     drawBases(painter);
     drawAminoAcid(painter);
     drawTraces(painter);
     drawConfident(painter);
-
     drawSelection(painter);
 }
 //-------------------------------------------------------------------------------
-
 void TraceView::drawConfident(QPainter& painter)
 {
     QPainterPath stepCurve;
@@ -122,10 +110,10 @@ void TraceView::drawConfident(QPainter& painter)
 
     path.moveTo(0,-100);
 
-    for (int i = 0 ; i < mSequenceTrace.baseLocations().length(); ++i)
+    for (int i = 0 ; i < trace()->baseLocations().length(); ++i)
     {
-        int pos = mSequenceTrace.baseLocations().at(i);
-        int score  = mSequenceTrace.baseScores().at(i);
+        int pos = trace()->baseLocations().at(i);
+        int score  = trace()->baseScores().at(i);
 
         if (inView(pos, 10))
         {
@@ -172,14 +160,14 @@ void TraceView::drawBases(QPainter& painter)
 
     int previousPos = 0;
 
-    for (int i = 0 ; i < mSequenceTrace.baseLocations().length(); ++i, ++codonCounter)
+    for (int i = 0 ; i < trace()->baseLocations().length(); ++i, ++codonCounter)
     {
-        int pos = mSequenceTrace.baseLocations().at(i);
+        int pos = trace()->baseLocations().at(i);
 
         if (inView(pos))
         {
             QPointF p ((pos - mXStart) * mXFactor, 15);
-            QChar base = mSequenceTrace.sequence().at(i);
+            QChar base = trace()->sequence().at(i);
 
             // IKIT
             // draw point
@@ -223,16 +211,16 @@ void TraceView::drawAminoAcid(QPainter &painter)
     pen.setColor(Qt::gray);
     painter.setPen(pen);
 
-    for (int i = 0 ; i < mSequenceTrace.baseLocations().length()-3; i+=3)
+    for (int i = 0 ; i < trace()->baseLocations().length()-3; i+=3)
     {
-        int pos = mSequenceTrace.baseLocations().at(i);
+        int pos = trace()->baseLocations().at(i);
 
         if (inView(pos))
         {
             QPointF p ((pos - mXStart) * mXFactor, 15);
 
             // Draw Base
-            QByteArray codon = mSequenceTrace.sequence().byteArray().mid(i,3);
+            QByteArray codon = trace()->sequence().byteArray().mid(i,3);
             Sequence seq(codon);
 
             QString aa = seq.translate().toString();
@@ -258,12 +246,12 @@ void TraceView::drawTraces(QPainter& painter)
     painter.translate(viewport()->rect().bottomLeft());
     painter.scale(1.0, -1.0);
 
-    for (QChar base : mSequenceTrace.basesAvaible())
+    for (QChar base : trace()->basesAvaible())
     {
         // load paths to draw
         QPainterPath path;
         path.moveTo(0,0);
-        QVector<int> data = mSequenceTrace.datas()[base];
+        QVector<int> data = trace()->datas()[base];
 
         for ( int x = mXStart ; x < viewport()->rect().width()/mXFactor + mXStart; ++x)
         {
@@ -298,12 +286,12 @@ void TraceView::drawSelection(QPainter &painter)
     QBrush bgBrush = QBrush(highlight);
     painter.setBrush(bgBrush);
 
-    if (mCurrentSelection.length >= mSequenceTrace.baseLocations().length())
+    if (mCurrentSelection.length >= trace()->baseLocations().length())
         return;
 
 
-    int start = mSequenceTrace.baseLocations().at(mCurrentSelection.pos);
-    int end   = mSequenceTrace.baseLocations().at(mCurrentSelection.pos + mCurrentSelection.length);
+    int start = trace()->baseLocations().at(mCurrentSelection.pos);
+    int end   = trace()->baseLocations().at(mCurrentSelection.pos + mCurrentSelection.length);
 
     QPointF up   ((start - mXStart) * mXFactor, 0);
     QPointF down ((end - mXStart) * mXFactor, viewport()->height());
@@ -320,9 +308,15 @@ void TraceView::drawSelection(QPainter &painter)
 void TraceView::setFilename(const QString &filename)
 {
     mFilename = filename;
-    mSequenceTrace = TraceFactory::createTrace(filename);
+    setTrace(TraceFactory::createTrace(filename));
 
-    if (!mSequenceTrace.isValid()){
+
+}
+//-------------------------------------------------------------------------------
+void TraceView::setTrace(Trace *trace)
+{
+    mTrace = trace;
+    if (!mTrace->isValid()){
         qCritical()<<Q_FUNC_INFO<<tr("Cannot read the file");
         setDisabled(true);
         return ;
@@ -334,20 +328,16 @@ void TraceView::setFilename(const QString &filename)
 }
 //-------------------------------------------------------------------------------
 
-Trace *TraceView::sequenceTrace()
+const Trace *TraceView::trace() const
 {
-    return &mSequenceTrace;
+    return mTrace;
 }
-
+//-------------------------------------------------------------------------------
 bool TraceView::isValid() const
 {
-
-    return mSequenceTrace.isValid();
+    return trace()->isValid();
 }
-
-
 //-------------------------------------------------------------------------------
-
 void TraceView::setAmplitudeFactor(float factor)
 {
     mYFactor = factor;
@@ -355,7 +345,6 @@ void TraceView::setAmplitudeFactor(float factor)
     updateScrollbar();
 }
 //-------------------------------------------------------------------------------
-
 void TraceView::setScaleFactor(float factor)
 {
     mXFactor = factor;
@@ -370,7 +359,7 @@ void TraceView::setSelection(int pos, int length)
     viewport()->update();
 
 }
-
+//-------------------------------------------------------------------------------
 bool TraceView::toSvg(const QString &filename)
 {
     QSvgGenerator generator;
@@ -387,7 +376,7 @@ bool TraceView::toSvg(const QString &filename)
 
     return true;
 }
-
+//-------------------------------------------------------------------------------
 bool TraceView::toPng(const QString &filename)
 {
     QPixmap image(viewport()->rect().size());

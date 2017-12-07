@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui svg
-CONFIG   += c++11
+CONFIG   += c++14
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = cutepeaks
@@ -13,8 +13,8 @@ TEMPLATE = app
 
 
 include(core/core.pri)
-#include(gui/gui.pri)
-#include(QFontIcon/QFontIcon.pri)
+include(gui/gui.pri)
+include(QFontIcon/QFontIcon.pri)
 
 SOURCES += main.cpp
 
