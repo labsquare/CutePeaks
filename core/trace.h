@@ -74,7 +74,15 @@ public:
     bool isValid() const;
 
 
+    /*!
+     * \brief reverse
+     * \return the reverse trace complement
+     */
     Trace reverse() const;
+
+    void cut(int start, int len);
+    void trimLeft(int len);
+    void trimRight(int len);
 
 
 private:

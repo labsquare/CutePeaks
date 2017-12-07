@@ -226,3 +226,8 @@ void Sequence::append(char base)
 {
     mArray.append(base);
 }
+
+void Sequence::cut(int start, int len)
+{
+    mArray.remove(start, len);
+}

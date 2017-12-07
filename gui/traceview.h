@@ -65,6 +65,7 @@ protected :
     void scrollContentsBy(int dx, int dy) override;
     void resizeEvent(QResizeEvent * event)override;
     void mouseMoveEvent(QMouseEvent * event) override;
+    void mousePressEvent(QMouseEvent * event) override;
     bool viewportEvent(QEvent * event) override;
     void setupViewport();
 

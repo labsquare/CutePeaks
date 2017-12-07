@@ -63,6 +63,8 @@ public:
 
     void append(char base);
 
+    void cut(int start, int len);
+
 
 
 private:

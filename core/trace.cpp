@@ -117,3 +117,54 @@ Trace Trace::reverse() const
 
 }
 
+void Trace::cut(int start, int len)
+{
+
+    if (!isValid())
+        return;
+
+    // be carefull with the range
+    if ( start < 0)
+        start = 0;
+
+    if (start+len > mBaseLocations.length())
+        len = mBaseLocations.length() - 1 - start;
+
+    // get trace coordinate of the range
+    int tstart  = mBaseLocations.at(start);
+    int tend    = mBaseLocations.at(start+len);
+
+
+
+    // remove trace in the range
+    QHashIterator <QChar, QVector<int>>i(mDatas);
+    while (i.hasNext())
+    {
+        i.next();
+
+        QVector<int> &v = mDatas[i.key()];
+
+        // erase / remove_if pattern . Thanks to std oneliner
+        v.erase(v.begin()+tstart, v.begin()+tstart+tend);
+
+    }
+
+    //remove other region in containers
+    mBaseLocations.erase(mBaseLocations.begin() + start , mBaseLocations.begin()+start + len);
+    mBaseScores.erase(mBaseScores.begin() + start , mBaseScores.begin()+start + len);
+    mSequence.cut(start, len);
+
+}
+
+void Trace::trimLeft(int size)
+{
+
+    cut(0, size);
+
+}
+void Trace::trimRight(int size)
+{
+
+    cut(mBaseLocations.length()-size, mBaseLocations.length());
+}
+

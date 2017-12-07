@@ -47,6 +47,21 @@ void TraceView::mouseMoveEvent(QMouseEvent *event)
 {
     QAbstractScrollArea::mouseMoveEvent(event);
 }
+
+void TraceView::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton)
+    {
+        qDebug()<<"click "<<mCurrentSelection.pos<<" "<<mCurrentSelection.length;
+        mTrace->cut(mCurrentSelection.pos, mCurrentSelection.length);
+        viewport()->update();
+        updateScrollbar();
+
+    }
+
+
+    QAbstractScrollArea::mousePressEvent(event);
+}
 //-------------------------------------------------------------------------------
 bool TraceView::viewportEvent(QEvent *event)
 {
