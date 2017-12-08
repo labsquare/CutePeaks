@@ -6,6 +6,10 @@ TraceView::TraceView(QWidget *parent)
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
+    // setup scroll animation
+    mScrollAnimation = new QPropertyAnimation(horizontalScrollBar(),"value", this);
+
+
     // enable touch screen
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents, true);
     QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
@@ -134,9 +138,7 @@ void TraceView::drawConfident(QPainter& painter)
 
         if (inView(pos, 10))
         {
-
-            QPointF p ((pos - mXStart) * mXFactor, score * 5 );
-
+            QPointF p     = QPointF(traceToView(pos), score * 5 );
             QPointF delta = QPointF(oldPoint.x() +(p.x() - oldPoint.x())/2, 100);
 
             // draw step
@@ -177,27 +179,47 @@ void TraceView::drawBases(QPainter& painter)
 
     int previousPos = 0;
 
+    QVector <int> diffBaseLocation;
+    std::adjacent_difference(trace()->baseLocations().begin(),
+                             trace()->baseLocations().end(),
+                             std::back_inserter(diffBaseLocation),
+                             [](int a,int b){return b+(a-b)/2;});
+
+
+    bool alternColor = true;
+    for (int i=0; i<diffBaseLocation.length()-1; ++i, alternColor = !alternColor)
+    {
+
+        int a = traceToView(diffBaseLocation.at(i));
+        int b = traceToView(diffBaseLocation.at(i+1));
+
+        QRect rect;
+        rect.setLeft(a);
+        rect.setRight(b);
+        rect.setY(0);
+        rect.setHeight(25);
+
+        QPen pen;
+        pen.setWidthF(0.5);
+        pen.setColor(Qt::lightGray);
+        painter.setPen(pen);
+        painter.setBrush(QBrush(alternColor ? QColor("#F5F5F5"): QColor("#EAEAEA")));
+
+        painter.drawRect(rect);
+
+
+    }
+
+
     for (int i = 0 ; i < trace()->baseLocations().length(); ++i, ++codonCounter)
     {
-        int pos = trace()->baseLocations().at(i);
+        int pos  = trace()->baseLocations().at(i);
 
         if (inView(pos))
         {
-            QPointF p ((pos - mXStart) * mXFactor, 15);
+            QPointF p (traceToView(pos), 15);
+
             QChar base = trace()->sequence().at(i);
-
-            // IKIT
-            // draw point
-
-
-
-            QPoint ptest ( p.x(), yMargin + 20);
-            QPen penTest;
-            penTest.setWidth(4);
-            penTest.setColor(Qt::red);
-
-            painter.setPen(penTest);
-            painter.drawPoint(ptest);
 
             QFontMetrics metrics(font);
             QPointF textPos (p.x() - metrics.width(base)/2, p.y());
@@ -216,9 +238,6 @@ void TraceView::drawBases(QPainter& painter)
 
 
     }
-
-
-
 }
 //-------------------------------------------------------------------------------
 
@@ -234,7 +253,7 @@ void TraceView::drawAminoAcid(QPainter &painter)
 
         if (inView(pos))
         {
-            QPointF p ((pos - mXStart) * mXFactor, 15);
+            QPointF p (traceToView(pos), 15);
 
             // Draw Base
             QByteArray codon = trace()->sequence().byteArray().mid(i,3);
@@ -310,8 +329,8 @@ void TraceView::drawSelection(QPainter &painter)
     int start = trace()->baseLocations().at(mCurrentSelection.pos);
     int end   = trace()->baseLocations().at(mCurrentSelection.pos + mCurrentSelection.length);
 
-    QPointF up   ((start - mXStart) * mXFactor, 0);
-    QPointF down ((end - mXStart) * mXFactor, viewport()->height());
+    QPointF up   (traceToView(start), 0);
+    QPointF down (traceToView(end), viewport()->height());
 
     QRectF area;
     area.setTopLeft(up);
@@ -374,11 +393,13 @@ void TraceView::setSelection(int pos, int length)
 {
 
     mCurrentSelection = {pos, length};
+    //viewport()->update();
+
+    int start = trace()->baseLocations().at(mCurrentSelection.pos);
+    int end   = trace()->baseLocations().at(mCurrentSelection.pos + mCurrentSelection.length);
+
+    scrollTo(start-50);
     viewport()->update();
-
-    //int x = (pos - mXStart) * mXFactor;
-
-    //horizontalScrollBar()->setValue(x);
 
 
 }
@@ -409,6 +430,27 @@ bool TraceView::toPng(const QString &filename)
     drawAll(painter);
     painter.end();
     return image.save(filename);
+}
+//-------------------------------------------------------------------------------
+int TraceView::traceToView(int x)
+{
+    return (x - mXStart) * mXFactor;
+}
+//-------------------------------------------------------------------------------
+void TraceView::scrollTo(int pos, bool animate)
+{
+    if (animate)
+    {
+        mScrollAnimation->stop();
+        mScrollAnimation->setStartValue(horizontalScrollBar()->value());
+        mScrollAnimation->setEndValue(pos);
+        mScrollAnimation->setEasingCurve(QEasingCurve::OutElastic);
+        mScrollAnimation->setDuration(800);
+        mScrollAnimation->start();
+    }
+
+    else
+        horizontalScrollBar()->setValue(pos);
 }
 
 

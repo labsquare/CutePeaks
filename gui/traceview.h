@@ -3,9 +3,11 @@
 #include <QtWidgets>
 #include <QScroller>
 #include <QSvgGenerator>
+#include <QPropertyAnimation>
 #include "tracefactory.h"
 #include "abifsequencetrace.h"
 #include "tracecolor.h"
+
 
 struct Selection
 {
@@ -54,6 +56,16 @@ public:
      */
     bool toPng(const QString& filename);
 
+    /*!
+     * \brief traceToView
+     * \param x
+     * Convert trace coordinate to view coordinate
+     * \return
+     */
+    int traceToView(int x);
+
+    void scrollTo(int pos, bool animate = true);
+
 
 public Q_SLOTS:
     void setAmplitudeFactor(float factor);
@@ -68,6 +80,8 @@ protected :
     void mousePressEvent(QMouseEvent * event) override;
     bool viewportEvent(QEvent * event) override;
     void setupViewport();
+
+
 
     /*!
      * \brief inView
@@ -136,6 +150,8 @@ private:
     QScroller * mScroller;
 
     Selection mCurrentSelection = { 20, 10};
+
+    QPropertyAnimation * mScrollAnimation;
 
 
 };
