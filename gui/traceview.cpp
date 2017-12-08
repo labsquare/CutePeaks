@@ -11,6 +11,8 @@ TraceView::TraceView(QWidget *parent)
     QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
 
     setDisabled(true);
+
+    setCursor(Qt::CrossCursor);
 }
 //-------------------------------------------------------------------------------
 void TraceView::paintEvent(QPaintEvent *event)
@@ -317,6 +319,7 @@ void TraceView::drawSelection(QPainter &painter)
 
     painter.drawRect(area);
 
+
 }
 //-------------------------------------------------------------------------------
 
@@ -372,6 +375,11 @@ void TraceView::setSelection(int pos, int length)
 
     mCurrentSelection = {pos, length};
     viewport()->update();
+
+    //int x = (pos - mXStart) * mXFactor;
+
+    //horizontalScrollBar()->setValue(x);
+
 
 }
 //-------------------------------------------------------------------------------

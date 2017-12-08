@@ -17,6 +17,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(panel, SIGNAL(selectionChanged(int,int)), mView, SLOT(setSelection(int,int)));
 
+    connect(mSearchbar, &QLineEdit::returnPressed, [this](){
+
+        QRegularExpression exp(mSearchbar->text());
+        QRegularExpressionMatch m = exp.match(mView->trace()->sequence().byteArray());
+        if (m.hasMatch())
+            mView->setSelection(m.capturedStart(), m.capturedLength());
+
+    });
+
 
     addPanel(panel, Qt::LeftDockWidgetArea);
     addPanel(new InfoPanelWidget, Qt::LeftDockWidgetArea);
@@ -98,8 +107,8 @@ void MainWindow::setFilename(const QString &filename)
         QMessageBox::warning(this,tr("Error"),tr("Cannot find file ") + filename);
 
 
-//    mView->toPng("/tmp/cutepeaks.png");
-//    mView->toSvg("/tmp/cutepeaks.svg");
+    //    mView->toPng("/tmp/cutepeaks.png");
+    //    mView->toSvg("/tmp/cutepeaks.svg");
 
 
 }
@@ -178,10 +187,10 @@ void MainWindow::setupActions()
     openMenu->addAction(tr("&Open"), this, SLOT(openFile()), QKeySequence::Open);
     openMenu->addAction(tr("Quit"), qApp, SLOT(quit()));
 
- //   QMenu * viewMenu = bar->addMenu(tr("&View"));
-//    QAction * viewMetaAction = viewMenu->addAction(tr("&Show metadata"), mMetaDock, SLOT(setVisible(bool)));
-//    viewMetaAction->setCheckable(true);
-//    viewMetaAction->setChecked(false);
+    //   QMenu * viewMenu = bar->addMenu(tr("&View"));
+    //    QAction * viewMetaAction = viewMenu->addAction(tr("&Show metadata"), mMetaDock, SLOT(setVisible(bool)));
+    //    viewMetaAction->setCheckable(true);
+    //    viewMetaAction->setChecked(false);
 
 
 
