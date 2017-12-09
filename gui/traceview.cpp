@@ -23,10 +23,12 @@ TraceView::TraceView(QWidget *parent)
 void TraceView::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
-
     QPainter painter(viewport());
     // Draw empty background
-    if (!trace()->isValid()){
+
+
+
+    if (!isValid()){
         painter.setPen(Qt::NoPen);
         painter.setBrush(QBrush(Qt::white));
         painter.drawRect(viewport()->rect());
@@ -34,7 +36,8 @@ void TraceView::paintEvent(QPaintEvent *event)
     }
 
     // otherwise draw trace
-    drawAll(painter);
+    else
+        drawAll(painter);
 }
 //-------------------------------------------------------------------------------
 void TraceView::scrollContentsBy(int dx, int dy)
@@ -94,7 +97,7 @@ bool TraceView::inView(int pos, int margin) const
 //-------------------------------------------------------------------------------
 void TraceView::updateScrollbar()
 {
-    if (!trace()->isValid())
+    if (!isValid())
         return;
 
     int maxXSize = trace()->length();
@@ -112,14 +115,16 @@ void TraceView::drawAll(QPainter &painter)
     // set antialiasing
     painter.setRenderHint(QPainter::Antialiasing, true);
 
-    // draw elements
-    drawBases(painter);
-    drawAminoAcid(painter);
-    drawPositions(painter);
+    if (isValid()){
+        // draw elements
+        drawBases(painter);
+        drawAminoAcid(painter);
+        drawPositions(painter);
 
-    drawTraces(painter);
-    drawConfident(painter);
-    drawSelection(painter);
+        drawTraces(painter);
+        drawConfident(painter);
+        drawSelection(painter);
+    }
 }
 //-------------------------------------------------------------------------------
 void TraceView::drawConfident(QPainter& painter)
@@ -412,7 +417,7 @@ void TraceView::setFilename(const QString &filename)
 void TraceView::setTrace(Trace *trace)
 {
     mTrace = trace;
-    if (!mTrace->isValid()){
+    if (!isValid()){
         qCritical()<<Q_FUNC_INFO<<tr("Cannot read the file");
         setDisabled(true);
         return ;
@@ -431,6 +436,9 @@ const Trace *TraceView::trace() const
 //-------------------------------------------------------------------------------
 bool TraceView::isValid() const
 {
+    if (mTrace == nullptr)
+        return false;
+
     return trace()->isValid();
 }
 //-------------------------------------------------------------------------------
@@ -504,8 +512,8 @@ void TraceView::scrollTo(int pos, bool animate)
         mScrollAnimation->stop();
         mScrollAnimation->setStartValue(horizontalScrollBar()->value());
         mScrollAnimation->setEndValue(pos);
-        mScrollAnimation->setEasingCurve(QEasingCurve::OutElastic);
-        mScrollAnimation->setDuration(800);
+        mScrollAnimation->setEasingCurve(QEasingCurve::OutQuint);
+        mScrollAnimation->setDuration(500);
         mScrollAnimation->start();
     }
 

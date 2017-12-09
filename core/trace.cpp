@@ -49,8 +49,6 @@ QList<QChar> Trace::basesAvaible() const
 //-----------------------------------------------------------------
 QVector<int> Trace::data(const QChar &base) const
 {
-
-
     return datas().value(base);
 }
 //-----------------------------------------------------------------
@@ -71,7 +69,11 @@ QVariant Trace::value(const QString &key) const
 //-----------------------------------------------------------------
 bool Trace::isValid() const
 {
+
+
     // need to improve
+    if (!datas().contains('A'))
+        return false;
 
     if (data('A').isEmpty())
         return false;

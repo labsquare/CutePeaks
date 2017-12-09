@@ -131,9 +131,10 @@ protected :
 
     QVector<int> adjacentBaseLocation() const;
 
+
 private:
     QString mFilename;
-    Trace * mTrace;
+    Trace * mTrace = nullptr;
 
 
     // data

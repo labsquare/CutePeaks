@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(mSearchbar, &QLineEdit::returnPressed, [this](){
 
-        QRegularExpression exp(mSearchbar->text());
+        QRegularExpression exp(mSearchbar->text().toUpper());
         QRegularExpressionMatch m = exp.match(mView->trace()->sequence().byteArray());
         if (m.hasMatch())
             mView->setSelection(m.capturedStart(), m.capturedLength());
@@ -63,7 +63,11 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowIcon(QIcon("qrc:/icons/cutepeaks.png"));
     restoreSettings();
 
-    //setTransparent();
+
+
+
+
+
 
 }
 
