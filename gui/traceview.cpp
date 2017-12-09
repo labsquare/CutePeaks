@@ -16,7 +16,8 @@ TraceView::TraceView(QWidget *parent)
 
     setDisabled(true);
 
-    setCursor(Qt::CrossCursor);
+    setMouseTracking(true);
+
 }
 //-------------------------------------------------------------------------------
 void TraceView::paintEvent(QPaintEvent *event)
@@ -51,6 +52,11 @@ void TraceView::resizeEvent(QResizeEvent *event)
 //-------------------------------------------------------------------------------
 void TraceView::mouseMoveEvent(QMouseEvent *event)
 {
+    if (event->localPos().y() > mBaseHeight && event->localPos().y() <= viewport()->rect().height()-4)
+        setCursor(Qt::CrossCursor);
+    else
+        setCursor(Qt::ArrowCursor);
+
     QAbstractScrollArea::mouseMoveEvent(event);
 }
 
@@ -59,14 +65,13 @@ void TraceView::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
     {
         qDebug()<<"click "<<mCurrentSelection.pos<<" "<<mCurrentSelection.length;
-        mTrace->cut(mCurrentSelection.pos, mCurrentSelection.length);
+        // mTrace->cut(mCurrentSelection.pos, mCurrentSelection.length);
         viewport()->update();
         updateScrollbar();
 
     }
 
 
-    QAbstractScrollArea::mousePressEvent(event);
 }
 //-------------------------------------------------------------------------------
 bool TraceView::viewportEvent(QEvent *event)
@@ -193,7 +198,7 @@ void TraceView::drawBases(QPainter& painter)
         rect.setLeft(a);
         rect.setRight(b);
         rect.setY(0);
-        rect.setHeight(25);
+        rect.setHeight(mBaseHeight);
 
         QPen pen;
         pen.setWidthF(0.5);
@@ -223,7 +228,11 @@ void TraceView::drawBases(QPainter& painter)
             painter.setPen(QPen(TraceColor::color(base)));
             painter.setBrush(QBrush(TraceColor::color(base)));
 
+            font.setBold(false);
+            painter.setFont(font);
+
             painter.drawText(textPos, QString(base));
+
 
             if ( !(i % 10)){
                 painter.setPen(QPen(Qt::lightGray));
@@ -243,33 +252,52 @@ void TraceView::drawAminoAcid(QPainter &painter)
     pen.setColor(Qt::gray);
     painter.setPen(pen);
 
-    for (int i = 0 ; i < trace()->baseLocations().length()-3; i+=3)
+    QVector <int> diffBaseLocation = adjacentBaseLocation();
+
+    for (int i=0; i<diffBaseLocation.length()-3; i+=3)
     {
-        int pos = trace()->baseLocations().at(i);
 
-        if (inView(pos))
-        {
-            QPointF p (traceToView(pos), 15);
+        int a = traceToView(diffBaseLocation.at(i));
+        int b = traceToView(diffBaseLocation.at(i+3));
 
-            // Draw Base
-            QByteArray codon = trace()->sequence().byteArray().mid(i,3);
-            Sequence seq(codon);
+        QRect rect;
+        rect.setLeft(a);
+        rect.setRight(b);
+        rect.setY(mBaseHeight);
+        rect.setHeight(mBaseHeight);
 
-            QString aa = seq.translate().toString();
-
-            QFont font;
-            font.setPixelSize(15);
-            font.setBold(true);
-            painter.setFont(font);
-
-            QFontMetrics metrics(font);
-            QPointF textPos (p.x() - metrics.width(aa)/2, p.y());
-            textPos.setY(50);
-            painter.drawText(textPos, QString(aa));
+        QPen pen;
+        pen.setWidthF(0.5);
+        pen.setColor(Qt::lightGray);
 
 
-        }
+        QLinearGradient linearGrad(QPointF(rect.x(), rect.top()), QPointF(rect.x(), rect.bottom()));
+        linearGrad.setColorAt(0, QColor("#312FC1"));
+        linearGrad.setColorAt(1, QColor("#151451"));
+
+        painter.setPen(pen);
+        painter.setBrush(Qt::red);
+
+        painter.setBrush(QBrush(linearGrad));
+
+        painter.drawRect(rect);
+
+
+        QByteArray codon = trace()->sequence().byteArray().mid(i,3);
+        Sequence seq(codon);
+        QString aa = seq.translate().toString(Sequence::ShortFormat);
+
+        QFont font;
+        font.setPixelSize(12);
+        painter.setFont(font);
+
+        pen.setColor(Qt::white);
+        painter.setPen(pen);
+
+        QFontMetrics metrics(font);
+        painter.drawText(rect,Qt::AlignCenter, aa);
     }
+
 }
 //-------------------------------------------------------------------------------
 void TraceView::drawTraces(QPainter& painter)

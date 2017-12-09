@@ -148,6 +148,9 @@ private:
     float mQCHeightFactor = 1.4;
     int mQCWidth = 10;
 
+    // base height
+    int mBaseHeight = 25;
+
     // trace colors
     QScroller * mScroller;
 
