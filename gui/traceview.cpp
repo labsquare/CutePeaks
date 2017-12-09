@@ -179,11 +179,7 @@ void TraceView::drawBases(QPainter& painter)
 
     int previousPos = 0;
 
-    QVector <int> diffBaseLocation;
-    std::adjacent_difference(trace()->baseLocations().begin(),
-                             trace()->baseLocations().end(),
-                             std::back_inserter(diffBaseLocation),
-                             [](int a,int b){return b+(a-b)/2;});
+    QVector <int> diffBaseLocation = adjacentBaseLocation();
 
 
     bool alternColor = true;
@@ -326,8 +322,9 @@ void TraceView::drawSelection(QPainter &painter)
         return;
 
 
-    int start = trace()->baseLocations().at(mCurrentSelection.pos);
-    int end   = trace()->baseLocations().at(mCurrentSelection.pos + mCurrentSelection.length);
+    // TODO : avoid copy
+    int start = adjacentBaseLocation().at(mCurrentSelection.pos);
+    int end   = adjacentBaseLocation().at(mCurrentSelection.pos + mCurrentSelection.length);
 
     QPointF up   (traceToView(start), 0);
     QPointF down (traceToView(end), viewport()->height());
@@ -337,6 +334,19 @@ void TraceView::drawSelection(QPainter &painter)
     area.setBottomRight(down);
 
     painter.drawRect(area);
+
+
+}
+//-------------------------------------------------------------------------------
+QVector<int> TraceView::adjacentBaseLocation() const
+{
+    QVector <int> diffBaseLocation;
+    std::adjacent_difference(trace()->baseLocations().begin(),
+                             trace()->baseLocations().end(),
+                             std::back_inserter(diffBaseLocation),
+                             [](int a,int b){return b+(a-b)/2;});
+
+    return diffBaseLocation;
 
 
 }
@@ -394,6 +404,7 @@ void TraceView::setSelection(int pos, int length)
 
     mCurrentSelection = {pos, length};
     //viewport()->update();
+
 
     int start = trace()->baseLocations().at(mCurrentSelection.pos);
     int end   = trace()->baseLocations().at(mCurrentSelection.pos + mCurrentSelection.length);

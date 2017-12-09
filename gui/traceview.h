@@ -127,6 +127,8 @@ protected :
     void drawSelection(QPainter& painter);
 
 
+    QVector<int> adjacentBaseLocation() const;
+
 private:
     QString mFilename;
     Trace * mTrace;
