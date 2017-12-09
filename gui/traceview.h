@@ -126,6 +126,8 @@ protected :
      */
     void drawSelection(QPainter& painter);
 
+    void drawPositions(QPainter& painter);
+
 
     QVector<int> adjacentBaseLocation() const;
 

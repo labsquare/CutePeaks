@@ -68,6 +68,8 @@ void TraceView::mousePressEvent(QMouseEvent *event)
         // mTrace->cut(mCurrentSelection.pos, mCurrentSelection.length);
         viewport()->update();
         updateScrollbar();
+        toSvg("/tmp/test.svg");
+
 
     }
 
@@ -113,6 +115,8 @@ void TraceView::drawAll(QPainter &painter)
     // draw elements
     drawBases(painter);
     drawAminoAcid(painter);
+    drawPositions(painter);
+
     drawTraces(painter);
     drawConfident(painter);
     drawSelection(painter);
@@ -165,7 +169,6 @@ void TraceView::drawConfident(QPainter& painter)
 
 void TraceView::drawBases(QPainter& painter)
 {
-
     int yMargin = 27;
     QPen pen;
     pen.setColor(Qt::gray);
@@ -186,62 +189,45 @@ void TraceView::drawBases(QPainter& painter)
 
     QVector <int> diffBaseLocation = adjacentBaseLocation();
 
-
     bool alternColor = true;
     for (int i=0; i<diffBaseLocation.length()-1; ++i, alternColor = !alternColor)
     {
+        int pos = diffBaseLocation.at(i);
 
-        int a = traceToView(diffBaseLocation.at(i));
-        int b = traceToView(diffBaseLocation.at(i+1));
-
-        QRect rect;
-        rect.setLeft(a);
-        rect.setRight(b);
-        rect.setY(0);
-        rect.setHeight(mBaseHeight);
-
-        QPen pen;
-        pen.setWidthF(0.5);
-        pen.setColor(Qt::lightGray);
-        painter.setPen(pen);
-        painter.setBrush(QBrush(alternColor ? QColor("#F5F5F5"): QColor("#EAEAEA")));
-
-        painter.drawRect(rect);
-
-
-    }
-
-
-    for (int i = 0 ; i < trace()->baseLocations().length(); ++i, ++codonCounter)
-    {
-        int pos  = trace()->baseLocations().at(i);
-
-        if (inView(pos))
+        if (inView(pos, 10))
         {
-            QPointF p (traceToView(pos), 15);
+            int a   = traceToView(diffBaseLocation.at(i));
+            int b   = traceToView(diffBaseLocation.at(i+1));
 
             QChar base = trace()->sequence().at(i);
 
-            QFontMetrics metrics(font);
-            QPointF textPos (p.x() - metrics.width(base)/2, p.y());
-            textPos.setY(yMargin - 8);
-            painter.setPen(QPen(TraceColor::color(base)));
-            painter.setBrush(QBrush(TraceColor::color(base)));
+            QRect rect;
+            rect.setLeft(a);
+            rect.setRight(b);
+            rect.setY(0);
+            rect.setHeight(mBaseHeight);
 
+            QPen pen;
+            pen.setWidthF(0.5);
+            pen.setColor(Qt::lightGray);
+            painter.setPen(pen);
+            painter.setBrush(QBrush(alternColor ? QColor("#F5F5F5"): QColor("#EAEAEA")));
+
+            painter.drawRect(rect);
+
+
+            painter.setPen(QPen(TraceColor::color(base)));
             font.setBold(false);
             painter.setFont(font);
 
-            painter.drawText(textPos, QString(base));
+            painter.drawText(rect, Qt::AlignCenter, base);
 
 
-            if ( !(i % 10)){
-                painter.setPen(QPen(Qt::lightGray));
-                painter.drawText(textPos + QPoint(0,50), QString::number(i));
-            }
-
+            //            if ( !(i % 10)){
+            //                painter.setPen(QPen(Qt::lightGray));
+            //                painter.drawText(textPos + QPoint(0,50), QString::number(i));
+            //            }
         }
-
-
     }
 }
 //-------------------------------------------------------------------------------
@@ -256,46 +242,53 @@ void TraceView::drawAminoAcid(QPainter &painter)
 
     for (int i=0; i<diffBaseLocation.length()-3; i+=3)
     {
+        int pos = diffBaseLocation.at(i);
 
-        int a = traceToView(diffBaseLocation.at(i));
-        int b = traceToView(diffBaseLocation.at(i+3));
+        if (inView(pos,40))
+        {
 
-        QRect rect;
-        rect.setLeft(a);
-        rect.setRight(b);
-        rect.setY(mBaseHeight);
-        rect.setHeight(mBaseHeight);
+            int a = traceToView(diffBaseLocation.at(i));
+            int b = traceToView(diffBaseLocation.at(i+3));
 
-        QPen pen;
-        pen.setWidthF(0.5);
-        pen.setColor(Qt::lightGray);
+            QRect rect;
+            rect.setLeft(a);
+            rect.setRight(b);
+            rect.setY(mBaseHeight);
+            rect.setHeight(mBaseHeight);
 
-
-        QLinearGradient linearGrad(QPointF(rect.x(), rect.top()), QPointF(rect.x(), rect.bottom()));
-        linearGrad.setColorAt(0, QColor("#312FC1"));
-        linearGrad.setColorAt(1, QColor("#151451"));
-
-        painter.setPen(pen);
-        painter.setBrush(Qt::red);
-
-        painter.setBrush(QBrush(linearGrad));
-
-        painter.drawRect(rect);
+            QPen pen;
+            pen.setWidthF(0.5);
+            pen.setColor(Qt::lightGray);
 
 
-        QByteArray codon = trace()->sequence().byteArray().mid(i,3);
-        Sequence seq(codon);
-        QString aa = seq.translate().toString(Sequence::ShortFormat);
+            QLinearGradient linearGrad(QPointF(rect.x(), rect.top()), QPointF(rect.x(), rect.bottom()));
+            linearGrad.setColorAt(0, QColor("#312FC1"));
+            linearGrad.setColorAt(1, QColor("#151451"));
 
-        QFont font;
-        font.setPixelSize(12);
-        painter.setFont(font);
+            painter.setPen(pen);
+            painter.setBrush(Qt::red);
 
-        pen.setColor(Qt::white);
-        painter.setPen(pen);
+            painter.setBrush(QBrush(linearGrad));
 
-        QFontMetrics metrics(font);
-        painter.drawText(rect,Qt::AlignCenter, aa);
+            painter.drawRect(rect);
+
+
+            QByteArray codon = trace()->sequence().byteArray().mid(i,3);
+            Sequence seq(codon);
+            QString aa = seq.translate().toString(Sequence::ShortFormat);
+
+            QFont font;
+            font.setBold(true);
+            font.setPixelSize(12);
+            painter.setFont(font);
+
+            pen.setColor(Qt::white);
+            painter.setPen(pen);
+
+            QFontMetrics metrics(font);
+            painter.drawText(rect,Qt::AlignCenter, aa);
+
+        }
     }
 
 }
@@ -364,6 +357,34 @@ void TraceView::drawSelection(QPainter &painter)
     painter.drawRect(area);
 
 
+}
+//-------------------------------------------------------------------------------
+void TraceView::drawPositions(QPainter &painter)
+{
+    QPen pen;
+    pen.setColor(Qt::gray);
+    painter.setPen(pen);
+
+    QFont font;
+    font.setPixelSize(12);
+    font.setBold(false);
+    painter.setFont(font);
+
+    QFontMetrics metrics(font);
+
+    for (int i=0; i<trace()->baseLocations().length(); i+=10)
+    {
+
+        int pos = trace()->baseLocations().at(i);
+
+        if (inView(pos))
+        {
+
+            int x = traceToView(pos) - metrics.width(QString::number(i))/2;
+            painter.drawText(QPoint(x, mBaseHeight*3), QString::number(i));
+
+        }
+    }
 }
 //-------------------------------------------------------------------------------
 QVector<int> TraceView::adjacentBaseLocation() const
