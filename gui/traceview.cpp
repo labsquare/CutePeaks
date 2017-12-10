@@ -100,6 +100,12 @@ bool TraceView::viewportEvent(QEvent *event)
 void TraceView::keyPressEvent(QKeyEvent *event)
 {
 
+    if (event->key() == Qt::Key_PageUp)
+        scrollTo(horizontalScrollBar()->minimum());
+
+    if (event->key() == Qt::Key_PageDown)
+        scrollTo(horizontalScrollBar()->maximum());
+
 
     return QAbstractScrollArea::keyPressEvent(event);
 
@@ -519,7 +525,7 @@ void TraceView::setSelection(int pos, int length)
 
     int start = trace()->baseLocations().at(mCurrentSelection.pos);
 
-    //scrollTo(start - horizontalScrollBar()->pageStep()/2);
+    scrollTo(start - horizontalScrollBar()->pageStep()/2);
     viewport()->update();
 
     emit selectionChanged(pos,length);
