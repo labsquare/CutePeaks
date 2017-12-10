@@ -17,17 +17,14 @@ int main(int argc, char *argv[])
     translator.load(QString("translations/cutepeaks_")+locale);
     a.installTranslator(&translator);
 
+//    QVector<int> a1 = {1,2,3,4,5,6};
+//    QVector<int> b = {0,0,0,0};
 
-//    std::vector<int> values = {1,2,3,4,5,6,7,8};
-//    std::vector<int> results;
+//    qDebug()<<a1;
+//    std::copy(b.begin(), b.end(), std::inserter(a1, a1.begin()+1));
 
-//    qDebug()<<values;
+//    qDebug()<<a1;
 
-//    auto r = std::remove_if(values.begin(), values.end(),
-//                 [](int x){return x > 3 && x < 7;});
-//    values.erase(r);
-
-//    qDebug()<<values;
 
     MainWindow w;
     w.setFilename("/tmp/examples/A_forward.ab1");

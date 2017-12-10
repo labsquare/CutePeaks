@@ -160,7 +160,7 @@ void TraceView::drawAll(QPainter &painter)
 
         drawTraces(painter);
         drawConfident(painter);
-        //drawSelection(painter);
+        drawSelection(painter);
     }
 }
 //-------------------------------------------------------------------------------
@@ -373,9 +373,17 @@ void TraceView::drawSelection(QPainter &painter)
 
     QVector<int> adjBaseLocation = adjacentBaseLocation();
 
+
+    if (mCurrentSelection.pos < 0 || mCurrentSelection.pos >= adjBaseLocation.length())
+        return;
+
+    if (mCurrentSelection.pos + mCurrentSelection.length > adjBaseLocation.length())
+        return;
+
+
     // TODO : avoid copy
-    int start = adjacentBaseLocation().at(mCurrentSelection.pos);
-    int end   = adjacentBaseLocation().at(mCurrentSelection.pos + mCurrentSelection.length);
+    int start = adjBaseLocation.at(mCurrentSelection.pos);
+    int end   = adjBaseLocation.at(mCurrentSelection.pos + mCurrentSelection.length);
 
     // curbe
     QColor highlight = palette().brush(QPalette::Highlight).color();
@@ -545,6 +553,17 @@ void TraceView::cutSelection()
 {
 
     Trace * nv = mTrace->take(mCurrentSelection.pos, mCurrentSelection.length);
+    viewport()->update();
+
+    TraceView * v = new TraceView;
+    v->setTrace(nv);
+    QDialog d;
+    QVBoxLayout l;
+    l.addWidget(v);
+    d.setLayout(&l);
+    d.exec();
+
+    mTrace->insert(0,nv);
     viewport()->update();
 
 
