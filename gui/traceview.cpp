@@ -65,25 +65,32 @@ void TraceView::mouseMoveEvent(QMouseEvent *event)
 
 void TraceView::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton)
-    {
-        qDebug()<<mCurrentSelection.pos<<" "<<mCurrentSelection.length;
-        // if in header section
-        if ( event->pos().y() <= mHeaderHeight * 2)
-        {
-            if (event->modifiers() & Qt::ShiftModifier)
-            {
-                int before = mCurrentSelection.pos;
-                int now    = locationFromView(event->pos().x());
-                setSelection(before,now - before + 1);
-            }
-            else
-            {
-                int pos = locationFromView(event->pos().x());
-                setSelection(pos);
-            }
 
+    if ( event->pos().y() <= mHeaderHeight * 2)
+    {
+        // left click = select
+
+        if (event->modifiers() & Qt::ShiftModifier)
+        {
+            int before = mCurrentSelection.pos;
+            int now    = locationFromView(event->pos().x());
+            setSelection(before,now - before + 1);
         }
+        else
+        {
+            int pos = locationFromView(event->pos().x());
+            setSelection(pos);
+        }
+
+
+//        // right click = context menu
+//        if ( event->button() == Qt::RightButton)
+//        {
+//            QMenu menu;
+//            menu.addAction("crop left");
+//            menu.exec(event->globalPos());
+
+//        }
 
 
     }
@@ -105,6 +112,9 @@ void TraceView::keyPressEvent(QKeyEvent *event)
 
     if (event->key() == Qt::Key_PageDown)
         scrollTo(horizontalScrollBar()->maximum());
+
+    if (event->key() == Qt::Key_Delete)
+        cutSelection();
 
 
     return QAbstractScrollArea::keyPressEvent(event);
@@ -529,6 +539,15 @@ void TraceView::setSelection(int pos, int length)
     viewport()->update();
 
     emit selectionChanged(pos,length);
+}
+//-------------------------------------------------------------------------------
+void TraceView::cutSelection()
+{
+
+    mTrace->cut(mCurrentSelection.pos, mCurrentSelection.length);
+    viewport()->update();
+
+
 }
 //-------------------------------------------------------------------------------
 bool TraceView::toSvg(const QString &filename)

@@ -18,6 +18,17 @@ int main(int argc, char *argv[])
     a.installTranslator(&translator);
 
 
+//    std::vector<int> values = {1,2,3,4,5,6,7,8};
+//    std::vector<int> results;
+
+//    qDebug()<<values;
+
+//    auto r = std::remove_if(values.begin(), values.end(),
+//                 [](int x){return x > 3 && x < 7;});
+//    values.erase(r);
+
+//    qDebug()<<values;
+
     MainWindow w;
     w.setFilename("/tmp/examples/A_forward.ab1");
     w.show();

@@ -132,21 +132,23 @@ void Trace::cut(int start, int len)
     if (start+len > mBaseLocations.length())
         len = mBaseLocations.length() - 1 - start;
 
-    // get trace coordinate of the range
-    int tstart  = mBaseLocations.at(start);
-    int tend    = mBaseLocations.at(start+len);
+    int traceStart = mBaseLocations[start];
+    int traceEnd   = mBaseLocations[start+len];
 
-
-
-    // remove trace in the range
+    // remove trace
     QHashIterator <QChar, QVector<int>>i(mDatas);
     while (i.hasNext())
     {
         i.next();
         QVector<int> &v = mDatas[i.key()];
-        // erase / remove_if pattern . Thanks to std oneliner
-        v.erase(v.begin()+tstart, v.begin()+tstart+tend);
+        v.erase(v.begin()+traceStart, v.begin()+traceEnd);
 
+    }
+
+    int traceDiff = traceEnd - traceStart;
+    for (auto it = mBaseLocations.begin()+start + len; it!= mBaseLocations.end(); ++it)
+    {
+        (*it) = (*it) - traceDiff;
     }
 
     //remove other region in containers

@@ -74,6 +74,8 @@ public Q_SLOTS:
     void setScaleFactor(float factor);
     void setSelection(int pos, int length = 1);
 
+    void cutSelection();
+
 protected :
     void paintEvent(QPaintEvent * event)  override;
     void scrollContentsBy(int dx, int dy) override;
