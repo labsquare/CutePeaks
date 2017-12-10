@@ -27,9 +27,9 @@ void TraceView::paintEvent(QPaintEvent *event)
     // Draw empty background
 
     if (!isValid()){
-       drawEmpty(painter);
+        drawEmpty(painter);
     }
-     // otherwise draw trace
+    // otherwise draw trace
     else
         drawAll(painter);
 }
@@ -327,24 +327,26 @@ void TraceView::drawTraces(QPainter& painter)
 //-------------------------------------------------------------------------------
 void TraceView::drawSelection(QPainter &painter)
 {
-    QPainterPath stepCurve;
 
-    QPen pen;
-    QColor highlight = palette().brush(QPalette::Highlight).color();
-    pen.setColor(highlight);
-    pen.setWidthF(2);
-    painter.setPen(pen);
-    highlight.setAlphaF(0.1);
-    QBrush bgBrush = QBrush(highlight);
-    painter.setBrush(bgBrush);
-
-    if (mCurrentSelection.length >= trace()->baseLocations().length())
-        return;
-
+    QVector<int> adjBaseLocation = adjacentBaseLocation();
 
     // TODO : avoid copy
     int start = adjacentBaseLocation().at(mCurrentSelection.pos);
     int end   = adjacentBaseLocation().at(mCurrentSelection.pos + mCurrentSelection.length);
+
+    // curbe
+    QColor highlight = palette().brush(QPalette::Highlight).color();
+
+    highlight.setAlphaF(0.1);
+    QBrush bgBrush = QBrush(highlight);
+    painter.setBrush(bgBrush);
+
+    QPen pen;
+    highlight.setAlphaF(1.0);
+    pen.setColor(highlight);
+    pen.setWidthF(2);
+    pen.setStyle(Qt::DotLine);
+    painter.setPen(pen);
 
     QPointF up   (traceToView(start), 0);
     QPointF down (traceToView(end), viewport()->height());
@@ -353,7 +355,15 @@ void TraceView::drawSelection(QPainter &painter)
     area.setTopLeft(up);
     area.setBottomRight(down);
 
-    painter.drawRect(area);
+
+    // draw area if length > 1
+    if (mCurrentSelection.length >= 1)
+        painter.drawRect(area);
+
+    // draw line
+    else
+        painter.drawLine(up.x(),up.y(), up.x(), viewport()->height());
+
 
 
 }
@@ -388,12 +398,12 @@ void TraceView::drawPositions(QPainter &painter)
 //-------------------------------------------------------------------------------
 void TraceView::drawEmpty(QPainter &painter)
 {
-   QFont font;
-   font.setPixelSize(30);
+    QFont font;
+    font.setPixelSize(30);
 
-   painter.setFont(font);
-   painter.setPen(QPen(Qt::lightGray));
-   painter.drawText(viewport()->rect(), Qt::AlignCenter, "Open trace file ...");
+    painter.setFont(font);
+    painter.setPen(QPen(Qt::lightGray));
+    painter.drawText(viewport()->rect(), Qt::AlignCenter, "Open trace file ...");
 
 
 }
@@ -464,18 +474,18 @@ void TraceView::setScaleFactor(float factor)
 //-------------------------------------------------------------------------------
 void TraceView::setSelection(int pos, int length)
 {
+    // check out of range
+    int max   = trace()->baseLocations().length();
+    pos       = pos < 0 ? 0 : pos;
+    pos       = pos >= max ? max-1 : pos;
+    length    = pos+length >= max ? max-1-pos : length;
 
     mCurrentSelection = {pos, length};
-    //viewport()->update();
-
 
     int start = trace()->baseLocations().at(mCurrentSelection.pos);
-    int end   = trace()->baseLocations().at(mCurrentSelection.pos + mCurrentSelection.length);
 
     scrollTo(start-50);
     viewport()->update();
-
-
 }
 //-------------------------------------------------------------------------------
 bool TraceView::toSvg(const QString &filename)
