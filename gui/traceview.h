@@ -63,6 +63,8 @@ public:
      * \return
      */
     int traceToView(int x);
+    int traceFromView(int x);
+    int locationFromView(int x);
 
     void scrollTo(int pos, bool animate = true);
 
@@ -79,6 +81,9 @@ protected :
     void mouseMoveEvent(QMouseEvent * event) override;
     void mousePressEvent(QMouseEvent * event) override;
     bool viewportEvent(QEvent * event) override;
+
+    void keyPressEvent(QKeyEvent * event) override;
+
     void setupViewport();
 
 
@@ -133,6 +138,9 @@ protected :
 
     QVector<int> adjacentBaseLocation() const;
 
+
+signals:
+    void selectionChanged(int pos, int length);
 
 private:
     QString mFilename;

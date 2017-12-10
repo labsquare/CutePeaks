@@ -12,11 +12,12 @@ TraceView::TraceView(QWidget *parent)
 
     // enable touch screen
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents, true);
-    QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
+    //QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
 
     setDisabled(true);
 
-    setMouseTracking(true);
+    //    setMouseTracking(true);
+    //    viewport()->setMouseTracking(true);
 
 }
 //-------------------------------------------------------------------------------
@@ -49,10 +50,15 @@ void TraceView::resizeEvent(QResizeEvent *event)
 //-------------------------------------------------------------------------------
 void TraceView::mouseMoveEvent(QMouseEvent *event)
 {
-    if (event->localPos().y() > mHeaderHeight && event->localPos().y() <= viewport()->rect().height()-4)
-        setCursor(Qt::CrossCursor);
-    else
-        setCursor(Qt::ArrowCursor);
+    qDebug()<<event->button();
+    if (event->button() == Qt::LeftButton)
+    {
+
+        int pos = locationFromView(event->pos().x());
+        qDebug()<<"move";
+
+    }
+
 
     QAbstractScrollArea::mouseMoveEvent(event);
 }
@@ -61,21 +67,42 @@ void TraceView::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
-        qDebug()<<"click "<<mCurrentSelection.pos<<" "<<mCurrentSelection.length;
-        // mTrace->cut(mCurrentSelection.pos, mCurrentSelection.length);
-        viewport()->update();
-        updateScrollbar();
-        toSvg("/tmp/test.svg");
+        qDebug()<<mCurrentSelection.pos<<" "<<mCurrentSelection.length;
+        // if in header section
+        if ( event->pos().y() <= mHeaderHeight * 2)
+        {
+            if (event->modifiers() & Qt::ShiftModifier)
+            {
+                int before = mCurrentSelection.pos;
+                int now    = locationFromView(event->pos().x());
+                setSelection(before,now - before + 1);
+            }
+            else
+            {
+                int pos = locationFromView(event->pos().x());
+                setSelection(pos);
+            }
+
+        }
 
 
     }
 
+    QAbstractScrollArea::mousePressEvent(event);
 
 }
 //-------------------------------------------------------------------------------
 bool TraceView::viewportEvent(QEvent *event)
 {
     return QAbstractScrollArea::viewportEvent(event);
+}
+//-------------------------------------------------------------------------------
+void TraceView::keyPressEvent(QKeyEvent *event)
+{
+
+
+    return QAbstractScrollArea::keyPressEvent(event);
+
 }
 //-------------------------------------------------------------------------------
 void TraceView::setupViewport()
@@ -474,6 +501,14 @@ void TraceView::setScaleFactor(float factor)
 //-------------------------------------------------------------------------------
 void TraceView::setSelection(int pos, int length)
 {
+    // invert selection if is reverse
+    // length < 0
+    if (length < 0)
+    {
+        pos    = pos - qAbs(length)-1;
+        length = qAbs(length) + 2 ;
+    }
+
     // check out of range
     int max   = trace()->baseLocations().length();
     pos       = pos < 0 ? 0 : pos;
@@ -484,8 +519,10 @@ void TraceView::setSelection(int pos, int length)
 
     int start = trace()->baseLocations().at(mCurrentSelection.pos);
 
-    scrollTo(start-50);
+    //scrollTo(start - horizontalScrollBar()->pageStep()/2);
     viewport()->update();
+
+    emit selectionChanged(pos,length);
 }
 //-------------------------------------------------------------------------------
 bool TraceView::toSvg(const QString &filename)
@@ -519,6 +556,23 @@ bool TraceView::toPng(const QString &filename)
 int TraceView::traceToView(int x)
 {
     return (x - mXStart) * mXFactor;
+}
+//-------------------------------------------------------------------------------
+int TraceView::traceFromView(int x)
+{
+    return (x + mXFactor*mXStart)/mXFactor;
+}
+//-------------------------------------------------------------------------------
+int TraceView::locationFromView(int x)
+{
+    QVector<int> adj = adjacentBaseLocation();
+    int X = traceFromView(x);
+    for (int i=1; i< trace()->baseLocations().length(); ++i)
+    {
+        if (adj.at(i) >= X)
+            return i-1;
+    }
+    return adj.length() -1;
 }
 //-------------------------------------------------------------------------------
 void TraceView::scrollTo(int pos, bool animate)
