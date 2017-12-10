@@ -128,6 +128,8 @@ protected :
 
     void drawPositions(QPainter& painter);
 
+    void drawEmpty(QPainter& painter);
+
 
     QVector<int> adjacentBaseLocation() const;
 
@@ -152,7 +154,7 @@ private:
     int mQCWidth = 10;
 
     // base height
-    int mBaseHeight = 25;
+    int mHeaderHeight = 25;
 
     // trace colors
     QScroller * mScroller;

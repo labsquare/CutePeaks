@@ -26,16 +26,10 @@ void TraceView::paintEvent(QPaintEvent *event)
     QPainter painter(viewport());
     // Draw empty background
 
-
-
     if (!isValid()){
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(QBrush(Qt::white));
-        painter.drawRect(viewport()->rect());
-        return;
+       drawEmpty(painter);
     }
-
-    // otherwise draw trace
+     // otherwise draw trace
     else
         drawAll(painter);
 }
@@ -55,7 +49,7 @@ void TraceView::resizeEvent(QResizeEvent *event)
 //-------------------------------------------------------------------------------
 void TraceView::mouseMoveEvent(QMouseEvent *event)
 {
-    if (event->localPos().y() > mBaseHeight && event->localPos().y() <= viewport()->rect().height()-4)
+    if (event->localPos().y() > mHeaderHeight && event->localPos().y() <= viewport()->rect().height()-4)
         setCursor(Qt::CrossCursor);
     else
         setCursor(Qt::ArrowCursor);
@@ -210,7 +204,7 @@ void TraceView::drawBases(QPainter& painter)
             rect.setLeft(a);
             rect.setRight(b);
             rect.setY(0);
-            rect.setHeight(mBaseHeight);
+            rect.setHeight(mHeaderHeight);
 
             QPen pen;
             pen.setWidthF(0.5);
@@ -258,8 +252,8 @@ void TraceView::drawAminoAcid(QPainter &painter)
             QRect rect;
             rect.setLeft(a);
             rect.setRight(b);
-            rect.setY(mBaseHeight);
-            rect.setHeight(mBaseHeight);
+            rect.setY(mHeaderHeight);
+            rect.setHeight(mHeaderHeight);
 
             QPen pen;
             pen.setWidthF(0.5);
@@ -386,10 +380,22 @@ void TraceView::drawPositions(QPainter &painter)
         {
 
             int x = traceToView(pos) - metrics.width(QString::number(i))/2;
-            painter.drawText(QPoint(x, mBaseHeight*3), QString::number(i));
+            painter.drawText(QPoint(x, mHeaderHeight*3), QString::number(i));
 
         }
     }
+}
+//-------------------------------------------------------------------------------
+void TraceView::drawEmpty(QPainter &painter)
+{
+   QFont font;
+   font.setPixelSize(30);
+
+   painter.setFont(font);
+   painter.setPen(QPen(Qt::lightGray));
+   painter.drawText(viewport()->rect(), Qt::AlignCenter, "Open trace file ...");
+
+
 }
 //-------------------------------------------------------------------------------
 QVector<int> TraceView::adjacentBaseLocation() const
