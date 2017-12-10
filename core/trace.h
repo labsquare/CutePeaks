@@ -67,6 +67,7 @@ public:
       */
     QVariant value(const QString& key) const;
 
+
     /*!
       * \brief isValid
       * \return true the trace is valid. Return false otherwise
@@ -80,7 +81,9 @@ public:
      */
     Trace reverse() const;
 
-    void cut(int start, int len);
+    Trace * take(int start, int len);
+    void insert(int pos, Trace* trace);
+
     void trimLeft(int len);
     void trimRight(int len);
 

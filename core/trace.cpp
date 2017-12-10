@@ -66,6 +66,7 @@ QVariant Trace::value(const QString &key) const
 {
     return mMetadatas.value(key);
 }
+
 //-----------------------------------------------------------------
 bool Trace::isValid() const
 {
@@ -118,12 +119,11 @@ Trace Trace::reverse() const
 
 
 }
-
-void Trace::cut(int start, int len)
+//-----------------------------------------------------------------
+Trace * Trace::take(int start, int len)
 {
-
     if (!isValid())
-        return;
+        return nullptr;
 
     // be carefull with the range
     if ( start < 0)
@@ -132,41 +132,80 @@ void Trace::cut(int start, int len)
     if (start+len > mBaseLocations.length())
         len = mBaseLocations.length() - 1 - start;
 
+    // Create new Trace containers
+    QHash<QChar, QVector<int>> newData;
+    QVector<int> newBaseLocations;
+    QVector<int> newBaseScores;
+    Sequence newSequence;
+
+    // extract trace coord to remove
     int traceStart = mBaseLocations[start];
     int traceEnd   = mBaseLocations[start+len];
 
-    // remove trace
+    // Loop over all data trace, take part from original and put into the new trace. Then remove from original
     QHashIterator <QChar, QVector<int>>i(mDatas);
     while (i.hasNext())
     {
         i.next();
+
         QVector<int> &v = mDatas[i.key()];
+        QVector<int> c;
+
+        // copy area to c
+        std::copy(v.begin()+traceStart, v.begin()+traceEnd, std::back_inserter(c));
+
+        // remove area from v
         v.erase(v.begin()+traceStart, v.begin()+traceEnd);
 
+        // insert vector into newData
+        newData[i.key()] = c;
     }
 
-    int traceDiff = traceEnd - traceStart;
-    for (auto it = mBaseLocations.begin()+start + len; it!= mBaseLocations.end(); ++it)
-    {
-        (*it) = (*it) - traceDiff;
-    }
+        // copy new base location
+        std::copy(mBaseLocations.begin() + start , mBaseLocations.begin()+start + len, std::back_inserter(newBaseLocations));
 
-    //remove other region in containers
-    mBaseLocations.erase(mBaseLocations.begin() + start , mBaseLocations.begin()+start + len);
-    mBaseScores.erase(mBaseScores.begin() + start , mBaseScores.begin()+start + len);
-    mSequence.cut(start, len);
+        // Shift base location on new
+        for (auto& val : newBaseLocations)
+            val = val - traceStart;
+
+        // Shift base location on original
+        for (auto it = mBaseLocations.begin()+start + len; it!= mBaseLocations.end(); ++it)
+            (*it) = (*it) - (traceEnd - traceStart);
+
+        // erase base location on original
+        mBaseLocations.erase(mBaseLocations.begin() + start , mBaseLocations.begin()+start + len);
+
+        // copy baseScore and remove
+        std::copy(mBaseScores.begin() + start , mBaseScores.begin()+start + len, std::back_inserter(newBaseScores));
+        mBaseScores.erase(mBaseScores.begin() + start , mBaseScores.begin()+start + len);
+
+        //remove other region in containers
+        newSequence = mSequence.mid(start,len);
+        mSequence.remove(start, len);
+
+    return new Trace(newData,newBaseLocations,newBaseScores,newSequence, metadatas());
+
+}
+//-----------------------------------------------------------------
+void Trace::insert(int pos, Trace *trace)
+{
+
+
+
+
+
 
 }
 
 void Trace::trimLeft(int size)
 {
 
-    cut(0, size);
+    take(0, size);
 
 }
 void Trace::trimRight(int size)
 {
 
-    cut(mBaseLocations.length()-size, mBaseLocations.length());
+    take(mBaseLocations.length()-size, mBaseLocations.length());
 }
 

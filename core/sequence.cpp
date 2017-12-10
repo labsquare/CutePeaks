@@ -227,7 +227,26 @@ void Sequence::append(char base)
     mArray.append(base);
 }
 
-void Sequence::cut(int start, int len)
+void Sequence::remove(int start, int len)
 {
     mArray.remove(start, len);
+}
+
+void Sequence::insert(int pos, const Sequence &sequence)
+{
+    if (sequence.type() != type())
+    {
+        qWarning()<<Q_FUNC_INFO<<"cannot insert sequence from a different type";
+        return;
+    }
+
+
+    mArray.insert(pos, sequence.byteArray());
+
+}
+
+Sequence Sequence::mid(int pos, int len)
+{
+   QByteArray array = mArray.mid(pos, len);
+   return Sequence(array, strand(), type());
 }

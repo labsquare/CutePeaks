@@ -160,7 +160,7 @@ void TraceView::drawAll(QPainter &painter)
 
         drawTraces(painter);
         drawConfident(painter);
-        drawSelection(painter);
+        //drawSelection(painter);
     }
 }
 //-------------------------------------------------------------------------------
@@ -544,7 +544,7 @@ void TraceView::setSelection(int pos, int length)
 void TraceView::cutSelection()
 {
 
-    mTrace->cut(mCurrentSelection.pos, mCurrentSelection.length);
+    Trace * nv = mTrace->take(mCurrentSelection.pos, mCurrentSelection.length);
     viewport()->update();
 
 
