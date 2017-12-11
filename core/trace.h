@@ -25,6 +25,14 @@ public:
      * \return return peaks location in data trace coordinate
      */
     const QVector<int>& baseLocations() const;
+
+    /*!
+     * \brief shiftBaseLocations
+     * This is used to enclose the peak.
+     * \return base location shifted by middle of 2 base adjacent base location
+     */
+    const QVector<int>& shiftBaseLocations() const;
+
     /*!
      * \brief baseScores
      * \return return score for each bases
@@ -87,10 +95,13 @@ public:
     void trimLeft(int len);
     void trimRight(int len);
 
+    void debug() const;
+
 
 private:
     QHash<QChar, QVector<int>> mDatas;
     QVector<int> mBaseLocations;
+    QVector<int> mShiftBaseLocation;
     QVector<int> mBaseScores;
     Sequence mSequence;
     QHash<QString, QVariant> mMetadatas;

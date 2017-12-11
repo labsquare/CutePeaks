@@ -229,7 +229,7 @@ void TraceView::drawBases(QPainter& painter)
 
     int previousPos = 0;
 
-    QVector <int> diffBaseLocation = adjacentBaseLocation();
+    QVector <int> diffBaseLocation = trace()->shiftBaseLocations();
 
     bool alternColor = true;
     for (int i=0; i<diffBaseLocation.length()-1; ++i, alternColor = !alternColor)
@@ -280,7 +280,7 @@ void TraceView::drawAminoAcid(QPainter &painter)
     pen.setColor(Qt::gray);
     painter.setPen(pen);
 
-    QVector <int> diffBaseLocation = adjacentBaseLocation();
+    QVector <int> diffBaseLocation = trace()->shiftBaseLocations();
 
     for (int i=0; i<diffBaseLocation.length()-3; i+=3)
     {
@@ -371,7 +371,7 @@ void TraceView::drawTraces(QPainter& painter)
 void TraceView::drawSelection(QPainter &painter)
 {
 
-    QVector<int> adjBaseLocation = adjacentBaseLocation();
+    QVector<int> adjBaseLocation = trace()->shiftBaseLocations();
 
 
     if (mCurrentSelection.pos < 0 || mCurrentSelection.pos >= adjBaseLocation.length())
@@ -459,19 +459,6 @@ void TraceView::drawEmpty(QPainter &painter)
 
 }
 //-------------------------------------------------------------------------------
-QVector<int> TraceView::adjacentBaseLocation() const
-{
-    QVector <int> diffBaseLocation;
-    std::adjacent_difference(trace()->baseLocations().begin(),
-                             trace()->baseLocations().end(),
-                             std::back_inserter(diffBaseLocation),
-                             [](int a,int b){return b+(a-b)/2;});
-
-    return diffBaseLocation;
-
-
-}
-//-------------------------------------------------------------------------------
 
 void TraceView::setFilename(const QString &filename)
 {
@@ -555,15 +542,17 @@ void TraceView::cutSelection()
     Trace * nv = mTrace->take(mCurrentSelection.pos, mCurrentSelection.length);
     viewport()->update();
 
-    TraceView * v = new TraceView;
-    v->setTrace(nv);
-    QDialog d;
-    QVBoxLayout l;
-    l.addWidget(v);
-    d.setLayout(&l);
-    d.exec();
+    nv->debug();
 
-    mTrace->insert(0,nv);
+//    TraceView * v = new TraceView;
+//    v->setTrace(nv);
+//    QDialog d;
+//    QVBoxLayout l;
+//    l.addWidget(v);
+//    d.setLayout(&l);
+//    d.exec();
+
+//    mTrace->insert(0,nv);
     viewport()->update();
 
 
@@ -609,14 +598,13 @@ int TraceView::traceFromView(int x)
 //-------------------------------------------------------------------------------
 int TraceView::locationFromView(int x)
 {
-    QVector<int> adj = adjacentBaseLocation();
     int X = traceFromView(x);
     for (int i=1; i< trace()->baseLocations().length(); ++i)
     {
-        if (adj.at(i) >= X)
+        if (trace()->shiftBaseLocations().at(i) >= X)
             return i-1;
     }
-    return adj.length() -1;
+    return trace()->shiftBaseLocations().length() -1;
 }
 //-------------------------------------------------------------------------------
 void TraceView::scrollTo(int pos, bool animate)

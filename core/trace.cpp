@@ -10,6 +10,13 @@ Trace::Trace(const QHash<QChar, QVector<int> > datas,
     :mDatas(datas),mBaseLocations(baseLocations), mBaseScores(baseScores),mSequence(sequence),mMetadatas(metadatas)
 {
 
+    // compute shift base location
+    std::adjacent_difference(mBaseLocations.begin(),
+                             mBaseLocations.end(),
+                             std::back_inserter(mShiftBaseLocation),
+                             [](int a,int b){return b+(a-b)/2;});
+
+
 }
 //-----------------------------------------------------------------
 const QHash<QChar, QVector<int> > &Trace::datas() const
@@ -20,6 +27,11 @@ const QHash<QChar, QVector<int> > &Trace::datas() const
 const QVector<int> &Trace::baseLocations() const
 {
     return mBaseLocations;
+}
+//-----------------------------------------------------------------
+const QVector<int> &Trace::shiftBaseLocations() const
+{
+    return mShiftBaseLocation;
 }
 //-----------------------------------------------------------------
 const QVector<int> &Trace::baseScores() const
@@ -142,6 +154,8 @@ Trace * Trace::take(int start, int len)
     int traceStart = mBaseLocations[start];
     int traceEnd   = mBaseLocations[start+len];
 
+    qDebug()<<"start / len"<<start<<" "<<len;
+
     // Loop over all data trace, take part from original and put into the new trace. Then remove from original
     QHashIterator <QChar, QVector<int>>i(mDatas);
     while (i.hasNext())
@@ -155,33 +169,34 @@ Trace * Trace::take(int start, int len)
         std::copy(v.begin()+traceStart, v.begin()+traceEnd, std::back_inserter(c));
 
         // remove area from v
+        qDebug()<<traceStart<<" "<<traceEnd;
         v.erase(v.begin()+traceStart, v.begin()+traceEnd);
 
         // insert vector into newData
         newData[i.key()] = c;
     }
 
-    // copy new base location
-    std::copy(mBaseLocations.begin() + start , mBaseLocations.begin()+start + len, std::back_inserter(newBaseLocations));
+//    // copy new base location
+//    std::copy(mBaseLocations.begin() + start , mBaseLocations.begin()+start + len, std::back_inserter(newBaseLocations));
 
-    // Shift base location on new
-    for (auto& val : newBaseLocations)
-        val = val - traceStart;
+//    // Shift base location on new
+//    for (auto& val : newBaseLocations)
+//        val = val - traceStart;
 
-    // Shift base location on original
-    for (auto it = mBaseLocations.begin()+start + len; it!= mBaseLocations.end(); ++it)
-        (*it) = (*it) - (traceEnd - traceStart);
+//    // Shift base location on original
+//    for (auto it = mBaseLocations.begin()+start + len; it!= mBaseLocations.end(); ++it)
+//        (*it) = (*it) - (traceEnd - traceStart);
 
-    // erase base location on original
-    mBaseLocations.erase(mBaseLocations.begin() + start , mBaseLocations.begin()+start + len);
+//    // erase base location on original
+//    mBaseLocations.erase(mBaseLocations.begin() + start , mBaseLocations.begin()+start + len);
 
-    // copy baseScore and remove
-    std::copy(mBaseScores.begin() + start , mBaseScores.begin()+start + len, std::back_inserter(newBaseScores));
-    mBaseScores.erase(mBaseScores.begin() + start , mBaseScores.begin()+start + len);
+//    // copy baseScore and remove
+//    std::copy(mBaseScores.begin() + start , mBaseScores.begin()+start + len, std::back_inserter(newBaseScores));
+//    mBaseScores.erase(mBaseScores.begin() + start , mBaseScores.begin()+start + len);
 
-    //remove other region in containers
-    newSequence = mSequence.mid(start,len);
-    mSequence.remove(start, len);
+//    //remove other region in containers
+//    newSequence = mSequence.mid(start,len);
+//    mSequence.remove(start, len);
 
     return new Trace(newData,newBaseLocations,newBaseScores,newSequence, metadatas());
 
@@ -207,9 +222,6 @@ void Trace::insert(int pos, Trace *trace)
         std::copy(insert.begin(), insert.end(), std::inserter(source, source.begin()+traceStart));
 
     }
-
-    qDebug()<<"target "<<trace->datas()['A'];
-    qDebug()<<"source "<<mDatas['A'];
 
 
 
@@ -246,5 +258,18 @@ void Trace::trimRight(int size)
 {
 
     take(mBaseLocations.length()-size, mBaseLocations.length());
+}
+
+void Trace::debug() const
+{
+
+    qDebug()<<"trace size :"<<mDatas['A'].size();
+    qDebug()<<"seq size"<<sequence().length();
+    qDebug()<<"seq: "<<sequence().byteArray();
+
+
+
+
+
 }
 

@@ -138,7 +138,6 @@ protected :
     void drawEmpty(QPainter& painter);
 
 
-    QVector<int> adjacentBaseLocation() const;
 
 
 signals:
