@@ -544,7 +544,9 @@ void TraceView::cutSelection()
 
     nv->debug();
 
-
+    TraceView * v = new TraceView;
+    v->setTrace(nv);
+    v->show();
 
     viewport()->update();
 
