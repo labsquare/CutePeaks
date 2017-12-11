@@ -97,6 +97,9 @@ public:
 
     void debug() const;
 
+protected:
+    void computeShiftBaseLocations();
+
 
 private:
     QHash<QChar, QVector<int>> mDatas;

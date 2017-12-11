@@ -11,10 +11,7 @@ Trace::Trace(const QHash<QChar, QVector<int> > datas,
 {
 
     // compute shift base location
-    std::adjacent_difference(mBaseLocations.begin(),
-                             mBaseLocations.end(),
-                             std::back_inserter(mShiftBaseLocation),
-                             [](int a,int b){return b+(a-b)/2;});
+    computeShiftBaseLocations();
 
 
 }
@@ -151,8 +148,8 @@ Trace * Trace::take(int start, int len)
     Sequence newSequence;
 
     // extract trace coord to remove
-    int traceStart = mBaseLocations[start];
-    int traceEnd   = mBaseLocations[start+len];
+    int traceStart = shiftBaseLocations()[start];
+    int traceEnd   = shiftBaseLocations()[start+len];
 
     qDebug()<<"start / len"<<start<<" "<<len;
 
@@ -176,27 +173,30 @@ Trace * Trace::take(int start, int len)
         newData[i.key()] = c;
     }
 
-//    // copy new base location
-//    std::copy(mBaseLocations.begin() + start , mBaseLocations.begin()+start + len, std::back_inserter(newBaseLocations));
+    //    // copy new base location
+    std::copy(mBaseLocations.begin() + start , mBaseLocations.begin()+start + len, std::back_inserter(newBaseLocations));
 
-//    // Shift base location on new
-//    for (auto& val : newBaseLocations)
-//        val = val - traceStart;
+    // Shift base location on new
+    for (auto& val : newBaseLocations)
+        val = val - traceStart;
 
-//    // Shift base location on original
-//    for (auto it = mBaseLocations.begin()+start + len; it!= mBaseLocations.end(); ++it)
-//        (*it) = (*it) - (traceEnd - traceStart);
+    computeShiftBaseLocations();
 
-//    // erase base location on original
-//    mBaseLocations.erase(mBaseLocations.begin() + start , mBaseLocations.begin()+start + len);
 
-//    // copy baseScore and remove
-//    std::copy(mBaseScores.begin() + start , mBaseScores.begin()+start + len, std::back_inserter(newBaseScores));
-//    mBaseScores.erase(mBaseScores.begin() + start , mBaseScores.begin()+start + len);
+    // Shift base location on original
+    for (auto it = mBaseLocations.begin()+start + len; it!= mBaseLocations.end(); ++it)
+        (*it) = (*it) - (traceEnd - traceStart);
 
-//    //remove other region in containers
-//    newSequence = mSequence.mid(start,len);
-//    mSequence.remove(start, len);
+    // erase base location on original
+    mBaseLocations.erase(mBaseLocations.begin() + start , mBaseLocations.begin()+start + len);
+
+    // copy baseScore and remove
+    std::copy(mBaseScores.begin() + start , mBaseScores.begin()+start + len, std::back_inserter(newBaseScores));
+    mBaseScores.erase(mBaseScores.begin() + start , mBaseScores.begin()+start + len);
+
+    //remove other region in containers
+    newSequence = mSequence.mid(start,len);
+    mSequence.remove(start, len);
 
     return new Trace(newData,newBaseLocations,newBaseScores,newSequence, metadatas());
 
@@ -223,29 +223,25 @@ void Trace::insert(int pos, Trace *trace)
 
     }
 
+    // shift base location
+    int traceEnd = trace->baseLocations().last();
+
+    for (auto it = mBaseLocations.begin() + pos ; it!= mBaseLocations.end(); ++it)
+        (*it) = (*it) + traceEnd;
 
 
-    //    // shift base location
-    //    int traceEnd = trace->baseLocations().last();
-
-    //    for (auto it = mBaseLocations.begin() + pos ; it!= mBaseLocations.end(); ++it)
-    //        (*it) = (*it) + traceEnd;
-
-    //    // Insert new base location
-    //    for (int val : trace->baseLocations())
-    //        mBaseLocations.insert(mBaseLocations.begin()+pos, val+traceStart);
+    // Insert new base location
+    for (int val : trace->baseLocations())
+        mBaseLocations.insert(mBaseLocations.begin()+pos, val+traceStart);
 
 
-//    std::copy(trace->baseLocations().begin(), trace->baseLocations().end(),
-//              std::inserter(mBaseLocations,pos));
+    std::copy(trace->baseLocations().begin(), trace->baseLocations().end(),
+              std::inserter(mBaseLocations,pos));
 
-//    std::copy(trace->baseScores().begin(), trace->baseScores().end(),
-//              std::inserter(mBaseScores, pos));
+    std::copy(trace->baseScores().begin(), trace->baseScores().end(),
+              std::inserter(mBaseScores, pos));
 
-//    mSequence.insert(pos, trace->sequence());
-
-
-
+    mSequence.insert(pos, trace->sequence());
 
 
 
@@ -274,5 +270,15 @@ void Trace::debug() const
 
 
 
+}
+
+void Trace::computeShiftBaseLocations()
+{
+
+    mShiftBaseLocation.clear();
+    std::adjacent_difference(mBaseLocations.begin(),
+                             mBaseLocations.end(),
+                             std::back_inserter(mShiftBaseLocation),
+                             [](int a,int b){return b+(a-b)/2;});
 }
 
