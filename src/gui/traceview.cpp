@@ -542,11 +542,17 @@ void TraceView::cutSelection()
     Trace * nv = mTrace->take(mCurrentSelection.pos, mCurrentSelection.length);
     viewport()->update();
 
-    nv->debug();
 
-    TraceView * v = new TraceView;
-    v->setTrace(nv);
-    v->show();
+    QDialog d;
+    QVBoxLayout * l = new QVBoxLayout ;
+    TraceView v;
+    v.setTrace(nv);
+    l->addWidget(&v);
+    d.setLayout(l);
+
+    d.exec();
+
+    mTrace->insert(0, nv);
 
     viewport()->update();
 
