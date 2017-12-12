@@ -172,6 +172,9 @@ private:
 
     QPropertyAnimation * mScrollAnimation;
 
+    Trace * cutTrace = nullptr;
+
+
 
 };
 

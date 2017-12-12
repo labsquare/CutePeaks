@@ -130,6 +130,12 @@ Trace Trace::reverse() const
 }
 //-----------------------------------------------------------------
 Trace * Trace::take(int start, int len)
+// peaks     = ACGTATATATAT
+// interpeak = les coordonnées entre deux pic
+
+// trace = 1,2,3,4,12,10,8,1,2,3,43,2,11,
+// peaks[2] = 11 index dans trace
+// TODO : rename trace to amplitude
 {
     if (!isValid())
         return nullptr;
@@ -148,8 +154,8 @@ Trace * Trace::take(int start, int len)
     Sequence newSequence;
 
     // extract trace coord to remove
-    int traceStart = shiftBaseLocations()[start];
-    int traceEnd   = shiftBaseLocations()[start+len];
+    int traceStart = baseLocations()[start];
+    int traceEnd   = baseLocations()[start+len];
 
     qDebug()<<"start / len"<<start<<" "<<len;
 
@@ -164,9 +170,8 @@ Trace * Trace::take(int start, int len)
 
         // copy area to c
         std::copy(v.begin()+traceStart, v.begin()+traceEnd, std::back_inserter(c));
-
+        // todo move !
         // remove area from v
-        qDebug()<<traceStart<<" "<<traceEnd;
         v.erase(v.begin()+traceStart, v.begin()+traceEnd);
 
         // insert vector into newData
@@ -180,12 +185,12 @@ Trace * Trace::take(int start, int len)
     for (auto& val : newBaseLocations)
         val = val - traceStart;
 
-    computeShiftBaseLocations();
-
-
     // Shift base location on original
     for (auto it = mBaseLocations.begin()+start + len; it!= mBaseLocations.end(); ++it)
         (*it) = (*it) - (traceEnd - traceStart);
+
+    computeShiftBaseLocations();
+
 
     // erase base location on original
     mBaseLocations.erase(mBaseLocations.begin() + start , mBaseLocations.begin()+start + len);
@@ -206,9 +211,7 @@ void Trace::insert(int pos, Trace *trace)
 {
 
     // extract trace coord to remove
-    int traceStart = mBaseLocations[pos];
-
-    qDebug()<<"source "<<mDatas['A'];
+    int traceStart = baseLocations()[pos];
 
     // Insert trace section
     QHashIterator <QChar, QVector<int>>i(mDatas);
@@ -223,23 +226,27 @@ void Trace::insert(int pos, Trace *trace)
 
     }
 
-    // shift base location
-    int traceEnd = trace->baseLocations().last();
 
-    for (auto it = mBaseLocations.begin() + pos ; it!= mBaseLocations.end(); ++it)
-        (*it) = (*it) + traceEnd;
+    QVector<int> insertBaseLocation = trace->baseLocations();
+
+    // shift insert
+    for (int &i : insertBaseLocation)
+        i += mBaseLocations[pos];
+
+    // shift right
+    for (auto it = mBaseLocations.begin()+pos; it != mBaseLocations.end(); ++it)
+        (*it) = (*it) + insertBaseLocation.last();
+
+    std::copy(insertBaseLocation.begin(),
+              insertBaseLocation.end(),
+              std::inserter(mBaseLocations, mBaseLocations.begin()+pos));
 
 
-    // Insert new base location
-    for (int val : trace->baseLocations())
-        mBaseLocations.insert(mBaseLocations.begin()+pos, val+traceStart);
+    computeShiftBaseLocations();
 
-
-    std::copy(trace->baseLocations().begin(), trace->baseLocations().end(),
-              std::inserter(mBaseLocations,pos));
 
     std::copy(trace->baseScores().begin(), trace->baseScores().end(),
-              std::inserter(mBaseScores, pos));
+              std::inserter(mBaseScores, mBaseScores.begin()+pos));
 
     mSequence.insert(pos, trace->sequence());
 

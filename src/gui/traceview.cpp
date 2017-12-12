@@ -116,6 +116,14 @@ void TraceView::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Delete)
         cutSelection();
 
+    if (event->key() == Qt::Key_Insert)
+    {
+        if (cutTrace == nullptr)
+            return;
+        mTrace->insert(0, cutTrace);
+        viewport()->update();
+    }
+
 
     return QAbstractScrollArea::keyPressEvent(event);
 
@@ -552,7 +560,7 @@ void TraceView::cutSelection()
 
     d.exec();
 
-    mTrace->insert(0, nv);
+    cutTrace = nv;
 
     viewport()->update();
 
