@@ -154,8 +154,8 @@ Trace * Trace::take(int start, int len)
     Sequence newSequence;
 
     // extract trace coord to remove
-    int traceStart = baseLocations()[start];
-    int traceEnd   = baseLocations()[start+len];
+    int traceStart = shiftBaseLocations()[start];
+    int traceEnd   = shiftBaseLocations()[start+len];
 
     qDebug()<<"start / len"<<start<<" "<<len;
 
@@ -211,7 +211,7 @@ void Trace::insert(int pos, Trace *trace)
 {
 
     // extract trace coord to remove
-    int traceStart = baseLocations()[pos];
+    int traceStart = shiftBaseLocations()[pos];
 
     // Insert trace section
     QHashIterator <QChar, QVector<int>>i(mDatas);
@@ -225,7 +225,6 @@ void Trace::insert(int pos, Trace *trace)
         std::copy(insert.begin(), insert.end(), std::inserter(source, source.begin()+traceStart));
 
     }
-
 
     QVector<int> insertBaseLocation = trace->baseLocations();
 

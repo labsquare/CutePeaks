@@ -120,7 +120,7 @@ void TraceView::keyPressEvent(QKeyEvent *event)
     {
         if (cutTrace == nullptr)
             return;
-        mTrace->insert(0, cutTrace);
+        mTrace->insert(cutpos, cutTrace);
         viewport()->update();
     }
 
@@ -561,6 +561,7 @@ void TraceView::cutSelection()
     d.exec();
 
     cutTrace = nv;
+    cutpos = mCurrentSelection.pos;
 
     viewport()->update();
 
