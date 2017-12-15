@@ -167,11 +167,11 @@ void TraceView::drawAll(QPainter &painter)
     if (isValid()){
         // draw elements
         drawBases(painter);
-       // drawAminoAcid(painter);
+        drawAminoAcid(painter);
         drawPositions(painter);
 
         drawTraces(painter);
-       // drawConfident(painter);
+        drawConfident(painter);
         drawSelection(painter);
 
 

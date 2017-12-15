@@ -191,9 +191,7 @@ Trace * Trace::take(int start, int len)
 
     //    // Shift base location on new
     for (auto& val : newBaseLocations)
-        val = val - (traceEnd - traceStart);
-
-
+        val = val - (traceStart);
 
     // erase base location on original
     auto last = mBaseLocations.erase(mBaseLocations.begin() + start , mBaseLocations.begin()+start + len);
@@ -201,6 +199,9 @@ Trace * Trace::take(int start, int len)
     //    // Shift base location on original
     for (auto it = last ; it!= mBaseLocations.end(); ++it)
         (*it) = (*it) - (traceEnd - traceStart);
+
+   int delta =(traceEnd - traceStart);
+
 
     computeShiftBaseLocations();
 
@@ -221,6 +222,7 @@ void Trace::insert(int pos, Trace *trace)
 
     // extract trace coord to remove
     int traceStart = shiftBaseLocations()[pos];
+    int b = shiftBaseLocations()[pos+1];
 
 
     // Insert trace section
@@ -239,15 +241,21 @@ void Trace::insert(int pos, Trace *trace)
 
     QVector<int> insertBaseLocation = trace->baseLocations();
 
-    int insertSize = insertBaseLocation.last();
 
-    // shift insert
+//    // shift insert
     for (int &i : insertBaseLocation)
         i += traceStart;
 
-    // shift right
+   int ts = trace->shiftBaseLocations().first();
+   int te = trace->shiftBaseLocations().last();
+
+//    // shift right
+   // find 192 !!!!
     for (auto it = mBaseLocations.begin()+pos; it != mBaseLocations.end(); ++it)
-        (*it) = (*it) + insertSize;
+        (*it) = (*it) + 192;
+
+    int delta =(te - ts);
+
 
     std::copy(insertBaseLocation.begin(),
               insertBaseLocation.end(),
