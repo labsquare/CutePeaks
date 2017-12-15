@@ -241,20 +241,24 @@ void Trace::insert(int pos, Trace *trace)
 
     QVector<int> insertBaseLocation = trace->baseLocations();
 
+    //    // shift insert
+        for (int &i : insertBaseLocation)
+            i += traceStart;
 
-//    // shift insert
-    for (int &i : insertBaseLocation)
-        i += traceStart;
+
 
    int ts = trace->shiftBaseLocations().first();
-   int te = trace->shiftBaseLocations().last();
+   int te = 3;
 
-//    // shift right
+   int delta = trace->shiftBaseLocations().last()+ (mShiftBaseLocation.at(pos+1) - mShiftBaseLocation.at(pos));
+
+    qDebug()<<"delta" <<delta;
+
+
+    // shift right
    // find 192 !!!!
     for (auto it = mBaseLocations.begin()+pos; it != mBaseLocations.end(); ++it)
-        (*it) = (*it) + 192;
-
-    int delta =(te - ts);
+        (*it) = (*it) + delta;
 
 
     std::copy(insertBaseLocation.begin(),
