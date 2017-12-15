@@ -26,6 +26,10 @@ public:
      */
     const QVector<int>& baseLocations() const;
 
+    int baseCount() const;
+
+
+
     /*!
      * \brief shiftBaseLocations
      * This is used to enclose the peak.

@@ -17,7 +17,7 @@ TraceView::TraceView(QWidget *parent)
     setDisabled(true);
 
     //    setMouseTracking(true);
-    //    viewport()->setMouseTracking(true);
+     viewport()->setMouseTracking(true);
 
 }
 //-------------------------------------------------------------------------------
@@ -50,14 +50,18 @@ void TraceView::resizeEvent(QResizeEvent *event)
 //-------------------------------------------------------------------------------
 void TraceView::mouseMoveEvent(QMouseEvent *event)
 {
-    qDebug()<<event->button();
-    if (event->button() == Qt::LeftButton)
-    {
+
 
         int pos = locationFromView(event->pos().x());
-        qDebug()<<"move";
+        qDebug()<<"move "<<pos;
+        qDebug()<<"shift "<<mTrace->shiftBaseLocations()[pos];
+        qDebug()<<"baset "<<mTrace->baseLocations()[pos];
 
-    }
+
+        qDebug()<<pos;
+
+
+
 
 
     QAbstractScrollArea::mouseMoveEvent(event);
@@ -163,12 +167,14 @@ void TraceView::drawAll(QPainter &painter)
     if (isValid()){
         // draw elements
         drawBases(painter);
-        drawAminoAcid(painter);
+       // drawAminoAcid(painter);
         drawPositions(painter);
 
         drawTraces(painter);
-        drawConfident(painter);
+       // drawConfident(painter);
         drawSelection(painter);
+
+
     }
 }
 //-------------------------------------------------------------------------------
