@@ -52,20 +52,6 @@ void TraceView::resizeEvent(QResizeEvent *event)
 //-------------------------------------------------------------------------------
 void TraceView::mouseMoveEvent(QMouseEvent *event)
 {
-
-
-        int pos = locationFromView(event->pos().x());
-        qDebug()<<"move "<<pos;
-        qDebug()<<"shift "<<mTrace->shiftBaseLocations()[pos];
-        qDebug()<<"baset "<<mTrace->baseLocations()[pos];
-
-
-        qDebug()<<pos;
-
-
-
-
-
     QAbstractScrollArea::mouseMoveEvent(event);
 }
 

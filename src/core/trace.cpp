@@ -315,5 +315,6 @@ void Trace::computeShiftBaseLocations()
                              [](int a,int b){return b+std::ceil((a-b)/2);});
 
     mShiftBaseLocation[0] = 0;
+    mShiftBaseLocation.append(mShiftBaseLocation.last() + (mBaseLocations.last()-mShiftBaseLocation.last()));
 }
 
