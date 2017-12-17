@@ -3,10 +3,12 @@
 #include <QtWidgets>
 #include <QScroller>
 #include <QSvgGenerator>
+#include <QUndoStack>
 #include <QPropertyAnimation>
 #include "tracefactory.h"
 #include "abifsequencetrace.h"
 #include "tracecolor.h"
+#include "cuttracecommand.h"
 
 
 struct Selection
@@ -68,6 +70,8 @@ public:
 
     void scrollTo(int pos, bool animate = true);
 
+    QUndoStack * undoStack() const;
+
 
 public Q_SLOTS:
     void setAmplitudeFactor(float factor);
@@ -75,6 +79,10 @@ public Q_SLOTS:
     void setSelection(int pos, int length = 1);
 
     void cutSelection();
+
+    Trace * cut(int pos, int length);
+    void insert(int pos, Trace * trace);
+
 
 protected :
     void paintEvent(QPaintEvent * event)  override;
@@ -142,6 +150,7 @@ protected :
 
 signals:
     void selectionChanged(int pos, int length);
+    void changed();
 
 private:
     QString mFilename;
@@ -175,6 +184,7 @@ private:
     Trace * cutTrace = nullptr;
     int cutpos =0;
 
+    QUndoStack * mUndoStack;
 
 
 };

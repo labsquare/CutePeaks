@@ -37,6 +37,8 @@ public Q_SLOTS:
 
     void setTransparent();
 
+    void traceChanged();
+
 
 protected Q_SLOTS:
     void updateSelection();
@@ -59,6 +61,7 @@ private:
 
     QGraphicsOpacityEffect * mOpacityEffect = nullptr;
 
+    QMenu * mEditionMenu;
 
 };
 

@@ -9,7 +9,7 @@ HEADERS += \
     $$PWD/mainwindow.h \
     $$PWD/sequencehighlighter.h \
     $$PWD/tracecolor.h \
-    $$PWD/cuttracecommand.h
+    $$PWD/cuttracecommand.h \
 
 SOURCES += \
 #    $$PWD/sequenceview.cpp \
@@ -21,6 +21,6 @@ SOURCES += \
     $$PWD/mainwindow.cpp \
     $$PWD/sequencehighlighter.cpp \
     $$PWD/tracecolor.cpp \
-    $$PWD/cuttracecommand.cpp
+    $$PWD/cuttracecommand.cpp \
 
 RESOURCES +=

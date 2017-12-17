@@ -93,7 +93,7 @@ public:
      */
     Trace reverse() const;
 
-    Trace * take(int start, int len);
+    Trace * cut(int start, int len);
     void insert(int pos, Trace* trace);
 
     void trimLeft(int len);

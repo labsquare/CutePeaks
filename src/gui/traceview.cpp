@@ -3,6 +3,8 @@
 TraceView::TraceView(QWidget *parent)
     :QAbstractScrollArea(parent)
 {
+    mUndoStack = new QUndoStack;
+
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
@@ -495,6 +497,7 @@ void TraceView::setTrace(Trace *trace)
     viewport()->update();
     updateScrollbar();
 }
+
 //-------------------------------------------------------------------------------
 
 const Trace *TraceView::trace() const
@@ -553,24 +556,45 @@ void TraceView::setSelection(int pos, int length)
 void TraceView::cutSelection()
 {
 
-    Trace * nv = mTrace->take(mCurrentSelection.pos, mCurrentSelection.length);
+    mUndoStack->push(new CutTraceCommand(this, mCurrentSelection.pos, mCurrentSelection.length));
+    mUndoStack->redo();
+
+    emit changed();
+
+//    Trace * nv = mTrace->take(mCurrentSelection.pos, mCurrentSelection.length);
+//    viewport()->update();
+
+
+//    QDialog d;
+//    QVBoxLayout * l = new QVBoxLayout ;
+//    TraceView v;
+//    v.setTrace(nv);
+//    l->addWidget(&v);
+//    d.setLayout(l);
+
+//    d.exec();
+
+//    cutTrace = nv;
+//    cutpos = mCurrentSelection.pos;
+
+//    viewport()->update();
+
+
+}
+//-------------------------------------------------------------------------------
+Trace *TraceView::cut(int pos, int length)
+{
+    Trace *trace = mTrace->cut(pos, length);
     viewport()->update();
 
+    return trace;
 
-    QDialog d;
-    QVBoxLayout * l = new QVBoxLayout ;
-    TraceView v;
-    v.setTrace(nv);
-    l->addWidget(&v);
-    d.setLayout(l);
-
-    d.exec();
-
-    cutTrace = nv;
-    cutpos = mCurrentSelection.pos;
-
+}
+//-------------------------------------------------------------------------------
+void TraceView::insert(int pos, Trace *trace)
+{
+    mTrace->insert(pos, trace);
     viewport()->update();
-
 
 }
 //-------------------------------------------------------------------------------
@@ -637,6 +661,11 @@ void TraceView::scrollTo(int pos, bool animate)
 
     else
         horizontalScrollBar()->setValue(pos);
+}
+
+QUndoStack *TraceView::undoStack() const
+{
+        return mUndoStack;
 }
 
 

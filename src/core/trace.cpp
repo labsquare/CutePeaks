@@ -134,7 +134,7 @@ Trace Trace::reverse() const
 
 }
 //-----------------------------------------------------------------
-Trace * Trace::take(int start, int len)
+Trace * Trace::cut(int start, int len)
 // peaks     = ACGTATATATAT
 // interpeak = les coordonnées entre deux pic
 
@@ -281,13 +281,13 @@ void Trace::insert(int pos, Trace *trace)
 void Trace::trimLeft(int size)
 {
 
-    take(0, size);
+    cut(0, size);
 
 }
 void Trace::trimRight(int size)
 {
 
-    take(mBaseLocations.length()-size, mBaseLocations.length());
+    cut(mBaseLocations.length()-size, mBaseLocations.length());
 }
 
 void Trace::debug() const

@@ -155,6 +155,15 @@ void MainWindow::setTransparent()
 
 }
 
+void MainWindow::traceChanged()
+{
+
+
+
+
+
+}
+
 void MainWindow::updateSelection()
 {
 
@@ -195,6 +204,14 @@ void MainWindow::setupActions()
     //    QAction * viewMetaAction = viewMenu->addAction(tr("&Show metadata"), mMetaDock, SLOT(setVisible(bool)));
     //    viewMetaAction->setCheckable(true);
     //    viewMetaAction->setChecked(false);
+
+
+     mEditionMenu = bar->addMenu(tr("&Edit"));
+
+
+
+     mEditionMenu->addAction(mView->undoStack()->createUndoAction(this,"Undo"));
+     mEditionMenu->addAction(mView->undoStack()->createRedoAction(this,"Redo"));
 
 
 
