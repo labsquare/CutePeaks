@@ -501,6 +501,7 @@ void TraceView::setSelection(int pos, int length)
 void TraceView::clearSelection()
 {
     mCurrentSelection = {0,0};
+    viewport()->update();
 }
 //-------------------------------------------------------------------------------
 void TraceView::cutSelection()
@@ -524,6 +525,7 @@ Trace *TraceView::cut(int pos, int length)
 void TraceView::paste(Trace *trace)
 {
     mTrace->paste(trace);
+    setSelection(trace->insertIndex(), trace->baseCount());
     viewport()->update();
 
 }
