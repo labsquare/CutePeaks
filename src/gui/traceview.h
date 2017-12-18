@@ -146,6 +146,8 @@ protected :
 
     void drawEmpty(QPainter& painter);
 
+    void drawAxis(QPainter& painter);
+
 
 
 
@@ -186,6 +188,8 @@ private:
     int cutpos =0;
 
     QUndoStack * mUndoStack;
+
+    QPointF mMousePos;
 
 
 };

@@ -14,12 +14,12 @@ TraceView::TraceView(QWidget *parent)
 
     // enable touch screen
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents, true);
-    //QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
+    QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
 
     setDisabled(true);
 
     //    setMouseTracking(true);
-     viewport()->setMouseTracking(true);
+    viewport()->setMouseTracking(true);
 
 }
 //-------------------------------------------------------------------------------
@@ -52,31 +52,34 @@ void TraceView::resizeEvent(QResizeEvent *event)
 //-------------------------------------------------------------------------------
 void TraceView::mouseMoveEvent(QMouseEvent *event)
 {
+
+    //    mMousePos = event->pos();
+
+    //    viewport()->update();
+
+
     QAbstractScrollArea::mouseMoveEvent(event);
 }
 
 void TraceView::mousePressEvent(QMouseEvent *event)
 {
-    if ( event->pos().y() <= mHeaderHeight * 2)
-    {
-        // left click = select
 
-        if (event->modifiers() & Qt::ShiftModifier)
-        {
-            int before = mCurrentSelection.pos;
-            int now    = locationFromView(event->pos().x());
+            if (event->modifiers() & Qt::ShiftModifier)
+            {
+                int before = mCurrentSelection.pos;
+                int now    = locationFromView(event->pos().x());
 
-            qDebug()<<before<<" "<<now-before+1;
-            setSelection(before,now - before + 1);
-        }
-        else
-        {
-            int pos = locationFromView(event->pos().x());
-            qDebug()<<pos;
-            setSelection(pos);
-        }
+                qDebug()<<before<<" "<<now-before+1;
+                setSelection(before,now - before + 1);
+            }
 
-    }
+            else
+            {
+                int pos = locationFromView(event->pos().x());
+                qDebug()<<pos;
+                setSelection(pos);
+            }
+
 
     QAbstractScrollArea::mousePressEvent(event);
 }
@@ -142,12 +145,21 @@ void TraceView::drawAll(QPainter &painter)
     if (isValid()){
         // draw elements
         drawBases(painter);
-        drawAminoAcid(painter);
         drawPositions(painter);
+
+        drawSelection(painter);
+        drawAminoAcid(painter);
+
+        painter.translate(viewport()->rect().bottomLeft());
+        painter.scale(1.0, -1.0);
 
         drawTraces(painter);
         drawConfident(painter);
-        drawSelection(painter);
+
+        painter.translate(viewport()->rect().bottomLeft());
+        painter.scale(1.0, -1.0);
+
+        // drawAxis(painter); //TODO axis next release
 
 
     }
@@ -274,8 +286,8 @@ void TraceView::drawAminoAcid(QPainter &painter)
             pen.setColor(Qt::lightGray);
 
             QLinearGradient linearGrad(QPointF(rect.x(), rect.top()), QPointF(rect.x(), rect.bottom()));
-            linearGrad.setColorAt(0, QColor("#312FC1"));
-            linearGrad.setColorAt(1, QColor("#151451"));
+            linearGrad.setColorAt(0, QColor("#3FA2FC"));
+            linearGrad.setColorAt(1, QColor("#115FBE"));
 
             painter.setPen(pen);
             painter.setBrush(Qt::red);
@@ -303,10 +315,6 @@ void TraceView::drawAminoAcid(QPainter &painter)
 //-------------------------------------------------------------------------------
 void TraceView::drawTraces(QPainter& painter)
 {
-    // inverse y axis
-    painter.translate(viewport()->rect().bottomLeft());
-    painter.scale(1.0, -1.0);
-
     for (QChar base : trace()->basesAvaible())
     {
         // load paths to draw
@@ -332,6 +340,7 @@ void TraceView::drawTraces(QPainter& painter)
         painter.setBrush(Qt::transparent);
         painter.drawPath(path);
     }
+
 }
 //-------------------------------------------------------------------------------
 void TraceView::drawSelection(QPainter &painter)
@@ -416,6 +425,20 @@ void TraceView::drawEmpty(QPainter &painter)
     painter.setFont(font);
     painter.setPen(QPen(Qt::lightGray));
     painter.drawText(viewport()->rect(), Qt::AlignCenter, "Open trace file ...");
+
+
+}
+//-------------------------------------------------------------------------------
+void TraceView::drawAxis(QPainter &painter)
+{
+
+    QPen pen;
+    pen.setStyle(Qt::DashLine);
+    pen.setColor(Qt::lightGray);
+
+    painter.setPen(pen);
+    painter.drawLine(mMousePos.x(), mHeaderHeight, mMousePos.x(), viewport()->height());
+    painter.drawLine(0, viewport()->height()-mMousePos.y(), viewport()->width(), viewport()->height()-mMousePos.y());
 
 
 }
@@ -517,7 +540,7 @@ Trace *TraceView::cut(int pos, int length)
     Trace *trace = mTrace->cut(pos, length);
     clearSelection();
     viewport()->update();
-
+    updateScrollbar();
     return trace;
 
 }
@@ -527,6 +550,7 @@ void TraceView::paste(Trace *trace)
     mTrace->paste(trace);
     setSelection(trace->insertIndex(), trace->baseCount());
     viewport()->update();
+    updateScrollbar();
 
 }
 //-------------------------------------------------------------------------------
@@ -599,7 +623,7 @@ void TraceView::scrollTo(int pos, bool animate)
 
 QUndoStack *TraceView::undoStack() const
 {
-        return mUndoStack;
+    return mUndoStack;
 }
 
 
