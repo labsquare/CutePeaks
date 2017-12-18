@@ -94,12 +94,18 @@ public:
     Trace reverse() const;
 
     Trace * cut(int start, int len);
-    void insert(int pos, Trace* trace);
+    void paste(Trace* trace);
 
     void trimLeft(int len);
     void trimRight(int len);
 
     void debug() const;
+
+    int insertPos() const;
+    void setInsertPos(int insertPos);
+
+    int insertIndex() const;
+    void setInsertIndex(int insertIndex);
 
 protected:
     void computeShiftBaseLocations();
@@ -112,6 +118,9 @@ private:
     QVector<int> mBaseScores;
     Sequence mSequence;
     QHash<QString, QVariant> mMetadatas;
+
+    int mInsertPos   = 0;
+    int mInsertIndex = 0;
 
 
 };

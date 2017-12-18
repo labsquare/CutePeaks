@@ -57,7 +57,6 @@ void TraceView::mouseMoveEvent(QMouseEvent *event)
 
 void TraceView::mousePressEvent(QMouseEvent *event)
 {
-
     if ( event->pos().y() <= mHeaderHeight * 2)
     {
         // left click = select
@@ -66,29 +65,20 @@ void TraceView::mousePressEvent(QMouseEvent *event)
         {
             int before = mCurrentSelection.pos;
             int now    = locationFromView(event->pos().x());
+
+            qDebug()<<before<<" "<<now-before+1;
             setSelection(before,now - before + 1);
         }
         else
         {
             int pos = locationFromView(event->pos().x());
+            qDebug()<<pos;
             setSelection(pos);
         }
-
-
-//        // right click = context menu
-//        if ( event->button() == Qt::RightButton)
-//        {
-//            QMenu menu;
-//            menu.addAction("crop left");
-//            menu.exec(event->globalPos());
-
-//        }
-
 
     }
 
     QAbstractScrollArea::mousePressEvent(event);
-
 }
 //-------------------------------------------------------------------------------
 bool TraceView::viewportEvent(QEvent *event)
@@ -110,10 +100,7 @@ void TraceView::keyPressEvent(QKeyEvent *event)
 
     if (event->key() == Qt::Key_Insert)
     {
-        if (cutTrace == nullptr)
-            return;
-        mTrace->insert(cutpos, cutTrace);
-        viewport()->update();
+
     }
 
 
@@ -213,45 +200,34 @@ void TraceView::drawConfident(QPainter& painter)
 
 void TraceView::drawBases(QPainter& painter)
 {
-    int yMargin = 27;
     QPen pen;
-    pen.setColor(Qt::gray);
-    painter.setPen(pen);
-    painter.setBrush(QBrush("#F5F5F5"));
-    //    painter.drawRect(0, 0, viewport()->width(), yMargin);
-    int codonCounter = 0;
-    QPointF oldPos;
-    bool swapBgColor = false;
-
     QFont font;
     font.setPixelSize(15);
     font.setBold(true);
-    QFontMetrics metrics(font);
     painter.setFont(font);
 
-    int previousPos = 0;
-
-    QVector <int> diffBaseLocation = trace()->shiftBaseLocations();
-
     bool alternColor = true;
-    for (int i=0; i<diffBaseLocation.length()-1; ++i, alternColor = !alternColor)
+    // loop over all base position
+    for (int i=0; i<trace()->baseLocations().length(); ++i, alternColor = !alternColor)
     {
-        int pos = diffBaseLocation.at(i);
+        // get shift base ( before )
+        int pos = trace()->shiftBaseLocations().at(i);
 
         if (inView(pos, 10))
         {
-            int a   = traceToView(diffBaseLocation.at(i));
-            int b   = traceToView(diffBaseLocation.at(i+1));
+            // get border rect
+            int leftBase  = traceToView(trace()->shiftBaseLocations().at(i));
+            int rightBase = traceToView(trace()->shiftBaseLocations().at(i+1));
 
             QChar base = trace()->sequence().at(i);
 
+            // draw rect background
             QRect rect;
-            rect.setLeft(a);
-            rect.setRight(b);
+            rect.setLeft(leftBase);
+            rect.setRight(rightBase);
             rect.setY(0);
             rect.setHeight(mHeaderHeight);
 
-            QPen pen;
             pen.setWidthF(0.5);
             pen.setColor(Qt::lightGray);
             painter.setPen(pen);
@@ -259,18 +235,11 @@ void TraceView::drawBases(QPainter& painter)
 
             painter.drawRect(rect);
 
-
+            // draw Base name
             painter.setPen(QPen(TraceColor::color(base)));
             font.setBold(false);
             painter.setFont(font);
-
             painter.drawText(rect, Qt::AlignCenter, base);
-
-
-            //            if ( !(i % 10)){
-            //                painter.setPen(QPen(Qt::lightGray));
-            //                painter.drawText(textPos + QPoint(0,50), QString::number(i));
-            //            }
         }
     }
 }
@@ -282,21 +251,21 @@ void TraceView::drawAminoAcid(QPainter &painter)
     pen.setColor(Qt::gray);
     painter.setPen(pen);
 
-    QVector <int> diffBaseLocation = trace()->shiftBaseLocations();
 
-    for (int i=0; i<diffBaseLocation.length()-3; i+=3)
+    for (int i=0; i<trace()->baseLocations().length()-3; i+=3)
     {
-        int pos = diffBaseLocation.at(i);
+        int pos = trace()->baseLocations().at(i);
 
         if (inView(pos,40))
         {
 
-            int a = traceToView(diffBaseLocation.at(i));
-            int b = traceToView(diffBaseLocation.at(i+3));
+            int leftBase  = traceToView(trace()->shiftBaseLocations().at(i));
+            int rightBase = traceToView(trace()->shiftBaseLocations().at(i+3));
 
+            // draw rect
             QRect rect;
-            rect.setLeft(a);
-            rect.setRight(b);
+            rect.setLeft(leftBase);
+            rect.setRight(rightBase);
             rect.setY(mHeaderHeight);
             rect.setHeight(mHeaderHeight);
 
@@ -304,18 +273,14 @@ void TraceView::drawAminoAcid(QPainter &painter)
             pen.setWidthF(0.5);
             pen.setColor(Qt::lightGray);
 
-
             QLinearGradient linearGrad(QPointF(rect.x(), rect.top()), QPointF(rect.x(), rect.bottom()));
             linearGrad.setColorAt(0, QColor("#312FC1"));
             linearGrad.setColorAt(1, QColor("#151451"));
 
             painter.setPen(pen);
             painter.setBrush(Qt::red);
-
             painter.setBrush(QBrush(linearGrad));
-
             painter.drawRect(rect);
-
 
             QByteArray codon = trace()->sequence().byteArray().mid(i,3);
             Sequence seq(codon);
@@ -331,7 +296,6 @@ void TraceView::drawAminoAcid(QPainter &painter)
 
             QFontMetrics metrics(font);
             painter.drawText(rect,Qt::AlignCenter, aa);
-
         }
     }
 
@@ -416,9 +380,6 @@ void TraceView::drawSelection(QPainter &painter)
     // draw line
     else
         painter.drawLine(up.x(),up.y(), up.x(), viewport()->height());
-
-
-
 }
 //-------------------------------------------------------------------------------
 void TraceView::drawPositions(QPainter &painter)
@@ -441,10 +402,8 @@ void TraceView::drawPositions(QPainter &painter)
 
         if (inView(pos))
         {
-
             int x = traceToView(pos) - metrics.width(QString::number(i))/2;
             painter.drawText(QPoint(x, mHeaderHeight*3), QString::number(i));
-
         }
     }
 }
@@ -527,7 +486,7 @@ void TraceView::setSelection(int pos, int length)
     int max   = trace()->baseLocations().length();
     pos       = pos < 0 ? 0 : pos;
     pos       = pos >= max ? max-1 : pos;
-    length    = pos+length >= max ? max-1-pos : length;
+    length    = pos+length > max ? max-1-pos : length;
 
     mCurrentSelection = {pos, length};
 
@@ -539,47 +498,32 @@ void TraceView::setSelection(int pos, int length)
     emit selectionChanged(pos,length);
 }
 //-------------------------------------------------------------------------------
+void TraceView::clearSelection()
+{
+    mCurrentSelection = {0,0};
+}
+//-------------------------------------------------------------------------------
 void TraceView::cutSelection()
 {
 
     mUndoStack->push(new CutTraceCommand(this, mCurrentSelection.pos, mCurrentSelection.length));
     mUndoStack->redo();
-
     emit changed();
-
-//    Trace * nv = mTrace->take(mCurrentSelection.pos, mCurrentSelection.length);
-//    viewport()->update();
-
-
-//    QDialog d;
-//    QVBoxLayout * l = new QVBoxLayout ;
-//    TraceView v;
-//    v.setTrace(nv);
-//    l->addWidget(&v);
-//    d.setLayout(l);
-
-//    d.exec();
-
-//    cutTrace = nv;
-//    cutpos = mCurrentSelection.pos;
-
-//    viewport()->update();
-
-
 }
 //-------------------------------------------------------------------------------
 Trace *TraceView::cut(int pos, int length)
 {
     Trace *trace = mTrace->cut(pos, length);
+    clearSelection();
     viewport()->update();
 
     return trace;
 
 }
 //-------------------------------------------------------------------------------
-void TraceView::insert(int pos, Trace *trace)
+void TraceView::paste(Trace *trace)
 {
-    mTrace->insert(pos, trace);
+    mTrace->paste(trace);
     viewport()->update();
 
 }
@@ -625,12 +569,14 @@ int TraceView::traceFromView(int x)
 int TraceView::locationFromView(int x)
 {
     int X = traceFromView(x);
+
     for (int i=1; i< trace()->baseLocations().length(); ++i)
     {
         if (trace()->shiftBaseLocations().at(i) >= X)
             return i-1;
     }
-    return trace()->shiftBaseLocations().length() -1;
+
+    return trace()->baseLocations().length()-1;
 }
 //-------------------------------------------------------------------------------
 void TraceView::scrollTo(int pos, bool animate)

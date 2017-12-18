@@ -15,6 +15,6 @@ void CutTraceCommand::redo()
 
 void CutTraceCommand::undo()
 {
-    mView->insert(mPos, mCutTrace);
+    mView->paste(mCutTrace);
 }
 

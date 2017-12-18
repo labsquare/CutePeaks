@@ -77,11 +77,12 @@ public Q_SLOTS:
     void setAmplitudeFactor(float factor);
     void setScaleFactor(float factor);
     void setSelection(int pos, int length = 1);
+    void clearSelection();
 
     void cutSelection();
 
     Trace * cut(int pos, int length);
-    void insert(int pos, Trace * trace);
+    void paste( Trace * trace);
 
 
 protected :
