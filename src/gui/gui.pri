@@ -10,6 +10,7 @@ HEADERS += \
     $$PWD/sequencehighlighter.h \
     $$PWD/tracecolor.h \
     $$PWD/cuttracecommand.h \
+    $$PWD/fastaeditor.h
 
 SOURCES += \
 #    $$PWD/sequenceview.cpp \
@@ -22,5 +23,6 @@ SOURCES += \
     $$PWD/sequencehighlighter.cpp \
     $$PWD/tracecolor.cpp \
     $$PWD/cuttracecommand.cpp \
+    $$PWD/fastaeditor.cpp
 
 RESOURCES +=

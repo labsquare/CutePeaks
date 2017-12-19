@@ -3,6 +3,7 @@
 #include <QtWidgets>
 #include "abstractpanelwidget.h"
 #include "sequencehighlighter.h"
+#include "fastaeditor.h"
 
 class SequencePanelWidget : public AbstractPanelWidget
 {
@@ -19,7 +20,7 @@ Q_SIGNALS:
     void selectionChanged(int pos, int length);
 
 private:
-    QPlainTextEdit * mEdit;
+    FastaEditor * mEdit;
     SequenceHighlighter * mHighlighter;
 };
 

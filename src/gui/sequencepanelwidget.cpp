@@ -3,7 +3,7 @@
 SequencePanelWidget::SequencePanelWidget(QWidget * parent)
     :AbstractPanelWidget(parent)
 {
-    mEdit = new QPlainTextEdit;
+    mEdit = new FastaEditor;
     mHighlighter = new SequenceHighlighter(mEdit->document());
     setCentralWidget(mEdit);
 
@@ -11,7 +11,7 @@ SequencePanelWidget::SequencePanelWidget(QWidget * parent)
 
     connect(mEdit,SIGNAL(selectionChanged()),this,SLOT(test()));
 
-
+    mEdit->setLineWrapMode(QPlainTextEdit::WidgetWidth);
 }
 
 void SequencePanelWidget::load()

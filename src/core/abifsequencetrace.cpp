@@ -1,5 +1,5 @@
 #include "abifsequencetrace.h"
-
+#include <QDebug>
 
 AbifSequenceTrace::AbifSequenceTrace(QIODevice *device)
     :AbstractTraceReader(device)

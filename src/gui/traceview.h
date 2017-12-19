@@ -3,7 +3,6 @@
 #include <QtWidgets>
 #include <QScroller>
 #include <QSvgGenerator>
-#include <QUndoStack>
 #include <QPropertyAnimation>
 #include "tracefactory.h"
 #include "abifsequencetrace.h"
@@ -70,7 +69,7 @@ public:
 
     void scrollTo(int pos, bool animate = true);
 
-    QUndoStack * undoStack() const;
+    const Selection& currentSelection() const;
 
 
 public Q_SLOTS:
@@ -78,8 +77,6 @@ public Q_SLOTS:
     void setScaleFactor(float factor);
     void setSelection(int pos, int length = 1);
     void clearSelection();
-
-    void cutSelection();
 
     Trace * cut(int pos, int length);
     void paste( Trace * trace);
@@ -186,8 +183,6 @@ private:
 
     Trace * cutTrace = nullptr;
     int cutpos =0;
-
-    QUndoStack * mUndoStack;
 
     QPointF mMousePos;
 

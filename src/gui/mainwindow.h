@@ -6,6 +6,8 @@
 #include <QtWidgets>
 #include <QSvgGenerator>
 #include <QGraphicsOpacityEffect>
+#include <QUndoStack>
+#include "cuttracecommand.h"
 #include "traceview.h"
 #include "sequenceview.h"
 #include "infopanelwidget.h"
@@ -32,12 +34,14 @@ public Q_SLOTS:
     void setFilename(const QString& filename);
     void writeSettings();
     void restoreSettings();
-
     void about();
-
     void setTransparent();
 
-    void traceChanged();
+   // Trace actions
+    void removeSelection();
+
+
+
 
 
 protected Q_SLOTS:
@@ -56,12 +60,10 @@ private:
     QSlider * mXSlider;
     QString mFile;
     QLineEdit * mSearchbar;
-
     QList<AbstractPanelWidget*> mPanels;
-
     QGraphicsOpacityEffect * mOpacityEffect = nullptr;
 
-    QMenu * mEditionMenu;
+    QUndoStack * mUndoStack;
 
 };
 

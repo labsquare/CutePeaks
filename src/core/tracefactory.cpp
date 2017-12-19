@@ -40,6 +40,9 @@ Trace * TraceFactory::createTrace(const QString &filename)
     if (TraceFactory::filetype(filename) == SCF)
         reader.reset(new ScfSequenceTrace(&file));
 
+
+
+
     return reader->createTrace();
 }
 

@@ -3,12 +3,11 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-
     mView        = new TraceView;
     mYSlider     = new QSlider(Qt::Horizontal);
     mXSlider     = new QSlider(Qt::Horizontal);
     mSearchbar   = new QLineEdit();
-
+    mUndoStack   = new QUndoStack(this);
 
     setCentralWidget(mView);
 
@@ -155,15 +154,16 @@ void MainWindow::setTransparent()
 
 }
 
-void MainWindow::traceChanged()
+void MainWindow::removeSelection()
 {
 
-
+    mUndoStack->push(new CutTraceCommand(mView,
+                                         mView->currentSelection().pos,
+                                         mView->currentSelection().length));
 
 
 
 }
-
 void MainWindow::updateSelection()
 {
 
@@ -196,37 +196,82 @@ void MainWindow::setupActions()
     QMenuBar * bar = new QMenuBar;
     setMenuBar(bar);
 
-    QMenu * openMenu = bar->addMenu(tr("&File"));
-    openMenu->addAction(tr("&Open"), this, SLOT(openFile()), QKeySequence::Open);
-    openMenu->addAction(tr("Quit"), qApp, SLOT(quit()));
+    // Create app menus
+    // file Menu
+    QMenu * fileMenu       = bar->addMenu(tr("&File"));
+    QAction * openAction   = fileMenu->addAction(tr("&Open"), this, SLOT(openFile()), QKeySequence::Open);
+    QAction * saveAction   = fileMenu->addAction(tr("&Save"), this, SLOT(openFile()), QKeySequence::Save);
+    QAction * exportAction = fileMenu->addAction(tr("Export As"));
+    exportAction->setMenu(new QMenu);
+    QAction * exportPng    = exportAction->menu()->addAction(tr("PNG Image"));
+    QAction * exportSvg    = exportAction->menu()->addAction(tr("SVG Image"));
+    QAction * exportCsv    = exportAction->menu()->addAction(tr("CSV dataset"));
+    QAction * exportFasta  = exportAction->menu()->addAction(tr("FASTA sequence"));
 
-    //   QMenu * viewMenu = bar->addMenu(tr("&View"));
-    //    QAction * viewMetaAction = viewMenu->addAction(tr("&Show metadata"), mMetaDock, SLOT(setVisible(bool)));
-    //    viewMetaAction->setCheckable(true);
-    //    viewMetaAction->setChecked(false);
+    fileMenu->addSeparator();
+    fileMenu->addAction(tr("Close"), qApp, SLOT(closeAllWindows()));
+
+    // edit Menu
+    QMenu * editMenu       = bar->addMenu(tr("&Edit"));
+
+    editMenu->addAction(mUndoStack->createUndoAction(this,"Undo"));
+    editMenu->addAction(mUndoStack->createRedoAction(this,"Redo"));
+    editMenu->addSeparator();
+    editMenu->addAction(tr("Copy base(s)"), this,SLOT(openFile()),QKeySequence::Copy);
+    editMenu->addAction(tr("Copy amino acid(s)"), this,SLOT(openFile()));
+    editMenu->addSeparator();
+    editMenu->addAction(tr("Select all"), this,SLOT(openFile()), QKeySequence::SelectAll);
+    editMenu->addSeparator();
+    QAction * remAction = editMenu->addAction(tr("Remove selection"), this,SLOT(openFile()),QKeySequence::Delete);
+    QAction * revAction = editMenu->addAction(tr("Revert Sequence"), this,SLOT(openFile()),  QKeySequence(Qt::CTRL + Qt::Key_I));
+    editMenu->addSeparator();
+    editMenu->addAction(tr("Find Sequence"), this,SLOT(openFile()),  QKeySequence::Find);
 
 
-     mEditionMenu = bar->addMenu(tr("&Edit"));
+    // view Menu
+    QMenu * viewMenu          = bar->addMenu(tr("&View"));
+
+    QAction * showQualAction     = viewMenu->addAction(tr("Show quality"), this, SLOT(openFile()));
+    QAction * showAminoAction    = viewMenu->addAction(tr("Show aminoacid"), this, SLOT(openFile()));
+    viewMenu->addSeparator();
+    QAction * showSequenceAction = viewMenu->addAction(tr("Show sequence"), this, SLOT(openFile()));
+    QAction * showMetadataAction = viewMenu->addAction(tr("Show metadata"), this, SLOT(openFile()));
 
 
+    showQualAction->setCheckable(true);
+    showAminoAction->setCheckable(true);
+    showSequenceAction->setCheckable(true);
+    showMetadataAction->setCheckable(true);
+    viewMenu->addSeparator();
+    QAction * aminoAcidAction = viewMenu->addAction(tr("frameshift"));
+    aminoAcidAction->setMenu(new QMenu());
+    QActionGroup * frameGroup = new QActionGroup(this);
+    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 1"));
+    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 2"));
+    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 3"));
 
-     mEditionMenu->addAction(mView->undoStack()->createUndoAction(this,"Undo"));
-     mEditionMenu->addAction(mView->undoStack()->createRedoAction(this,"Redo"));
+    frameGroup->setExclusive(true);
+    for (auto a : frameGroup->actions())
+        a->setCheckable(true);
 
-
+    frameGroup->actions().first()->setChecked(true);
+    viewMenu->addSeparator();
 
     QMenu * helpMenu = bar->addMenu(tr("&Help"));
     helpMenu->addAction(tr("&About"), this, SLOT(about()));
     helpMenu->addAction(tr("About Qt"), qApp, SLOT(aboutQt()));
 
-
     QToolBar * toolbar = addToolBar("mainbar");
-    toolbar->addAction("Open");
-    toolbar->addAction("Save");
-    toolbar->addAction("Save as ");
+    toolbar->addAction(openAction);
+    toolbar->addAction(saveAction);
+    toolbar->addAction(exportAction);
     toolbar->addSeparator();
-    toolbar->addAction("Crop");
-    toolbar->addAction("Remove");
+    toolbar->addAction(remAction);
+    toolbar->addAction(revAction);
+    toolbar->addSeparator();
+    toolbar->addAction(aminoAcidAction);
+
+
 
     QWidget * spacer = new QWidget;
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);

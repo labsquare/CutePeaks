@@ -3,7 +3,6 @@
 TraceView::TraceView(QWidget *parent)
     :QAbstractScrollArea(parent)
 {
-    mUndoStack = new QUndoStack;
 
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -97,15 +96,6 @@ void TraceView::keyPressEvent(QKeyEvent *event)
 
     if (event->key() == Qt::Key_PageDown)
         scrollTo(horizontalScrollBar()->maximum());
-
-    if (event->key() == Qt::Key_Delete)
-        cutSelection();
-
-    if (event->key() == Qt::Key_Insert)
-    {
-
-    }
-
 
     return QAbstractScrollArea::keyPressEvent(event);
 
@@ -442,6 +432,11 @@ void TraceView::drawAxis(QPainter &painter)
 
 
 }
+
+const Selection &TraceView::currentSelection() const
+{
+        return mCurrentSelection;
+}
 //-------------------------------------------------------------------------------
 
 void TraceView::setFilename(const QString &filename)
@@ -525,14 +520,6 @@ void TraceView::clearSelection()
 {
     mCurrentSelection = {0,0};
     viewport()->update();
-}
-//-------------------------------------------------------------------------------
-void TraceView::cutSelection()
-{
-
-    mUndoStack->push(new CutTraceCommand(this, mCurrentSelection.pos, mCurrentSelection.length));
-    mUndoStack->redo();
-    emit changed();
 }
 //-------------------------------------------------------------------------------
 Trace *TraceView::cut(int pos, int length)
@@ -621,9 +608,5 @@ void TraceView::scrollTo(int pos, bool animate)
         horizontalScrollBar()->setValue(pos);
 }
 
-QUndoStack *TraceView::undoStack() const
-{
-    return mUndoStack;
-}
 
 
