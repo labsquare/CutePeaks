@@ -225,7 +225,7 @@ void MainWindow::setupActions()
     QAction * remAction = editMenu->addAction(tr("Remove selection"), this,SLOT(openFile()),QKeySequence::Delete);
     QAction * revAction = editMenu->addAction(tr("Revert Sequence"), mView,SLOT(revert()),  QKeySequence(Qt::CTRL + Qt::Key_I));
     editMenu->addSeparator();
-    editMenu->addAction(tr("Find Sequence"), this,SLOT(openFile()),  QKeySequence::Find);
+    editMenu->addAction(tr("Find Sequence"), mSearchbar,SLOT(setFocus()),  QKeySequence::Find);
 
 
     // view Menu
@@ -257,7 +257,15 @@ void MainWindow::setupActions()
     frameGroup->actions().first()->setChecked(true);
     viewMenu->addSeparator();
 
+    viewMenu->addAction("Transparent");
+
     QMenu * helpMenu = bar->addMenu(tr("&Help"));
+    helpMenu->addAction(tr("Check update"), qApp, SLOT(aboutQt()));
+    helpMenu->addAction(tr("Send issue"), qApp, SLOT(aboutQt()));
+    helpMenu->addSeparator();
+    helpMenu->addAction(tr("Join labsquare"), qApp, SLOT(aboutQt()));
+    helpMenu->addAction(tr("Donate"), qApp, SLOT(aboutQt()));
+    helpMenu->addSeparator();
     helpMenu->addAction(tr("&About"), this, SLOT(about()));
     helpMenu->addAction(tr("About Qt"), qApp, SLOT(aboutQt()));
 
