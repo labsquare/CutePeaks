@@ -144,7 +144,7 @@ void TraceView::drawAll(QPainter &painter)
         painter.scale(1.0, -1.0);
 
         drawTraces(painter);
-        drawConfident(painter);
+       // drawConfident(painter);
 
         painter.translate(viewport()->rect().bottomLeft());
         painter.scale(1.0, -1.0);
@@ -538,6 +538,15 @@ void TraceView::paste(Trace *trace)
     setSelection(trace->insertIndex(), trace->baseCount());
     viewport()->update();
     updateScrollbar();
+
+}
+//-------------------------------------------------------------------------------
+void TraceView::revert()
+{
+    qDebug()<<Q_FUNC_INFO<<"revert sequence";
+
+    mTrace->revert();
+    viewport()->update();
 
 }
 //-------------------------------------------------------------------------------

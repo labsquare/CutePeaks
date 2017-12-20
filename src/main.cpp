@@ -19,7 +19,6 @@ int main(int argc, char *argv[])
     app.installTranslator(&translator);
 
 
-
     MainWindow w;
     w.setFilename("/tmp/examples/A_forward.ab1");
     w.show();

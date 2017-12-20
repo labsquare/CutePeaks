@@ -91,7 +91,8 @@ public:
      * \brief reverse
      * \return the reverse trace complement
      */
-    Trace reverse() const;
+
+    void revert();
 
     Trace * cut(int start, int len);
     void paste(Trace* trace);

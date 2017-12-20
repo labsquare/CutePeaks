@@ -223,7 +223,7 @@ void MainWindow::setupActions()
     editMenu->addAction(tr("Select all"), this,SLOT(openFile()), QKeySequence::SelectAll);
     editMenu->addSeparator();
     QAction * remAction = editMenu->addAction(tr("Remove selection"), this,SLOT(openFile()),QKeySequence::Delete);
-    QAction * revAction = editMenu->addAction(tr("Revert Sequence"), this,SLOT(openFile()),  QKeySequence(Qt::CTRL + Qt::Key_I));
+    QAction * revAction = editMenu->addAction(tr("Revert Sequence"), mView,SLOT(revert()),  QKeySequence(Qt::CTRL + Qt::Key_I));
     editMenu->addSeparator();
     editMenu->addAction(tr("Find Sequence"), this,SLOT(openFile()),  QKeySequence::Find);
 

@@ -83,26 +83,15 @@ Sequence Sequence::translate(ReadFame frame) const
     return protein;
 }
 
-Sequence Sequence::reverse() const
+void Sequence::revert()
 {
-    QByteArray c;
-    c.fill('A', length());
+    for (auto &base : mArray)
+        base = NucleotidAlphabet::complement(base);
 
-    auto src_begin = this->byteArray().begin();
-    auto src_end = this->byteArray().end(); src_end--;
-    auto c_begin = c.begin();
-    auto c_end = c.end(); c_end--;
-    for(; src_begin <= src_end; src_begin++, src_end--, c_begin++, c_end--)
-    {
-        *c_begin = *src_end;
-        *c_end = *src_begin;
-    }
+    std::reverse(mArray.begin(), mArray.end());
 
-    Sequence newSeq = Sequence(c);
-    newSeq.setStrand(strand() == Forward ? Reverse : Forward);
-    newSeq.setType(type());
-    newSeq.setName(name());
-    return newSeq;
+    mStrand = mStrand == Sequence::Forward ? Sequence::Reverse : Sequence::Forward;
+
 }
 
 QString Sequence::name() const
@@ -247,6 +236,6 @@ void Sequence::insert(int pos, const Sequence &sequence)
 
 Sequence Sequence::mid(int pos, int len)
 {
-   QByteArray array = mArray.mid(pos, len);
-   return Sequence(array, strand(), type());
+    QByteArray array = mArray.mid(pos, len);
+    return Sequence(array, strand(), type());
 }

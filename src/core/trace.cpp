@@ -84,8 +84,6 @@ QVariant Trace::value(const QString &key) const
 //-----------------------------------------------------------------
 bool Trace::isValid() const
 {
-
-
     // need to improve
     if (!datas().contains('A'))
         return false;
@@ -102,35 +100,28 @@ bool Trace::isValid() const
     return true;
 }
 //-----------------------------------------------------------------
-Trace Trace::reverse() const
+void Trace::revert()
 {
-    QHash<QChar, QVector<int>> new_datas;
-    QVector<int> new_baseLocations;
-    QVector<int> new_baseScores;
-    Sequence new_sequence;
+    if (!isValid())
+        return ;
 
-    // reverse datas orientation
-    QHashIterator<QChar, QVector<int>>i(datas());
-    while (i.hasNext()) {
-        i.next();
-        QVector<int> values = i.value();
-        std::reverse(values.begin(), values.end());
-        new_datas[NucleotidAlphabet::complement(i.key())] = values;
-    }
+    // complements ...
+    mDatas['A'].swap(mDatas['T']);
+    mDatas['C'].swap(mDatas['G']);
 
-    // reverse base location
-    new_baseLocations = baseLocations();
-    std::reverse(new_baseLocations.begin(), new_baseLocations.end());
+    // reverse
+    for (auto &it : mDatas)
+        std::reverse(it.begin(), it.end());
 
-    // reverse base score
-    new_baseScores = baseScores();
-    std::reverse(new_baseScores.begin(), new_baseScores.end());
+    int size = mDatas['A'].size();
+    std::reverse(mBaseLocations.begin(), mBaseLocations.end());
+    std::for_each(mBaseLocations.begin(),
+                  mBaseLocations.end(),
+                  [&size](int &x){x = size-x;});
 
-    // reverse sequence
-    new_sequence = sequence().reverse();
 
-    return Trace(new_datas, new_baseLocations, new_baseScores, new_sequence, mMetadatas);
-
+    computeShiftBaseLocations();
+    mSequence.revert();
 
 }
 //-----------------------------------------------------------------

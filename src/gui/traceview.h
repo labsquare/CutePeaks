@@ -81,6 +81,8 @@ public Q_SLOTS:
     Trace * cut(int pos, int length);
     void paste( Trace * trace);
 
+    void revert();
+
 
 protected :
     void paintEvent(QPaintEvent * event)  override;

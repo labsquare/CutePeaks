@@ -38,7 +38,7 @@ public:
 
     Sequence complement() const;
     Sequence translate(ReadFame frame = Frame1) const;
-    Sequence reverse() const;
+    void revert();
 
     QString name() const;
     void setName(const QString &name);
