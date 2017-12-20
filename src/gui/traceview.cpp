@@ -144,7 +144,7 @@ void TraceView::drawAll(QPainter &painter)
         painter.scale(1.0, -1.0);
 
         drawTraces(painter);
-       // drawConfident(painter);
+        drawConfident(painter);
 
         painter.translate(viewport()->rect().bottomLeft());
         painter.scale(1.0, -1.0);
@@ -253,8 +253,9 @@ void TraceView::drawAminoAcid(QPainter &painter)
     pen.setColor(Qt::gray);
     painter.setPen(pen);
 
+    int shift = int(mFrameShift);
 
-    for (int i=0; i<trace()->baseLocations().length()-3; i+=3)
+    for (int i=0 + shift; i<trace()->baseLocations().length()-3-shift; i+=3)
     {
         int pos = trace()->baseLocations().at(i);
 
@@ -284,7 +285,8 @@ void TraceView::drawAminoAcid(QPainter &painter)
             painter.setBrush(QBrush(linearGrad));
             painter.drawRect(rect);
 
-            QByteArray codon = trace()->sequence().byteArray().mid(i,3);
+
+            QByteArray codon = trace()->sequence().byteArray().mid(i+shift,3);
             Sequence seq(codon);
             QString aa = seq.translate().toString(Sequence::ShortFormat);
 
@@ -433,9 +435,20 @@ void TraceView::drawAxis(QPainter &painter)
 
 }
 
+TraceView::FrameShift TraceView::frameShift() const
+{
+    return mFrameShift;
+}
+
+void TraceView::setFrameShift(const TraceView::FrameShift &frameShift)
+{
+    mFrameShift = frameShift;
+    viewport()->update();
+}
+
 const Selection &TraceView::currentSelection() const
 {
-        return mCurrentSelection;
+    return mCurrentSelection;
 }
 //-------------------------------------------------------------------------------
 

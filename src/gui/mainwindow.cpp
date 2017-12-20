@@ -246,9 +246,9 @@ void MainWindow::setupActions()
     QAction * aminoAcidAction = viewMenu->addAction(tr("frameshift"));
     aminoAcidAction->setMenu(new QMenu());
     QActionGroup * frameGroup = new QActionGroup(this);
-    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 1"));
-    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 2"));
-    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 3"));
+    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 1",[this](){mView->setFrameShift(TraceView::Shift_1);}));
+    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 2",[this](){mView->setFrameShift(TraceView::Shift_2);}));
+    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 3",[this](){mView->setFrameShift(TraceView::Shift_3);}));
 
     frameGroup->setExclusive(true);
     for (auto a : frameGroup->actions())
