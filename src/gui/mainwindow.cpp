@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     });
 
+    setDockOptions(QMainWindow::ForceTabbedDocks|QMainWindow::AllowTabbedDocks);
 
     addPanel(panel, Qt::LeftDockWidgetArea);
     addPanel(new InfoPanelWidget, Qt::LeftDockWidgetArea);
@@ -189,6 +190,16 @@ void MainWindow::addPanel(AbstractPanelWidget *panel, Qt::DockWidgetArea area)
     //dock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     addDockWidget(area,dock);
     //mMetaDock->setVisible(false);
+    panel->setParent(dock);
+    dock->setVisible(false);
+
+    if (!mPanels.isEmpty())
+    {
+        tabifyDockWidget(dock,qobject_cast<QDockWidget*>(mPanels.first()->parent()));
+    }
+
+
+
 }
 
 void MainWindow::setupActions()
@@ -234,14 +245,18 @@ void MainWindow::setupActions()
     QAction * showQualAction     = viewMenu->addAction(tr("Show quality"), this, SLOT(openFile()));
     QAction * showAminoAction    = viewMenu->addAction(tr("Show aminoacid"), this, SLOT(openFile()));
     viewMenu->addSeparator();
-    QAction * showSequenceAction = viewMenu->addAction(tr("Show sequence"), this, SLOT(openFile()));
-    QAction * showMetadataAction = viewMenu->addAction(tr("Show metadata"), this, SLOT(openFile()));
+
+    for (auto panel : mPanels)
+    {
+        auto dock = qobject_cast<QDockWidget*>(panel->parent());
+        viewMenu->addAction(dock->toggleViewAction());
+    }
+
 
 
     showQualAction->setCheckable(true);
     showAminoAction->setCheckable(true);
-    showSequenceAction->setCheckable(true);
-    showMetadataAction->setCheckable(true);
+
     viewMenu->addSeparator();
     QAction * aminoAcidAction = viewMenu->addAction(tr("frameshift"));
     aminoAcidAction->setMenu(new QMenu());
