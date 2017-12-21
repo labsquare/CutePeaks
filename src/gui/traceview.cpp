@@ -63,21 +63,21 @@ void TraceView::mouseMoveEvent(QMouseEvent *event)
 void TraceView::mousePressEvent(QMouseEvent *event)
 {
 
-            if (event->modifiers() & Qt::ShiftModifier)
-            {
-                int before = mCurrentSelection.pos;
-                int now    = locationFromView(event->pos().x());
+    if (event->modifiers() & Qt::ShiftModifier)
+    {
+        int before = mCurrentSelection.pos;
+        int now    = locationFromView(event->pos().x());
 
-                qDebug()<<before<<" "<<now-before+1;
-                setSelection(before,now - before + 1);
-            }
+        qDebug()<<before<<" "<<now-before+1;
+        setSelection(before,now - before + 1);
+    }
 
-            else
-            {
-                int pos = locationFromView(event->pos().x());
-                qDebug()<<pos;
-                setSelection(pos);
-            }
+    else
+    {
+        int pos = locationFromView(event->pos().x());
+        qDebug()<<pos;
+        setSelection(pos);
+    }
 
 
     QAbstractScrollArea::mousePressEvent(event);
@@ -122,7 +122,7 @@ void TraceView::updateScrollbar()
     horizontalScrollBar()->setPageStep(viewport()->width()/ mXFactor);
 }
 //-------------------------------------------------------------------------------
-void TraceView::drawAll(QPainter &painter)
+void TraceView::drawAll(QPainter &painter) const
 {
     // draw background
     painter.setPen(Qt::NoPen);
@@ -155,7 +155,7 @@ void TraceView::drawAll(QPainter &painter)
     }
 }
 //-------------------------------------------------------------------------------
-void TraceView::drawConfident(QPainter& painter)
+void TraceView::drawConfident(QPainter& painter) const
 {
     QPainterPath stepCurve;
     QColor color("#ced9eb");
@@ -200,7 +200,7 @@ void TraceView::drawConfident(QPainter& painter)
 }
 //-------------------------------------------------------------------------------
 
-void TraceView::drawBases(QPainter& painter)
+void TraceView::drawBases(QPainter& painter) const
 {
     QPen pen;
     QFont font;
@@ -247,7 +247,7 @@ void TraceView::drawBases(QPainter& painter)
 }
 //-------------------------------------------------------------------------------
 
-void TraceView::drawAminoAcid(QPainter &painter)
+void TraceView::drawAminoAcid(QPainter &painter) const
 {
     QPen pen;
     pen.setColor(Qt::gray);
@@ -305,7 +305,7 @@ void TraceView::drawAminoAcid(QPainter &painter)
 
 }
 //-------------------------------------------------------------------------------
-void TraceView::drawTraces(QPainter& painter)
+void TraceView::drawTraces(QPainter& painter) const
 {
     for (QChar base : trace()->basesAvaible())
     {
@@ -335,7 +335,7 @@ void TraceView::drawTraces(QPainter& painter)
 
 }
 //-------------------------------------------------------------------------------
-void TraceView::drawSelection(QPainter &painter)
+void TraceView::drawSelection(QPainter &painter) const
 {
 
     QVector<int> adjBaseLocation = trace()->shiftBaseLocations();
@@ -383,7 +383,7 @@ void TraceView::drawSelection(QPainter &painter)
         painter.drawLine(up.x(),up.y(), up.x(), viewport()->height());
 }
 //-------------------------------------------------------------------------------
-void TraceView::drawPositions(QPainter &painter)
+void TraceView::drawPositions(QPainter &painter) const
 {
     QPen pen;
     pen.setColor(Qt::gray);
@@ -409,7 +409,7 @@ void TraceView::drawPositions(QPainter &painter)
     }
 }
 //-------------------------------------------------------------------------------
-void TraceView::drawEmpty(QPainter &painter)
+void TraceView::drawEmpty(QPainter &painter) const
 {
     QFont font;
     font.setPixelSize(30);
@@ -421,7 +421,7 @@ void TraceView::drawEmpty(QPainter &painter)
 
 }
 //-------------------------------------------------------------------------------
-void TraceView::drawAxis(QPainter &painter)
+void TraceView::drawAxis(QPainter &painter) const
 {
 
     QPen pen;
@@ -563,7 +563,7 @@ void TraceView::revert()
 
 }
 //-------------------------------------------------------------------------------
-bool TraceView::toSvg(const QString &filename)
+bool TraceView::toSvg(const QString &filename) const
 {
     QSvgGenerator generator;
     generator.setFileName(filename);
@@ -580,7 +580,7 @@ bool TraceView::toSvg(const QString &filename)
     return true;
 }
 //-------------------------------------------------------------------------------
-bool TraceView::toPng(const QString &filename)
+bool TraceView::toPng(const QString &filename) const
 {
     QPixmap image(viewport()->rect().size());
     image.fill(Qt::white);
@@ -591,17 +591,45 @@ bool TraceView::toPng(const QString &filename)
     return image.save(filename);
 }
 //-------------------------------------------------------------------------------
-int TraceView::traceToView(int x)
+bool TraceView::toCsv(const QString &filename) const
+{
+    QFile file(filename);
+    QTextStream stream(&file);
+
+    if (file.open(QIODevice::WriteOnly))
+    {
+        for (int i=0; i< trace()->datas().begin()->size(); ++i)
+        {
+            QStringList row;
+            if (i==0)
+            {
+                for (QChar key : trace()->datas().keys())
+                    row.append(key);
+                stream <<"#"<<row.join('\t')<<'\n';
+                row.clear();
+            }
+
+            for (QChar key : trace()->datas().keys())
+                row.append(QString::number(trace()->datas()[key][i]));
+
+            stream<<row.join('\t')<<'\n';
+        }
+        return true;
+    }
+    return false;
+}
+//-------------------------------------------------------------------------------
+int TraceView::traceToView(int x) const
 {
     return (x - mXStart) * mXFactor;
 }
 //-------------------------------------------------------------------------------
-int TraceView::traceFromView(int x)
+int TraceView::traceFromView(int x) const
 {
     return (x + mXFactor*mXStart)/mXFactor;
 }
 //-------------------------------------------------------------------------------
-int TraceView::locationFromView(int x)
+int TraceView::locationFromView(int x) const
 {
     int X = traceFromView(x);
 

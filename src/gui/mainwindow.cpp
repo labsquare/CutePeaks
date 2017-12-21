@@ -165,6 +165,33 @@ void MainWindow::removeSelection()
 
 
 }
+
+void MainWindow::exportFile()
+{
+    QAction * action = qobject_cast<QAction*>(sender());
+    QString format = action->property("format").toString();
+    if (format.isEmpty())
+        return;
+
+    QString filename = QFileDialog::getSaveFileName(this,"save as "+format,QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
+
+    if (filename.isEmpty())
+        return;
+
+    if (format == "PNG")
+        mView->toPng(filename);
+
+    if (format == "SVG")
+        mView->toSvg(filename);
+
+    if (format == "CSV")
+        mView->toCsv(filename);
+
+
+
+
+
+}
 void MainWindow::updateSelection()
 {
 
@@ -198,8 +225,6 @@ void MainWindow::addPanel(AbstractPanelWidget *panel, Qt::DockWidgetArea area)
         tabifyDockWidget(dock,qobject_cast<QDockWidget*>(mPanels.first()->parent()));
     }
 
-
-
 }
 
 void MainWindow::setupActions()
@@ -214,10 +239,15 @@ void MainWindow::setupActions()
     QAction * saveAction   = fileMenu->addAction(tr("&Save"), this, SLOT(openFile()), QKeySequence::Save);
     QAction * exportAction = fileMenu->addAction(tr("Export As"));
     exportAction->setMenu(new QMenu);
-    QAction * exportPng    = exportAction->menu()->addAction(tr("PNG Image"));
-    QAction * exportSvg    = exportAction->menu()->addAction(tr("SVG Image"));
-    QAction * exportCsv    = exportAction->menu()->addAction(tr("CSV dataset"));
-    QAction * exportFasta  = exportAction->menu()->addAction(tr("FASTA sequence"));
+    QAction * exportPng    = exportAction->menu()->addAction(tr("PNG Image"),this,SLOT(exportFile()));
+    QAction * exportSvg    = exportAction->menu()->addAction(tr("SVG Image"),this,SLOT(exportFile()));
+    QAction * exportCsv    = exportAction->menu()->addAction(tr("CSV dataset"),this,SLOT(exportFile()));
+    QAction * exportFasta  = exportAction->menu()->addAction(tr("FASTA sequence"),this,SLOT(exportFile()));
+
+    exportPng->setProperty("format", "PNG");
+    exportSvg->setProperty("format", "SVG");
+    exportCsv->setProperty("format", "CSV");
+    exportFasta->setProperty("format", "FASTA");
 
     fileMenu->addSeparator();
     fileMenu->addAction(tr("Close"), qApp, SLOT(closeAllWindows()));

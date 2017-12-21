@@ -54,14 +54,16 @@ public:
      * save current view as svg
      * \return true if success
      */
-    bool toSvg(const QString& filename);
+    bool toSvg(const QString& filename) const;
     /*!
      * \brief toPng
      * \param filename
      * save current view as png
      * \return true if success
      */
-    bool toPng(const QString& filename);
+    bool toPng(const QString& filename) const;
+
+    bool toCsv(const QString& filename) const;
 
     /*!
      * \brief traceToView
@@ -69,9 +71,9 @@ public:
      * Convert trace coordinate to view coordinate
      * \return
      */
-    int traceToView(int x);
-    int traceFromView(int x);
-    int locationFromView(int x);
+    int traceToView(int x) const;
+    int traceFromView(int x) const;
+    int locationFromView(int x) const;
 
     void scrollTo(int pos, bool animate = true);
 
@@ -117,44 +119,44 @@ protected :
 
     void updateScrollbar();
 
-    void drawAll(QPainter& painter);
+    void drawAll(QPainter& painter) const;
 
     /*!
      * \brief drawConfident
      * \param painter
      * Draw confident score as a rect blue path
      */
-    void drawConfident(QPainter& painter);
+    void drawConfident(QPainter& painter) const;
     /*!
      * \brief drawBases
      * \param painter
      * draw nucleotid text on the top of the trace
      */
-    void drawBases(QPainter& painter);
+    void drawBases(QPainter& painter) const;
     /*!
      * \brief drawAminoAcid
      * \param painter
      * draw amino acid text on the top of the trace
      */
-    void drawAminoAcid(QPainter& painter);
+    void drawAminoAcid(QPainter& painter) const;
     /*!
      * \brief drawTraces
      * \param painter
      * Draw all traces from AbstractSequenceTrace
      */
-    void drawTraces(QPainter& painter);
+    void drawTraces(QPainter& painter) const;
     /*!
      * \brief drawSelection
      * \param painter
      * Draw selection
      */
-    void drawSelection(QPainter& painter);
+    void drawSelection(QPainter& painter) const;
 
-    void drawPositions(QPainter& painter);
+    void drawPositions(QPainter& painter) const;
 
-    void drawEmpty(QPainter& painter);
+    void drawEmpty(QPainter& painter) const;
 
-    void drawAxis(QPainter& painter);
+    void drawAxis(QPainter& painter) const;
 
 
 

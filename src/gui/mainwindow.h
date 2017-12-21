@@ -41,7 +41,7 @@ public Q_SLOTS:
     void removeSelection();
 
 
-
+    void exportFile();
 
 
 protected Q_SLOTS:
