@@ -16,6 +16,7 @@
 
 #include "sequencepanelwidget.h"
 #include "infopanelwidget.h"
+#include "searchbar.h"
 
 class MainWindow : public QMainWindow
 {
@@ -59,7 +60,7 @@ private:
     QSlider * mYSlider;
     QSlider * mXSlider;
     QString mFile;
-    QLineEdit * mSearchbar;
+    SearchBar * mSearchbar;
     QList<AbstractPanelWidget*> mPanels;
     QGraphicsOpacityEffect * mOpacityEffect = nullptr;
 

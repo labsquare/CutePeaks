@@ -6,33 +6,36 @@ MainWindow::MainWindow(QWidget *parent)
     mView        = new TraceView;
     mYSlider     = new QSlider(Qt::Horizontal);
     mXSlider     = new QSlider(Qt::Horizontal);
-    mSearchbar   = new QLineEdit();
+    mSearchbar   = new SearchBar();
     mUndoStack   = new QUndoStack(this);
 
-    setCentralWidget(mView);
+    QVBoxLayout * mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(mView);
+    mainLayout->addWidget(mSearchbar);
+
+    QWidget * mainWidget = new QWidget;
+    mainWidget->setLayout(mainLayout);
+
+    setCentralWidget(mainWidget);
 
 
     SequencePanelWidget * panel = new SequencePanelWidget;
 
     connect(panel, SIGNAL(selectionChanged(int,int)), mView, SLOT(setSelection(int,int)));
 
-    connect(mSearchbar, &QLineEdit::returnPressed, [this](){
+    //    connect(mSearchbar, &QLineEdit::returnPressed, [this](){
 
-        QRegularExpression exp(mSearchbar->text().toUpper());
-        QRegularExpressionMatch m = exp.match(mView->trace()->sequence().byteArray());
-        if (m.hasMatch())
-            mView->setSelection(m.capturedStart(), m.capturedLength());
+    //        QRegularExpression exp(mSearchbar->text().toUpper());
+    //        QRegularExpressionMatch m = exp.match(mView->trace()->sequence().byteArray());
+    //        if (m.hasMatch())
+    //            mView->setSelection(m.capturedStart(), m.capturedLength());
 
-    });
+    //    });
 
     setDockOptions(QMainWindow::ForceTabbedDocks|QMainWindow::AllowTabbedDocks);
 
     addPanel(panel, Qt::LeftDockWidgetArea);
     addPanel(new InfoPanelWidget, Qt::LeftDockWidgetArea);
-
-
-    mSearchbar->setMaximumWidth(200);
-    mSearchbar->setPlaceholderText(tr("Sequence..."));
 
 
     mYSlider->setRange(6,1000);
@@ -274,7 +277,10 @@ void MainWindow::setupActions()
     QAction * remAction = editMenu->addAction(tr("Remove selection"),this,SLOT(removeSelection()),QKeySequence::Delete);
     QAction * revAction = editMenu->addAction(tr("Revert Sequence"), mView,SLOT(revert()),  QKeySequence(Qt::CTRL + Qt::Key_I));
     editMenu->addSeparator();
-    editMenu->addAction(tr("Find Sequence"), mSearchbar,SLOT(setFocus()),  QKeySequence::Find);
+
+    editMenu->addAction(mSearchbar->createSearchAction("Find Sequence"));
+
+
     editMenu->addSeparator();
     QAction * aminoAcidAction = editMenu->addAction(tr("frameshift"));
     aminoAcidAction->setMenu(new QMenu());
@@ -290,10 +296,8 @@ void MainWindow::setupActions()
     frameGroup->actions().first()->setChecked(true);
 
 
-
     // view Menu
-    QMenu * viewMenu          = bar->addMenu(tr("&View"));
-
+    QMenu * viewMenu             = bar->addMenu(tr("&View"));
     QAction * showQualAction     = viewMenu->addAction(tr("Show quality"));
     QAction * showAminoAction    = viewMenu->addAction(tr("Show aminoacid"));
     showQualAction->setCheckable(true);
@@ -304,7 +308,6 @@ void MainWindow::setupActions()
 
     connect(showQualAction, &QAction::triggered, mView, &TraceView::showQuality);
     connect(showAminoAction, &QAction::triggered, mView, &TraceView::showAminoAcid);
-
 
 
     viewMenu->addSeparator();
@@ -338,23 +341,23 @@ void MainWindow::setupActions()
     helpMenu->addAction(tr("&About"), this, SLOT(about()));
     helpMenu->addAction(tr("About Qt"), qApp, SLOT(aboutQt()));
 
-    QToolBar * toolbar = addToolBar("mainbar");
-    toolbar->addAction(openAction);
-    toolbar->addAction(saveAction);
-    toolbar->addAction(exportAction);
-    toolbar->addSeparator();
-    toolbar->addAction(remAction);
-    toolbar->addAction(revAction);
-    toolbar->addSeparator();
-    toolbar->addAction(aminoAcidAction);
+//    QToolBar * toolbar = addToolBar("mainbar");
+//    toolbar->addAction(openAction);
+//    toolbar->addAction(saveAction);
+//    toolbar->addAction(exportAction);
+//    toolbar->addSeparator();
+//    toolbar->addAction(remAction);
+//    toolbar->addAction(revAction);
+//    toolbar->addSeparator();
+//    toolbar->addAction(aminoAcidAction);
 
 
 
-    QWidget * spacer = new QWidget;
-    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    toolbar->addWidget(spacer);
+//    QWidget * spacer = new QWidget;
+//    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+//    toolbar->addWidget(spacer);
 
-    toolbar->addWidget(mSearchbar);
+//    toolbar->addWidget(mSearchbar);
 
 
 
