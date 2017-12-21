@@ -443,10 +443,11 @@ void TraceView::search(const QString &expression)
 {
     mSearchList.clear();
     mSearchIndex = 0;
-
-    QRegularExpression exp(expression);
+    qDebug()<<expression;
+    QRegularExpression exp;
+    exp.setPattern(expression);
     exp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
-    QRegularExpressionMatchIterator it = exp.globalMatch(trace()->sequence().byteArray());
+    QRegularExpressionMatchIterator it = exp.globalMatch(trace()->sequence().toString());
 
     while (it.hasNext())
     {

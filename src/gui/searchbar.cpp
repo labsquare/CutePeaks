@@ -25,6 +25,7 @@ SearchBar::SearchBar(QWidget *parent)
 
 
 
+    mEdit->setPlaceholderText("Search pattern ...");
 }
 
 void SearchBar::activate(bool visible)
