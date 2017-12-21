@@ -544,6 +544,14 @@ void TraceView::setSelection(int pos, int length)
 
     emit selectionChanged(pos,length);
 }
+
+void TraceView::selectAll()
+{
+    mCurrentSelection.pos = 0;
+    mCurrentSelection.length = trace()->sequence().length();
+    viewport()->update();
+
+}
 //-------------------------------------------------------------------------------
 void TraceView::clearSelection()
 {

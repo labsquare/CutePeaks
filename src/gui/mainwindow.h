@@ -35,7 +35,7 @@ public Q_SLOTS:
     void writeSettings();
     void restoreSettings();
     void about();
-    void setTransparent();
+    void setTransparent(bool active);
 
    // Trace actions
     void removeSelection();

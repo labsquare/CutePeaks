@@ -148,11 +148,9 @@ void MainWindow::about()
     dialog.exec();
 }
 
-void MainWindow::setTransparent()
+void MainWindow::setTransparent(bool active)
 {
-
-    setWindowOpacity(windowOpacity() == 1.0 ? 0.3 : 1.0);
-
+    setWindowOpacity(active == 1.0 ? 0.6 : 1.0);
 }
 
 void MainWindow::removeSelection()
@@ -259,17 +257,39 @@ void MainWindow::setupActions()
     // edit Menu
     QMenu * editMenu       = bar->addMenu(tr("&Edit"));
 
-    editMenu->addAction(mUndoStack->createUndoAction(this,"Undo"));
-    editMenu->addAction(mUndoStack->createRedoAction(this,"Redo"));
+    QAction * undoAction = mUndoStack->createUndoAction(this,"Undo");
+    QAction * redoAction = mUndoStack->createRedoAction(this,"Redo");
+
+    undoAction->setShortcut(QKeySequence::Undo);
+    redoAction->setShortcut(QKeySequence::Redo);
+
+    editMenu->addAction(undoAction);
+    editMenu->addAction(redoAction);
+
     editMenu->addSeparator();
     editMenu->addAction(tr("Copy base(s)"), mView, SLOT(copyDnaSequence()),QKeySequence::Copy);
     editMenu->addSeparator();
-    editMenu->addAction(tr("Select all"), this,SLOT(openFile()), QKeySequence::SelectAll);
+    editMenu->addAction(tr("Select all"), mView,SLOT(selectAll()), QKeySequence::SelectAll);
     editMenu->addSeparator();
-    QAction * remAction = editMenu->addAction(tr("Remove selection"), this,SLOT(openFile()),QKeySequence::Delete);
+    QAction * remAction = editMenu->addAction(tr("Remove selection"),this,SLOT(removeSelection()),QKeySequence::Delete);
     QAction * revAction = editMenu->addAction(tr("Revert Sequence"), mView,SLOT(revert()),  QKeySequence(Qt::CTRL + Qt::Key_I));
     editMenu->addSeparator();
     editMenu->addAction(tr("Find Sequence"), mSearchbar,SLOT(setFocus()),  QKeySequence::Find);
+    editMenu->addSeparator();
+    QAction * aminoAcidAction = editMenu->addAction(tr("frameshift"));
+    aminoAcidAction->setMenu(new QMenu());
+    QActionGroup * frameGroup = new QActionGroup(this);
+    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 1",[this](){mView->setFrameShift(Sequence::Frame1);},QKeySequence(Qt::CTRL + Qt::Key_1)));
+    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 2",[this](){mView->setFrameShift(Sequence::Frame2);},QKeySequence(Qt::CTRL + Qt::Key_2)));
+    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 3",[this](){mView->setFrameShift(Sequence::Frame3);},QKeySequence(Qt::CTRL + Qt::Key_3)));;
+
+    frameGroup->setExclusive(true);
+    for (auto a : frameGroup->actions())
+        a->setCheckable(true);
+
+    frameGroup->actions().first()->setChecked(true);
+
+
 
     // view Menu
     QMenu * viewMenu          = bar->addMenu(tr("&View"));
@@ -300,22 +320,13 @@ void MainWindow::setupActions()
     showQualAction->setCheckable(true);
     showAminoAction->setCheckable(true);
 
-    viewMenu->addSeparator();
-    QAction * aminoAcidAction = viewMenu->addAction(tr("frameshift"));
-    aminoAcidAction->setMenu(new QMenu());
-    QActionGroup * frameGroup = new QActionGroup(this);
-    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 1",[this](){mView->setFrameShift(Sequence::Frame1);}));
-    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 2",[this](){mView->setFrameShift(Sequence::Frame2);}));
-    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 3",[this](){mView->setFrameShift(Sequence::Frame3);}));
 
-    frameGroup->setExclusive(true);
-    for (auto a : frameGroup->actions())
-        a->setCheckable(true);
-
-    frameGroup->actions().first()->setChecked(true);
     viewMenu->addSeparator();
 
-    viewMenu->addAction("Transparent");
+    QAction * transpAction = viewMenu->addAction("Window transparent");
+    transpAction->setCheckable(true);
+    connect(transpAction, &QAction::triggered, this, &MainWindow::setTransparent);
+
 
     QMenu * helpMenu = bar->addMenu(tr("&Help"));
     helpMenu->addAction(tr("Check update"), qApp, SLOT(aboutQt()));

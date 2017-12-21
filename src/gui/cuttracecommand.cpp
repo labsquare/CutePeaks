@@ -5,7 +5,7 @@ CutTraceCommand::CutTraceCommand(TraceView * view, int pos, int length)
     :QUndoCommand(), mView(view), mPos(pos), mLength(length)
 {
 
-    //        setText("rem");
+   setText(QStringLiteral("Remove [%1:%2]").arg(mPos).arg(mPos+mLength));
 }
 
 void CutTraceCommand::redo()
