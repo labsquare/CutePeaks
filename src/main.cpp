@@ -4,6 +4,7 @@
 #include <QtCore>
 #include <iostream>
 #include "mainwindow.h"
+#include "qfonticon.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +18,9 @@ int main(int argc, char *argv[])
     QTranslator translator;
     translator.load(QString("translations/cutepeaks_")+locale);
     app.installTranslator(&translator);
+
+    QFontIcon::instance()->addFont(":/font/fontawesome.ttf");
+
 
     MainWindow w;
     w.setFilename("/tmp/examples/A_forward.ab1");

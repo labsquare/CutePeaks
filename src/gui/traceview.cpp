@@ -17,8 +17,8 @@ TraceView::TraceView(QWidget *parent)
 
     setDisabled(true);
 
-    //    setMouseTracking(true);
-    viewport()->setMouseTracking(true);
+//    setMouseTracking(true);
+//    viewport()->setMouseTracking(true);
 
 }
 //-------------------------------------------------------------------------------
@@ -51,34 +51,45 @@ void TraceView::resizeEvent(QResizeEvent *event)
 //-------------------------------------------------------------------------------
 void TraceView::mouseMoveEvent(QMouseEvent *event)
 {
-
-    //    mMousePos = event->pos();
-
-    //    viewport()->update();
-
-
     QAbstractScrollArea::mouseMoveEvent(event);
 }
 
 void TraceView::mousePressEvent(QMouseEvent *event)
 {
 
-    if (event->modifiers() & Qt::ShiftModifier)
+    // If button left pressed
+    if (event->button() == Qt::LeftButton)
     {
-        int before = mCurrentSelection.pos;
-        int now    = locationFromView(event->pos().x());
+        if (event->modifiers() & Qt::ShiftModifier)
+        {
+            int before = mCurrentSelection.pos;
+            int now    = locationFromView(event->pos().x());
 
-        qDebug()<<before<<" "<<now-before+1;
-        setSelection(before,now - before + 1);
+            qDebug()<<before<<" "<<now-before+1;
+            setSelection(before,now - before + 1);
+        }
+
+        else
+        {
+            int pos = locationFromView(event->pos().x());
+            qDebug()<<pos;
+            setSelection(pos);
+        }
+
     }
 
-    else
+    // If button right pressed
+    if (event->button() == Qt::RightButton)
     {
         int pos = locationFromView(event->pos().x());
-        qDebug()<<pos;
-        setSelection(pos);
-    }
+        if (mCurrentSelection.length > 0 && pos >= mCurrentSelection.pos && pos <= mCurrentSelection.pos + mCurrentSelection.length)
+        {
 
+            // TODO : Menu
+
+
+        }
+    }
 
     QAbstractScrollArea::mousePressEvent(event);
 }

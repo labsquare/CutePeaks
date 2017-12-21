@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-
+#include "qfonticon.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -236,15 +236,15 @@ void MainWindow::setupActions()
     // Create app menus
     // file Menu
     QMenu * fileMenu       = bar->addMenu(tr("&File"));
-    QAction * openAction   = fileMenu->addAction(tr("&Open"), this, SLOT(openFile()), QKeySequence::Open);
-    QAction * saveAction   = fileMenu->addAction(tr("&Save"), this, SLOT(openFile()), QKeySequence::Save);
+    QAction * openAction   = fileMenu->addAction(FIcon(0xf115),tr("&Open"), this, SLOT(openFile()), QKeySequence::Open);
+    QAction * saveAction   = fileMenu->addAction(FIcon(0xf0c7),tr("&Save"), this, SLOT(openFile()), QKeySequence::Save);
     QAction * exportAction = fileMenu->addAction(tr("Export As"));
     exportAction->setMenu(new QMenu);
-    QAction * exportPng    = exportAction->menu()->addAction(tr("PNG Image"),this,SLOT(exportFile()));
-    QAction * exportSvg    = exportAction->menu()->addAction(tr("SVG Image"),this,SLOT(exportFile()));
-    QAction * exportCsv    = exportAction->menu()->addAction(tr("CSV dataset"),this,SLOT(exportFile()));
-    QAction * exportDna    = exportAction->menu()->addAction(tr("FASTA dna"),this,SLOT(exportFile()));
-    QAction * exportProtein= exportAction->menu()->addAction(tr("FASTA protein"),this,SLOT(exportFile()));
+    QAction * exportPng    = exportAction->menu()->addAction(FIcon(0xf1c5),tr("PNG Image"),this,SLOT(exportFile()));
+    QAction * exportSvg    = exportAction->menu()->addAction(FIcon(0xf1c5),tr("SVG Image"),this,SLOT(exportFile()));
+    QAction * exportCsv    = exportAction->menu()->addAction(FIcon(0xf0f6),tr("CSV dataset"),this,SLOT(exportFile()));
+    QAction * exportDna    = exportAction->menu()->addAction(FIcon(0xf0f6),tr("FASTA dna"),this,SLOT(exportFile()));
+    QAction * exportProtein= exportAction->menu()->addAction(FIcon(0xf0f6),tr("FASTA protein"),this,SLOT(exportFile()));
 
     exportPng->setProperty("format", "PNG");
     exportSvg->setProperty("format", "SVG");
@@ -253,7 +253,7 @@ void MainWindow::setupActions()
     exportProtein->setProperty("format", "PROTEIN");
 
     fileMenu->addSeparator();
-    fileMenu->addAction(tr("Close"), qApp, SLOT(closeAllWindows()));
+    fileMenu->addAction(FIcon(0xf00d), tr("Close"), qApp, SLOT(closeAllWindows()));
 
     // edit Menu
     QMenu * editMenu       = bar->addMenu(tr("&Edit"));
@@ -262,22 +262,26 @@ void MainWindow::setupActions()
     QAction * redoAction = mUndoStack->createRedoAction(this,"Redo");
 
     undoAction->setShortcut(QKeySequence::Undo);
+    undoAction->setIcon(FIcon(0xf0e2));
     redoAction->setShortcut(QKeySequence::Redo);
+    redoAction->setIcon(FIcon(0xf01e));
 
     editMenu->addAction(undoAction);
     editMenu->addAction(redoAction);
 
     editMenu->addSeparator();
-    editMenu->addAction(tr("Copy base(s)"), mView, SLOT(copyDnaSequence()),QKeySequence::Copy);
+    editMenu->addAction(FIcon(0xf0c5),tr("Copy selection"), mView, SLOT(copySequence()),QKeySequence::Copy);
     editMenu->addSeparator();
     editMenu->addAction(tr("Select all"), mView,SLOT(selectAll()), QKeySequence::SelectAll);
     editMenu->addSeparator();
-    QAction * remAction = editMenu->addAction(tr("Remove selection"),this,SLOT(removeSelection()),QKeySequence::Delete);
-    QAction * revAction = editMenu->addAction(tr("Revert Sequence"), mView,SLOT(revert()),  QKeySequence(Qt::CTRL + Qt::Key_I));
+    QAction * remAction = editMenu->addAction(FIcon(0xf0c4),tr("Remove selection"),this,SLOT(removeSelection()),QKeySequence::Delete);
+    QAction * revAction = editMenu->addAction(FIcon(0xf0ec),tr("Revert Sequence"), mView,SLOT(revert()),  QKeySequence(Qt::CTRL + Qt::Key_I));
     editMenu->addSeparator();
 
-    editMenu->addAction(mSearchbar->createSearchAction("Find Sequence"));
-
+    QAction * findAction = mSearchbar->createSearchAction("Find Sequence ...");
+    findAction->setShortcut(QKeySequence::Find);
+    findAction->setIcon(FIcon(0xf002));
+    editMenu->addAction(findAction);
 
     editMenu->addSeparator();
     QAction * aminoAcidAction = editMenu->addAction(tr("frameshift"));

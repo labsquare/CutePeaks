@@ -32,8 +32,11 @@ SOFTWARE.
 #include <QtCore>
 #include <QPalette>
 
+#define FIcon(code) QFontIcon::icon(code)
+
 class QFontIcon;
 class QFontIconEngine;
+
 
 class QFontIconEngine : public QIconEngine
 {

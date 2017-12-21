@@ -54,7 +54,7 @@ QIcon QFontIcon::icon(const QChar &code, const QColor &baseColor, const QString 
 {
     if (instance()->families().isEmpty())
     {
-        qWarning()<<Q_FUNC_INFO<<tr("No font family installed");
+        qWarning()<<Q_FUNC_INFO<<"No font family installed";
         return QIcon();
     }
 
@@ -131,6 +131,7 @@ void QFontIconEngine::paint(QPainter *painter, const QRect &rect, QIcon::Mode mo
     painter->save();
     painter->setPen(QPen(penColor));
     painter->setFont(font);
+    painter->setRenderHint(QPainter::HighQualityAntialiasing, true);
     painter->drawText(rect, Qt::AlignCenter|Qt::AlignVCenter, mLetter);
 
     painter->restore();

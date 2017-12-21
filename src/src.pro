@@ -14,6 +14,8 @@ TEMPLATE = app
 INCLUDEPATH += $$PWD/../qscintilla/Qt4Qt5
 DEPENDPATH += $$PWD/../qscintilla/Qt4Qt5
 
+INCLUDEPATH += QFontIcon
+
 include(core/core.pri)
 include(gui/gui.pri)
 include(QFontIcon/QFontIcon.pri)
@@ -36,3 +38,6 @@ icons.files += cutepeaks.png
 
 INSTALLS += target desktop icons
 TRANSLATIONS = translations/cutepeaks_fr.ts
+
+RESOURCES += \
+    resources/resources.qrc

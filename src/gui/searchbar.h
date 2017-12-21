@@ -7,7 +7,7 @@ class SearchBar : public QToolBar
     Q_OBJECT
 public:
     SearchBar(QWidget * parent = nullptr);
-    void activate(bool visible);
+    void activate();
     QAction * createSearchAction(const QString& name = QString());
 
     QString text() const;
