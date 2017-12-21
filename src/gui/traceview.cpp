@@ -253,7 +253,7 @@ void TraceView::drawAminoAcid(QPainter &painter) const
     pen.setColor(Qt::gray);
     painter.setPen(pen);
 
-    int shift = int(mFrameShift);
+    int shift = int(mReadFrame);
 
     for (int i=0 + shift; i<trace()->baseLocations().length()-3-shift; i+=3)
     {
@@ -435,14 +435,14 @@ void TraceView::drawAxis(QPainter &painter) const
 
 }
 
-TraceView::FrameShift TraceView::frameShift() const
+Sequence::ReadFame TraceView::frameShift() const
 {
-    return mFrameShift;
+    return mReadFrame;
 }
 
-void TraceView::setFrameShift(const TraceView::FrameShift &frameShift)
+void TraceView::setFrameShift(Sequence::ReadFame frameShift)
 {
-    mFrameShift = frameShift;
+    mReadFrame = frameShift;
     viewport()->update();
 }
 
@@ -617,6 +617,32 @@ bool TraceView::toCsv(const QString &filename) const
         return true;
     }
     return false;
+}
+//-------------------------------------------------------------------------------
+bool TraceView::toFasta(const QString &filename, Sequence::Type type) const
+{
+    QFile file(filename);
+    QTextStream stream(&file);
+    QFileInfo info(file);
+
+    if (file.open(QIODevice::WriteOnly))
+    {
+        stream<<">"<<info.baseName()<<"\n";
+
+        if (type == Sequence::Dna)
+        {
+            QByteArray seq = trace()->sequence().byteArray();
+            for (int i=0; i< seq.size() - 70; i+= 70)
+                stream<<seq.mid(i,70)<<"\n";
+        }
+
+        if (type == Sequence::Protein)
+        {
+            QByteArray seq = trace()->sequence().translate(Sequence::Frame1).byteArray();
+            for (int i=0; i< seq.size() - 70; i+= 70)
+                stream<<seq.mid(i,70)<<"\n";
+        }
+    }
 }
 //-------------------------------------------------------------------------------
 int TraceView::traceToView(int x) const

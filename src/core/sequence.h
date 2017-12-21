@@ -19,9 +19,9 @@ public:
     };
 
     enum ReadFame{
-        Frame1,
-        Frame2,
-        Frame3
+        Frame1 = 0,
+        Frame2 = 1,
+        Frame3 = 2
     };
 
     // to String format

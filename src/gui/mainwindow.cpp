@@ -187,9 +187,11 @@ void MainWindow::exportFile()
     if (format == "CSV")
         mView->toCsv(filename);
 
+    if (format == "DNA")
+        mView->toFasta(filename, Sequence::Dna);
 
-
-
+    if (format == "PROTEIN")
+        mView->toFasta(filename, Sequence::Protein);
 
 }
 void MainWindow::updateSelection()
@@ -242,12 +244,14 @@ void MainWindow::setupActions()
     QAction * exportPng    = exportAction->menu()->addAction(tr("PNG Image"),this,SLOT(exportFile()));
     QAction * exportSvg    = exportAction->menu()->addAction(tr("SVG Image"),this,SLOT(exportFile()));
     QAction * exportCsv    = exportAction->menu()->addAction(tr("CSV dataset"),this,SLOT(exportFile()));
-    QAction * exportFasta  = exportAction->menu()->addAction(tr("FASTA sequence"),this,SLOT(exportFile()));
+    QAction * exportDna    = exportAction->menu()->addAction(tr("FASTA dna"),this,SLOT(exportFile()));
+    QAction * exportProtein= exportAction->menu()->addAction(tr("FASTA protein"),this,SLOT(exportFile()));
 
     exportPng->setProperty("format", "PNG");
     exportSvg->setProperty("format", "SVG");
     exportCsv->setProperty("format", "CSV");
-    exportFasta->setProperty("format", "FASTA");
+    exportDna->setProperty("format", "DNA");
+    exportProtein->setProperty("format", "PROTEIN");
 
     fileMenu->addSeparator();
     fileMenu->addAction(tr("Close"), qApp, SLOT(closeAllWindows()));
@@ -291,9 +295,9 @@ void MainWindow::setupActions()
     QAction * aminoAcidAction = viewMenu->addAction(tr("frameshift"));
     aminoAcidAction->setMenu(new QMenu());
     QActionGroup * frameGroup = new QActionGroup(this);
-    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 1",[this](){mView->setFrameShift(TraceView::Shift_1);}));
-    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 2",[this](){mView->setFrameShift(TraceView::Shift_2);}));
-    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 3",[this](){mView->setFrameShift(TraceView::Shift_3);}));
+    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 1",[this](){mView->setFrameShift(Sequence::Frame1);}));
+    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 2",[this](){mView->setFrameShift(Sequence::Frame2);}));
+    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 3",[this](){mView->setFrameShift(Sequence::Frame3);}));
 
     frameGroup->setExclusive(true);
     for (auto a : frameGroup->actions())

@@ -20,12 +20,6 @@ class TraceView : public QAbstractScrollArea
 {
     Q_OBJECT
 public:
-    enum FrameShift {
-        Shift_1 = 0,
-        Shift_2 = 1,
-        Shift_3 = 2
-    };
-
     TraceView(QWidget * parent = 0);
     /*!
      * \brief setFilename
@@ -65,6 +59,8 @@ public:
 
     bool toCsv(const QString& filename) const;
 
+    bool toFasta(const QString& filename, Sequence::Type type = Sequence::Dna) const;
+
     /*!
      * \brief traceToView
      * \param x
@@ -80,8 +76,8 @@ public:
     const Selection& currentSelection() const;
 
 
-    FrameShift frameShift() const;
-    void setFrameShift(const FrameShift &frameShift);
+    Sequence::ReadFame frameShift() const;
+    void setFrameShift(Sequence::ReadFame frameShift);
 
 public Q_SLOTS:
     void setAmplitudeFactor(float factor);
@@ -200,7 +196,7 @@ private:
     QPointF mMousePos;
 
 
-    FrameShift mFrameShift = FrameShift::Shift_1;
+    Sequence::ReadFame mReadFrame = Sequence::Frame1;
 
 };
 

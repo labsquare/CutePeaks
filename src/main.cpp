@@ -18,7 +18,6 @@ int main(int argc, char *argv[])
     translator.load(QString("translations/cutepeaks_")+locale);
     app.installTranslator(&translator);
 
-
     MainWindow w;
     w.setFilename("/tmp/examples/A_forward.ab1");
     w.show();
