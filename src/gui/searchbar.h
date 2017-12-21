@@ -10,9 +10,14 @@ public:
     void activate(bool visible);
     QAction * createSearchAction(const QString& name = QString());
 
-public Q_SLOTS:
-    void next();
-    void previous();
+    QString text() const;
+
+
+
+Q_SIGNALS:
+    void nextPressed();
+    void previousPressed();
+    void textChanged(const QString& text);
 
 
 

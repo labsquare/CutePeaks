@@ -97,6 +97,12 @@ public Q_SLOTS:
 
     void copySequence() const;
 
+    void search(const QString& expression);
+
+    void selectNextSearch();
+    void selectPreviousSearch();
+
+
 
 protected :
     void paintEvent(QPaintEvent * event)  override;
@@ -164,6 +170,7 @@ protected :
 
 
 
+
 signals:
     void selectionChanged(int pos, int length);
     void changed();
@@ -204,6 +211,9 @@ private:
     QPropertyAnimation * mScrollAnimation;
     QPointF mMousePos;
     Sequence::ReadFame mReadFrame = Sequence::Frame1;
+
+    QList<QRegularExpressionMatch> mSearchList;
+    int mSearchIndex = 0;
 
 };
 

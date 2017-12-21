@@ -45,6 +45,8 @@ public Q_SLOTS:
 
 
 
+
+
 protected Q_SLOTS:
     void updateSelection();
     void addPanel(AbstractPanelWidget * panel, Qt::DockWidgetArea area);

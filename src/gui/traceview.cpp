@@ -438,7 +438,44 @@ void TraceView::drawAxis(QPainter &painter) const
 
 
 }
+//-------------------------------------------------------------------------------
+void TraceView::search(const QString &expression)
+{
+    mSearchList.clear();
+    mSearchIndex = 0;
 
+    QRegularExpression exp(expression);
+    exp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatchIterator it = exp.globalMatch(trace()->sequence().byteArray());
+
+    while (it.hasNext())
+    {
+        mSearchList.append(it.next());
+    }
+
+    selectNextSearch();
+}
+//-------------------------------------------------------------------------------
+void TraceView::selectNextSearch()
+{
+    if (mSearchIndex < mSearchList.size()-1)
+    {
+        mSearchIndex++;
+        QRegularExpressionMatch match = mSearchList[mSearchIndex];
+        setSelection(match.capturedStart(), match.capturedLength());
+    }
+}
+//-------------------------------------------------------------------------------
+void TraceView::selectPreviousSearch()
+{
+    if (mSearchIndex > 0)
+    {
+        mSearchIndex--;
+        QRegularExpressionMatch match = mSearchList[mSearchIndex];
+        setSelection(match.capturedStart(), match.capturedLength());
+    }
+}
+//-------------------------------------------------------------------------------
 void TraceView::showQuality(bool showQuality)
 {
     mShowQuality = showQuality;

@@ -4,14 +4,25 @@ SearchBar::SearchBar(QWidget *parent)
     :QToolBar(parent)
 {
 
-        mEdit = new QLineEdit;
-        addAction(qApp->style()->standardIcon(QStyle::SP_TitleBarCloseButton),"",[this](){activate(false);});
-        addWidget(mEdit);
+    mEdit = new QLineEdit;
+    addAction(qApp->style()->standardIcon(QStyle::SP_TitleBarCloseButton),"",[this](){activate(false);});
+    addWidget(mEdit);
+    QAction * prevAction = addAction("previous");
+    QAction * nextAction = addAction("next");
 
-        addAction("Find Previous", this, SLOT(previous()))->setShortcut(QKeySequence::FindNext);
-        addAction("Find Next", this, SLOT(next()))->setShortcut(QKeySequence::FindPrevious);
+    nextAction->setShortcut(QKeySequence::FindNext);
+    prevAction->setShortcut(QKeySequence::FindPrevious);
+    nextAction->setToolTip(QString(tr("Next (%1)")).arg(nextAction->shortcut().toString()));
+    prevAction->setToolTip(QString(tr("Previous (%1)")).arg(prevAction->shortcut().toString()));
 
-        setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+
+    connect(prevAction,SIGNAL(triggered(bool)),this,SIGNAL(previousPressed()));
+    connect(nextAction,SIGNAL(triggered(bool)),this,SIGNAL(nextPressed()));
+    connect(mEdit,SIGNAL(textChanged(QString)), this, SIGNAL(textChanged(QString)));
+
+
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+
 
 
 }
@@ -38,13 +49,10 @@ QAction *SearchBar::createSearchAction(const QString &name)
     return mSearchAction;
 }
 
-void SearchBar::next()
+QString SearchBar::text() const
 {
-
+    return mEdit->text();
 }
 
-void SearchBar::previous()
-{
 
-}
 
