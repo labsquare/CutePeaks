@@ -10,11 +10,11 @@ CutTraceCommand::CutTraceCommand(TraceView * view, int pos, int length)
 
 void CutTraceCommand::redo()
 {
-    mCutTrace = mView->cut(mPos, mLength);
+    mCutTrace = mView->cutTrace(mPos, mLength);
 }
 
 void CutTraceCommand::undo()
 {
-    mView->paste(mCutTrace);
+    mView->pasteTrace(mCutTrace);
 }
 

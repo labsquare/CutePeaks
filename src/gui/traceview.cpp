@@ -138,13 +138,17 @@ void TraceView::drawAll(QPainter &painter) const
         drawPositions(painter);
 
         drawSelection(painter);
-        drawAminoAcid(painter);
+
+        if (mShowAminoAcid)
+            drawAminoAcid(painter);
 
         painter.translate(viewport()->rect().bottomLeft());
         painter.scale(1.0, -1.0);
 
         drawTraces(painter);
-        drawConfident(painter);
+
+        if (mShowQuality)
+            drawConfident(painter);
 
         painter.translate(viewport()->rect().bottomLeft());
         painter.scale(1.0, -1.0);
@@ -435,6 +439,18 @@ void TraceView::drawAxis(QPainter &painter) const
 
 }
 
+void TraceView::showQuality(bool showQuality)
+{
+    mShowQuality = showQuality;
+    viewport()->update();
+}
+
+void TraceView::showAminoAcid(bool showAminoAcid)
+{
+    mShowAminoAcid = showAminoAcid;
+    viewport()->update();
+}
+
 Sequence::ReadFame TraceView::frameShift() const
 {
     return mReadFrame;
@@ -535,7 +551,7 @@ void TraceView::clearSelection()
     viewport()->update();
 }
 //-------------------------------------------------------------------------------
-Trace *TraceView::cut(int pos, int length)
+Trace *TraceView::cutTrace(int pos, int length)
 {
     Trace *trace = mTrace->cut(pos, length);
     clearSelection();
@@ -545,7 +561,7 @@ Trace *TraceView::cut(int pos, int length)
 
 }
 //-------------------------------------------------------------------------------
-void TraceView::paste(Trace *trace)
+void TraceView::pasteTrace(Trace *trace)
 {
     mTrace->paste(trace);
     setSelection(trace->insertIndex(), trace->baseCount());
@@ -561,6 +577,13 @@ void TraceView::revert()
     mTrace->revert();
     viewport()->update();
 
+}
+//-------------------------------------------------------------------------------
+
+void TraceView::copySequence() const
+{
+    Sequence seq = trace()->sequence().mid(mCurrentSelection.pos, mCurrentSelection.length);
+    qApp->clipboard()->setText(seq.toFasta("DNA"));
 }
 //-------------------------------------------------------------------------------
 bool TraceView::toSvg(const QString &filename) const
@@ -627,21 +650,11 @@ bool TraceView::toFasta(const QString &filename, Sequence::Type type) const
 
     if (file.open(QIODevice::WriteOnly))
     {
-        stream<<">"<<info.baseName()<<"\n";
-
         if (type == Sequence::Dna)
-        {
-            QByteArray seq = trace()->sequence().byteArray();
-            for (int i=0; i< seq.size() - 70; i+= 70)
-                stream<<seq.mid(i,70)<<"\n";
-        }
+            stream<<trace()->sequence().toFasta(info.baseName());
 
         if (type == Sequence::Protein)
-        {
-            QByteArray seq = trace()->sequence().translate(Sequence::Frame1).byteArray();
-            for (int i=0; i< seq.size() - 70; i+= 70)
-                stream<<seq.mid(i,70)<<"\n";
-        }
+            stream<<trace()->sequence().translate(mReadFrame).toFasta(info.baseName());
     }
 }
 //-------------------------------------------------------------------------------

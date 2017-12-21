@@ -39,9 +39,9 @@ public Q_SLOTS:
 
    // Trace actions
     void removeSelection();
-
-
     void exportFile();
+
+
 
 
 protected Q_SLOTS:

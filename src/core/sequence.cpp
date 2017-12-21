@@ -234,8 +234,24 @@ void Sequence::insert(int pos, const Sequence &sequence)
 
 }
 
-Sequence Sequence::mid(int pos, int len)
+Sequence Sequence::mid(int pos, int len) const
 {
     QByteArray array = mArray.mid(pos, len);
     return Sequence(array, strand(), type());
+}
+
+QString Sequence::toFasta(const QString &name) const
+{
+    QByteArray out;
+    out.append(">"+name+"\n");
+    int index = 1;
+    for (QChar base : mArray)
+    {
+        if (index % 71 == 0)
+            out.append("\n");
+        out.append(base);
+
+        index++;
+    }
+    return out ;
 }

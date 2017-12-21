@@ -66,7 +66,9 @@ public:
     void remove(int start, int len);
     void insert(int pos, const Sequence& sequence);
 
-    Sequence mid(int pos, int len=-1);
+    Sequence mid(int pos, int len=-1) const;
+
+    QString toFasta(const QString& name) const;
 
 private:
     QByteArray mArray;

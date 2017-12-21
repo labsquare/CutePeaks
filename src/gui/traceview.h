@@ -79,16 +79,22 @@ public:
     Sequence::ReadFame frameShift() const;
     void setFrameShift(Sequence::ReadFame frameShift);
 
+    void showAminoAcid(bool show);
+
+    void showQuality(bool show);
+
 public Q_SLOTS:
     void setAmplitudeFactor(float factor);
     void setScaleFactor(float factor);
     void setSelection(int pos, int length = 1);
     void clearSelection();
 
-    Trace * cut(int pos, int length);
-    void paste( Trace * trace);
+    Trace * cutTrace(int pos, int length);
+    void pasteTrace( Trace * trace);
 
     void revert();
+
+    void copySequence() const;
 
 
 protected :
@@ -188,14 +194,14 @@ private:
 
     Selection mCurrentSelection = { 20, 10};
 
+    // show amino acid
+    bool mShowAminoAcid = true;
+
+    // show quality
+    bool mShowQuality = true;
+
     QPropertyAnimation * mScrollAnimation;
-
-    Trace * cutTrace = nullptr;
-    int cutpos =0;
-
     QPointF mMousePos;
-
-
     Sequence::ReadFame mReadFrame = Sequence::Frame1;
 
 };

@@ -262,8 +262,7 @@ void MainWindow::setupActions()
     editMenu->addAction(mUndoStack->createUndoAction(this,"Undo"));
     editMenu->addAction(mUndoStack->createRedoAction(this,"Redo"));
     editMenu->addSeparator();
-    editMenu->addAction(tr("Copy base(s)"), this,SLOT(openFile()),QKeySequence::Copy);
-    editMenu->addAction(tr("Copy amino acid(s)"), this,SLOT(openFile()));
+    editMenu->addAction(tr("Copy base(s)"), mView, SLOT(copyDnaSequence()),QKeySequence::Copy);
     editMenu->addSeparator();
     editMenu->addAction(tr("Select all"), this,SLOT(openFile()), QKeySequence::SelectAll);
     editMenu->addSeparator();
@@ -272,12 +271,22 @@ void MainWindow::setupActions()
     editMenu->addSeparator();
     editMenu->addAction(tr("Find Sequence"), mSearchbar,SLOT(setFocus()),  QKeySequence::Find);
 
-
     // view Menu
     QMenu * viewMenu          = bar->addMenu(tr("&View"));
 
-    QAction * showQualAction     = viewMenu->addAction(tr("Show quality"), this, SLOT(openFile()));
-    QAction * showAminoAction    = viewMenu->addAction(tr("Show aminoacid"), this, SLOT(openFile()));
+    QAction * showQualAction     = viewMenu->addAction(tr("Show quality"));
+    QAction * showAminoAction    = viewMenu->addAction(tr("Show aminoacid"));
+    showQualAction->setCheckable(true);
+    showAminoAction->setCheckable(true);
+
+    showQualAction->setChecked(true);
+    showAminoAction->setChecked(true);
+
+    connect(showQualAction, &QAction::triggered, mView, &TraceView::showQuality);
+    connect(showAminoAction, &QAction::triggered, mView, &TraceView::showAminoAcid);
+
+
+
     viewMenu->addSeparator();
 
     for (auto panel : mPanels)
