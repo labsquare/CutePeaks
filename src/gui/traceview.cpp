@@ -106,8 +106,16 @@ bool TraceView::viewportEvent(QEvent *event)
 
 void TraceView::dragEnterEvent(QDragEnterEvent *event)
 {
-    qDebug()<<"drag enter";
-    event->acceptProposedAction();
+    if (event->mimeData()->hasUrls())
+    {
+        // TODO : read magic number instead
+        QFileInfo info(event->mimeData()->urls().first().path());
+        QStringList supported = {"ab1","scf"};
+
+        if (supported.contains(info.suffix().toLower()))
+            event->acceptProposedAction();
+
+    }
 }
 //-------------------------------------------------------------------------------
 void TraceView::dropEvent(QDropEvent *event)
