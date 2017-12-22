@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(mPanel, SIGNAL(selectionChanged(int,int)), mView, SLOT(setSelection(int,int)));
 
+    connect(mView, SIGNAL(selectionChanged(int,int)), this, SLOT(showSelection(int,int)));
     //    connect(mSearchbar, &QLineEdit::returnPressed, [this](){
 
     //        QRegularExpression exp(mSearchbar->text().toUpper());
@@ -234,6 +235,12 @@ void MainWindow::addPanel(AbstractPanelWidget *panel, Qt::DockWidgetArea area)
         tabifyDockWidget(dock,qobject_cast<QDockWidget*>(mPanels.first()->parent()));
     }
 
+}
+
+void MainWindow::showSelection(int pos, int length)
+{
+
+    statusBar()->showMessage(QString("position: %1 length: %2").arg(pos).arg(length));
 }
 
 void MainWindow::setupActions()
