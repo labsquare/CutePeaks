@@ -18,6 +18,7 @@
 #include "infopanelwidget.h"
 #include "searchbar.h"
 
+class TraceView;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -25,10 +26,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    TraceView *view() const;
 
-    // Overriden methods
-    void closeEvent(QCloseEvent*);
-    void keyPressEvent(QKeyEvent *event);
+    SequencePanelWidget *panel() const;
 
 public Q_SLOTS:
     void openFile();
@@ -40,6 +40,7 @@ public Q_SLOTS:
 
    // Trace actions
     void removeSelection();
+    void revert();
     void exportFile();
 
 
@@ -54,7 +55,9 @@ protected Q_SLOTS:
 
 protected:
     void setupActions();
-
+    // Overriden methods
+    void closeEvent(QCloseEvent*);
+    void keyPressEvent(QKeyEvent *event);
 
 private:
 
@@ -65,7 +68,7 @@ private:
     SearchBar * mSearchbar;
     QList<AbstractPanelWidget*> mPanels;
     QGraphicsOpacityEffect * mOpacityEffect = nullptr;
-
+    SequencePanelWidget * mPanel;
     QUndoStack * mUndoStack;
 
 };

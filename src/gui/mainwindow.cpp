@@ -18,10 +18,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     setCentralWidget(mainWidget);
 
+    mPanel = new SequencePanelWidget;
 
-    SequencePanelWidget * panel = new SequencePanelWidget;
-
-    connect(panel, SIGNAL(selectionChanged(int,int)), mView, SLOT(setSelection(int,int)));
+    connect(mPanel, SIGNAL(selectionChanged(int,int)), mView, SLOT(setSelection(int,int)));
 
     //    connect(mSearchbar, &QLineEdit::returnPressed, [this](){
 
@@ -34,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setDockOptions(QMainWindow::ForceTabbedDocks|QMainWindow::AllowTabbedDocks);
 
-    addPanel(panel, Qt::LeftDockWidgetArea);
+    addPanel(mPanel, Qt::LeftDockWidgetArea);
     addPanel(new InfoPanelWidget, Qt::LeftDockWidgetArea);
 
 
@@ -157,12 +156,18 @@ void MainWindow::setTransparent(bool active)
 void MainWindow::removeSelection()
 {
 
-    mUndoStack->push(new CutTraceCommand(mView,
+    mUndoStack->push(new CutTraceCommand(this,
                                          mView->currentSelection().pos,
                                          mView->currentSelection().length));
 
 
 
+}
+
+void MainWindow::revert()
+{
+    mView->revert();
+    mPanel->setText(mView->trace()->sequence().toString());
 }
 
 void MainWindow::exportFile()
@@ -275,7 +280,7 @@ void MainWindow::setupActions()
     editMenu->addAction(tr("Select all"), mView,SLOT(selectAll()), QKeySequence::SelectAll);
     editMenu->addSeparator();
     QAction * remAction = editMenu->addAction(FIcon(0xf0c4),tr("Remove selection"),this,SLOT(removeSelection()),QKeySequence::Delete);
-    QAction * revAction = editMenu->addAction(FIcon(0xf0ec),tr("Revert Sequence"), mView,SLOT(revert()),  QKeySequence(Qt::CTRL + Qt::Key_I));
+    QAction * revAction = editMenu->addAction(FIcon(0xf0ec),tr("Revert Sequence"), this,SLOT(revert()),  QKeySequence(Qt::CTRL + Qt::Key_I));
     editMenu->addSeparator();
 
     QAction * findAction = mSearchbar->createSearchAction("Find Sequence ...");
@@ -379,4 +384,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
     return QMainWindow::keyPressEvent(event);
 
+}
+
+SequencePanelWidget *MainWindow::panel() const
+{
+    return mPanel;
+}
+
+TraceView *MainWindow::view() const
+{
+    return mView;
 }

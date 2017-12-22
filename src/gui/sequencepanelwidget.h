@@ -3,7 +3,7 @@
 #include <QtWidgets>
 #include "abstractpanelwidget.h"
 #include "sequencehighlighter.h"
-#include "fastaeditor.h"
+
 
 class SequencePanelWidget : public AbstractPanelWidget
 {
@@ -11,6 +11,9 @@ class SequencePanelWidget : public AbstractPanelWidget
 public:
     SequencePanelWidget(QWidget * parent = 0);
     void load();
+
+    void setText(const QString& text);
+
 
 
 public Q_SLOTS:
@@ -20,7 +23,7 @@ Q_SIGNALS:
     void selectionChanged(int pos, int length);
 
 private:
-    FastaEditor * mEdit;
+    QPlainTextEdit * mEdit;
     SequenceHighlighter * mHighlighter;
 };
 
