@@ -15,10 +15,11 @@ TraceView::TraceView(QWidget *parent)
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents, true);
     QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
 
-    setDisabled(true);
+    setAcceptDrops(true);
 
-//    setMouseTracking(true);
-//    viewport()->setMouseTracking(true);
+
+    //    setMouseTracking(true);
+    //    viewport()->setMouseTracking(true);
 
 }
 //-------------------------------------------------------------------------------
@@ -56,7 +57,11 @@ void TraceView::mouseMoveEvent(QMouseEvent *event)
 
 void TraceView::mousePressEvent(QMouseEvent *event)
 {
-
+    if (!isValid())
+    {
+        QAbstractScrollArea::mousePressEvent(event);
+        return;
+    }
     // If button left pressed
     if (event->button() == Qt::LeftButton)
     {
@@ -97,6 +102,20 @@ void TraceView::mousePressEvent(QMouseEvent *event)
 bool TraceView::viewportEvent(QEvent *event)
 {
     return QAbstractScrollArea::viewportEvent(event);
+}
+
+void TraceView::dragEnterEvent(QDragEnterEvent *event)
+{
+    qDebug()<<"drag enter";
+    event->acceptProposedAction();
+}
+//-------------------------------------------------------------------------------
+void TraceView::dropEvent(QDropEvent *event)
+{
+    if (event->mimeData()->hasUrls())
+    {
+        setFilename(event->mimeData()->urls().first().path());
+    }
 }
 //-------------------------------------------------------------------------------
 void TraceView::keyPressEvent(QKeyEvent *event)

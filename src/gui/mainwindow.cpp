@@ -61,6 +61,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     setupActions();
 
+    setAcceptDrops(true);
+
+
     resize(1000, 400);
     setWindowIcon(QIcon("qrc:/icons/cutepeaks.png"));
     restoreSettings();

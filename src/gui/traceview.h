@@ -112,6 +112,9 @@ protected :
     void mousePressEvent(QMouseEvent * event) override;
     bool viewportEvent(QEvent * event) override;
 
+    void dragEnterEvent(QDragEnterEvent * event) override;
+    void dropEvent(QDropEvent * event) override;
+
     void keyPressEvent(QKeyEvent * event) override;
 
     void setupViewport();
