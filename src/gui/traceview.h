@@ -111,6 +111,7 @@ protected :
     void mouseMoveEvent(QMouseEvent * event) override;
     void mousePressEvent(QMouseEvent * event) override;
     bool viewportEvent(QEvent * event) override;
+    void wheelEvent(QWheelEvent * event) override;
 
     void dragEnterEvent(QDragEnterEvent * event) override;
     void dropEvent(QDropEvent * event) override;

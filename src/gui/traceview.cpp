@@ -103,6 +103,15 @@ bool TraceView::viewportEvent(QEvent *event)
 {
     return QAbstractScrollArea::viewportEvent(event);
 }
+//-------------------------------------------------------------------------------
+void TraceView::wheelEvent(QWheelEvent *event)
+{
+// TODO
+//    mXFactor += event->delta()/10;
+//    setScaleFactor(mXFactor);
+
+
+}
 
 void TraceView::dragEnterEvent(QDragEnterEvent *event)
 {
@@ -593,6 +602,8 @@ void TraceView::setScaleFactor(float factor)
     mXFactor = factor;
     viewport()->update();
     updateScrollbar();
+
+
 }
 //-------------------------------------------------------------------------------
 void TraceView::setSelection(int pos, int length)
