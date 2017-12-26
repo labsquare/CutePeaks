@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     app.setApplicationName("CutePeaks");
     app.setOrganizationName("Labsquare");
     app.setOrganizationDomain("Labsquare.org");
-    app.setApplicationVersion("0.0.1beta");
+    app.setApplicationVersion("0.2.0beta");
 
     QString locale = QLocale::system().name().section('_', 0, 0);
     QTranslator translator;
