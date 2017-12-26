@@ -106,9 +106,9 @@ bool TraceView::viewportEvent(QEvent *event)
 //-------------------------------------------------------------------------------
 void TraceView::wheelEvent(QWheelEvent *event)
 {
-// TODO
-//    mXFactor += event->delta()/10;
-//    setScaleFactor(mXFactor);
+    // TODO
+    //    mXFactor += event->delta()/10;
+    //    setScaleFactor(mXFactor);
 
 
 }
@@ -634,6 +634,9 @@ void TraceView::setSelection(int pos, int length)
 
 void TraceView::selectAll()
 {
+    if (!isValid())
+        return;
+
     mCurrentSelection.pos = 0;
     mCurrentSelection.length = trace()->sequence().length();
     viewport()->update();
@@ -667,7 +670,6 @@ void TraceView::pasteTrace(Trace *trace)
 //-------------------------------------------------------------------------------
 void TraceView::revert()
 {
-    qDebug()<<Q_FUNC_INFO<<"revert sequence";
 
     mTrace->revert();
     viewport()->update();
@@ -677,8 +679,12 @@ void TraceView::revert()
 
 void TraceView::copySequence() const
 {
+    if (!isValid())
+        return;
+
     Sequence seq = trace()->sequence().mid(mCurrentSelection.pos, mCurrentSelection.length);
     qApp->clipboard()->setText(seq.toFasta("DNA"));
+
 }
 //-------------------------------------------------------------------------------
 bool TraceView::toSvg(const QString &filename) const

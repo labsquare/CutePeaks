@@ -10,6 +10,7 @@ UpdateDialog::UpdateDialog(QWidget *parent)
     mDLButton = buttons->addButton(tr("Download"),QDialogButtonBox::ActionRole);
     mDLButton->setVisible(false);
     connect(mDLButton, &QPushButton::clicked, this, &UpdateDialog::openUrl);
+    connect(buttons, &QDialogButtonBox::accepted, this, &UpdateDialog::close);
 
     mLabel->setAlignment(Qt::AlignCenter|Qt::AlignVCenter);
     mLabel->setText(tr("check updated ..."));
@@ -50,6 +51,11 @@ void UpdateDialog::parse()
         mDLButton->setVisible(true);
     }
 
+    else
+    {
+        mLabel->setText(tr("You already have the latest update"));
+        mDLButton->setVisible(false);
+    }
 
     reply->deleteLater();
 

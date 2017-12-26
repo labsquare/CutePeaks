@@ -46,16 +46,14 @@ public Q_SLOTS:
     void exportFile();
 
 
-
-
-
-
 protected Q_SLOTS:
     void updateSelection();
     void addPanel(AbstractPanelWidget * panel, Qt::DockWidgetArea area);
 
     void showSelection(int pos, int length);
     void showUpdater();
+
+    void setActionAvaible(bool avaible);
 
 protected:
     void setupActions();

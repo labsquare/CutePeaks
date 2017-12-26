@@ -160,18 +160,19 @@ void MainWindow::setTransparent(bool active)
 void MainWindow::removeSelection()
 {
 
-    mUndoStack->push(new CutTraceCommand(this,
-                                         mView->currentSelection().pos,
-                                         mView->currentSelection().length));
-
-
-
+    if (mView->isValid())
+        mUndoStack->push(new CutTraceCommand(this,
+                                             mView->currentSelection().pos,
+                                             mView->currentSelection().length));
 }
 
 void MainWindow::revert()
 {
-    mView->revert();
-    mPanel->setText(mView->trace()->sequence().toString());
+    if (mView->isValid())
+    {
+        mView->revert();
+        mPanel->setText(mView->trace()->sequence().toString());
+    }
 }
 
 void MainWindow::exportFile()
@@ -247,6 +248,11 @@ void MainWindow::showUpdater()
 {
     UpdateDialog dialog;
     dialog.exec();
+}
+
+void MainWindow::setActionAvaible(bool avaible)
+{
+
 }
 
 void MainWindow::setupActions()
@@ -364,23 +370,23 @@ void MainWindow::setupActions()
     helpMenu->addAction(tr("&About"), this, SLOT(about()));
     helpMenu->addAction(tr("About Qt"), qApp, SLOT(aboutQt()));
 
-//    QToolBar * toolbar = addToolBar("mainbar");
-//    toolbar->addAction(openAction);
-//    toolbar->addAction(saveAction);
-//    toolbar->addAction(exportAction);
-//    toolbar->addSeparator();
-//    toolbar->addAction(remAction);
-//    toolbar->addAction(revAction);
-//    toolbar->addSeparator();
-//    toolbar->addAction(aminoAcidAction);
+    //    QToolBar * toolbar = addToolBar("mainbar");
+    //    toolbar->addAction(openAction);
+    //    toolbar->addAction(saveAction);
+    //    toolbar->addAction(exportAction);
+    //    toolbar->addSeparator();
+    //    toolbar->addAction(remAction);
+    //    toolbar->addAction(revAction);
+    //    toolbar->addSeparator();
+    //    toolbar->addAction(aminoAcidAction);
 
 
 
-//    QWidget * spacer = new QWidget;
-//    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-//    toolbar->addWidget(spacer);
+    //    QWidget * spacer = new QWidget;
+    //    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    //    toolbar->addWidget(spacer);
 
-//    toolbar->addWidget(mSearchbar);
+    //    toolbar->addWidget(mSearchbar);
 
 
 
