@@ -563,6 +563,9 @@ void TraceView::setFilename(const QString &filename)
 //-------------------------------------------------------------------------------
 void TraceView::setTrace(Trace *trace)
 {
+    if (trace == nullptr)
+        return;
+
     mTrace = trace;
     if (!isValid()){
         qCritical()<<Q_FUNC_INFO<<tr("Cannot read the file");
