@@ -4,55 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/) 
 and this project adheres to [Semantic Versioning](http://semver.org/)
 
-<<<<<<< HEAD
-## [0.2.3] - 2017-14-03
-### Changed
-- Fix delay time before running. Now analysis doesn't wait to run
-- Remove debugging message
-- Fix bug when exporting PNG data.
 =======
-## [0.2.3] - 2017-29-03
+## [0.2.0] - 2017-29-03
 ### Changed
-- Exporting file displays a progress dialog
-- Add recent menu
-
->>>>>>> devel
-
-## [0.2.2] - 2017-03-03
-### Changed
-- Fix Crash when reading .xz file 
-- Add new Icons 
-- Add new toolbar on Analysis Viewer widget
-- Windows binary are build automatically with AppVeyor
-
-## [0.2.1] - 2017-02-03
-### Changed
-- Remove filter of file by extension
-
-## [0.2] - 2017-02-10
-### Changed 
-- Main UI is now a list of analysis 
-- You can now drop file into the view
-- Fastqt can be now used as a CLI
-- Thread number can be set from the CLI. By default  QThread::idealThreadCount()
-- Export results 
-
-## Analysis 
-
-
-## [0.1] - 2017-01-19
-### Added
-- Clone FastQC 
-
-## Analysis 
-- Basic Stat Analysis
-- Length distribution analysis 
-- Overrepresented sequence analysis
-- Per base content analysis
-- Per base N content analysis 
-- Per base quality analysis 
-- Per sequence GC content analysis 
-- Per Sequence quality analysis 
+- Display sequence
+- Selection feature with mouse
+- Exporting in different formats 
+- CLI command line 
+- Cut trace feature 
+- Reverse sequence feature 
+- Undo / redo action 
 
 
 
