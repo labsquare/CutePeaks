@@ -243,6 +243,12 @@ void MainWindow::showSelection(int pos, int length)
     statusBar()->showMessage(QString("position: %1 length: %2").arg(pos).arg(length));
 }
 
+void MainWindow::showUpdater()
+{
+    UpdateDialog dialog;
+    dialog.exec();
+}
+
 void MainWindow::setupActions()
 {
     QMenuBar * bar = new QMenuBar;
@@ -349,8 +355,8 @@ void MainWindow::setupActions()
 
 
     QMenu * helpMenu = bar->addMenu(tr("&Help"));
-    helpMenu->addAction(tr("Check update"), qApp, SLOT(aboutQt()));
-    helpMenu->addAction(tr("Send issue"), qApp, SLOT(aboutQt()));
+    helpMenu->addAction(tr("Check update"),this, SLOT(showUpdater()));
+    helpMenu->addAction(tr("Send issue"), [](){QDesktopServices::openUrl(QUrl("https://github.com/labsquare/CutePeaks/issues/new"));});
     helpMenu->addSeparator();
     helpMenu->addAction(tr("Join labsquare"), qApp, SLOT(aboutQt()));
     helpMenu->addAction(tr("Donate"), qApp, SLOT(aboutQt()));

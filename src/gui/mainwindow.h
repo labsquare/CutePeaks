@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QtWidgets>
 #include <QSvgGenerator>
+#include <QDesktopServices>
 #include <QGraphicsOpacityEffect>
 #include <QUndoStack>
 #include "cuttracecommand.h"
@@ -13,6 +14,7 @@
 #include "infopanelwidget.h"
 #include "abstractpanelwidget.h"
 #include "aboutdialog.h"
+#include "updatedialog.h"
 
 #include "sequencepanelwidget.h"
 #include "infopanelwidget.h"
@@ -53,6 +55,7 @@ protected Q_SLOTS:
     void addPanel(AbstractPanelWidget * panel, Qt::DockWidgetArea area);
 
     void showSelection(int pos, int length);
+    void showUpdater();
 
 protected:
     void setupActions();

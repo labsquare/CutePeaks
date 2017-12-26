@@ -11,7 +11,8 @@ HEADERS += \
     $$PWD/tracecolor.h \
     $$PWD/cuttracecommand.h \
     $$PWD/fastaeditor.h \
-    $$PWD/searchbar.h
+    $$PWD/searchbar.h \
+    $$PWD/updatedialog.h
 
 SOURCES += \
 #    $$PWD/sequenceview.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
     $$PWD/tracecolor.cpp \
     $$PWD/cuttracecommand.cpp \
     $$PWD/fastaeditor.cpp \
-    $$PWD/searchbar.cpp
+    $$PWD/searchbar.cpp \
+    $$PWD/updatedialog.cpp
 
 RESOURCES +=
