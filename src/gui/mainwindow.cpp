@@ -358,8 +358,8 @@ void MainWindow::setupActions()
     helpMenu->addAction(tr("Check update"),this, SLOT(showUpdater()));
     helpMenu->addAction(tr("Send issue"), [](){QDesktopServices::openUrl(QUrl("https://github.com/labsquare/CutePeaks/issues/new"));});
     helpMenu->addSeparator();
-    helpMenu->addAction(tr("Join labsquare"), qApp, SLOT(aboutQt()));
-    helpMenu->addAction(tr("Donate"), qApp, SLOT(aboutQt()));
+    helpMenu->addAction(tr("Join labsquare"), [](){QDesktopServices::openUrl(QUrl("http://www.labsquare.org"));});
+    helpMenu->addAction(tr("Donate"), [](){QDesktopServices::openUrl(QUrl("http://www.labsquare.org"));});
     helpMenu->addSeparator();
     helpMenu->addAction(tr("&About"), this, SLOT(about()));
     helpMenu->addAction(tr("About Qt"), qApp, SLOT(aboutQt()));
