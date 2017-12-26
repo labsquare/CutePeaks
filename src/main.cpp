@@ -5,6 +5,7 @@
 #include <iostream>
 #include "mainwindow.h"
 #include "qfonticon.h"
+#include "commandlineinterpreter.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,12 +20,19 @@ int main(int argc, char *argv[])
     translator.load(QString("translations/cutepeaks_")+locale);
     app.installTranslator(&translator);
 
-    QFontIcon::instance()->addFont(":/font/fontawesome.ttf");
 
+    CommandLineInterpreter cli(&app);
 
-    MainWindow w;
-    w.setFilename("/tmp/examples/A_forward.ab1");
-    w.show();
+    if (cli.needCLI())
+        return cli.process();
 
-    return app.exec();
+    else {
+        QFontIcon::instance()->addFont(":/font/fontawesome.ttf");
+        MainWindow w;
+        w.setFilename(cli.filename());
+        w.show();
+        return app.exec();
+
+    }
+
 }

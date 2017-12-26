@@ -8,7 +8,8 @@ HEADERS += \
     $$PWD/abifsequencetrace.h \
     $$PWD/trace.h \
     $$PWD/abstracttracereader.h \
-    $$PWD/tracefactory.h
+    $$PWD/tracefactory.h \
+    $$PWD/commandlineinterpreter.h
 
 SOURCES += \
     $$PWD/nucleotidalphabet.cpp \
@@ -18,4 +19,5 @@ SOURCES += \
     $$PWD/abifsequencetrace.cpp \
     $$PWD/trace.cpp \
     $$PWD/abstracttracereader.cpp \
-    $$PWD/tracefactory.cpp
+    $$PWD/tracefactory.cpp \
+    $$PWD/commandlineinterpreter.cpp
