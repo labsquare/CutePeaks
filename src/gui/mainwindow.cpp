@@ -69,6 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowIcon(QIcon("qrc:/icons/cutepeaks.png"));
     restoreSettings();
 
+    mSearchbar->hide();
     connect(mSearchbar, &SearchBar::previousPressed, mView, &TraceView::selectPreviousSearch);
     connect(mSearchbar, &SearchBar::nextPressed, mView, &TraceView::selectNextSearch);
     connect(mSearchbar, &SearchBar::textChanged, mView, &TraceView::search);

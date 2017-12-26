@@ -84,7 +84,6 @@ QVariant Trace::value(const QString &key) const
 //-----------------------------------------------------------------
 bool Trace::isValid() const
 {
-    return false;
 
     if (mDatas.isEmpty())
         return false;
