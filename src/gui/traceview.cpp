@@ -759,7 +759,10 @@ bool TraceView::toFasta(const QString &filename, Sequence::Type type) const
 
         if (type == Sequence::Protein)
             stream<<trace()->sequence().translate(mReadFrame).toFasta(info.baseName());
+
+        return true;
     }
+    return false;
 }
 //-------------------------------------------------------------------------------
 int TraceView::traceToView(int x) const
