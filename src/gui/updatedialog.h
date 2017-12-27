@@ -17,6 +17,7 @@ protected Q_SLOTS:
     void openUrl();
 
 
+
 private:
     QLabel * mLabel;
 
