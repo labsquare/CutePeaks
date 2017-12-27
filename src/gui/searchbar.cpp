@@ -15,6 +15,7 @@ SearchBar::SearchBar(QWidget *parent)
     nextAction->setToolTip(QString(tr("Next (%1)")).arg(nextAction->shortcut().toString()));
     prevAction->setToolTip(QString(tr("Previous (%1)")).arg(prevAction->shortcut().toString()));
 
+    widgetForAction(nextAction)->setLayoutDirection(Qt::RightToLeft);
 
     connect(prevAction,SIGNAL(triggered(bool)),this,SIGNAL(previousPressed()));
     connect(nextAction,SIGNAL(triggered(bool)),this,SIGNAL(nextPressed()));
@@ -24,6 +25,8 @@ SearchBar::SearchBar(QWidget *parent)
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 
     mEdit->setPlaceholderText("Search pattern ...");
+
+    setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
 }
 
