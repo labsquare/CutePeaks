@@ -99,6 +99,7 @@ bool CommandLineInterpreter::printTsv()
 
         std::cout<<row.join('\t').toStdString()<<std::endl;
     }
+
     return true;
 }
 
