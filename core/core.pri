@@ -7,7 +7,8 @@ HEADERS += \
     $$PWD/proteinalphabet.h \
     $$PWD/ScfSequenceTrace.h \
     $$PWD/sequence.h \
-    $$PWD/SequenceTraceFactory.h
+    $$PWD/SequenceTraceFactory.h \
+    $$PWD/PeaksCalling.h
 
 SOURCES += \
     $$PWD/AbifSequenceTrace.cpp \
@@ -16,4 +17,5 @@ SOURCES += \
     $$PWD/proteinalphabet.cpp \
     $$PWD/ScfSequenceTrace.cpp \
     $$PWD/sequence.cpp \
-    $$PWD/SequenceTraceFactory.cpp
+    $$PWD/SequenceTraceFactory.cpp \
+    $$PWD/PeaksCalling.cpp
