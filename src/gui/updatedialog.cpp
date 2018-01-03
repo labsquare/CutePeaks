@@ -1,6 +1,6 @@
 #include "updatedialog.h"
 #include <QVersionNumber>
-UpdateDialog::UpdateDialog(QWidget *parent)
+UpdateDialog::UpdateDialog(QWidget */*parent*/)
 {
 
     mLabel   = new QLabel;

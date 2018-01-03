@@ -104,7 +104,7 @@ bool TraceView::viewportEvent(QEvent *event)
     return QAbstractScrollArea::viewportEvent(event);
 }
 //-------------------------------------------------------------------------------
-void TraceView::wheelEvent(QWheelEvent *event)
+void TraceView::wheelEvent(QWheelEvent * /*event*/)
 {
     // TODO
     //    mXFactor += event->delta()/10;
@@ -148,7 +148,7 @@ void TraceView::keyPressEvent(QKeyEvent *event)
 
 }
 //-------------------------------------------------------------------------------
-void TraceView::setupViewport()
+void TraceView::setupViewportDummy()
 {
     qDebug()<<"after";
 }

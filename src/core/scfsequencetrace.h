@@ -57,7 +57,7 @@ private:
     QVector<int> mBaseLocations;
     QVector<int> mConfScores;
     Sequence mBaseCalls;
-    QIODevice * mDevice;
+//    QIODevice * mDevice;
 
     QHash<QChar, QList<quint8>> mTempProba;
 

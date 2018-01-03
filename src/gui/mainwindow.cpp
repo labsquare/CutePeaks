@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     mXSlider->setMaximumWidth(100);
     mYSlider->setMaximumWidth(100);
-    mYSlider->setValue(0.2);
+    mYSlider->setValue(0);
     mYSlider->setToolTip(tr("Amplitude"));
 
     QStatusBar * statusBar = new QStatusBar;
@@ -251,7 +251,7 @@ void MainWindow::showUpdater()
     dialog.exec();
 }
 
-void MainWindow::setActionAvaible(bool avaible)
+void MainWindow::setActionAvaible(bool /*avaible*/)
 {
 
 }
@@ -264,8 +264,8 @@ void MainWindow::setupActions()
     // Create app menus
     // file Menu
     QMenu * fileMenu       = bar->addMenu(tr("&File"));
-    QAction * openAction   = fileMenu->addAction(FIcon(0xf115),tr("&Open"), this, SLOT(openFile()), QKeySequence::Open);
-    QAction * saveAction   = fileMenu->addAction(FIcon(0xf0c7),tr("&Save"), this, SLOT(openFile()), QKeySequence::Save);
+//    QAction * openAction   = fileMenu->addAction(FIcon(0xf115),tr("&Open"), this, SLOT(openFile()), QKeySequence::Open);
+//    QAction * saveAction   = fileMenu->addAction(FIcon(0xf0c7),tr("&Save"), this, SLOT(openFile()), QKeySequence::Save);
     QAction * exportAction = fileMenu->addAction(tr("Export As"));
     exportAction->setMenu(new QMenu);
     QAction * exportPng    = exportAction->menu()->addAction(FIcon(0xf1c5),tr("PNG Image"),this,SLOT(exportFile()));
@@ -302,8 +302,8 @@ void MainWindow::setupActions()
     editMenu->addSeparator();
     editMenu->addAction(tr("Select all"), mView,SLOT(selectAll()), QKeySequence::SelectAll);
     editMenu->addSeparator();
-    QAction * remAction = editMenu->addAction(FIcon(0xf0c4),tr("Remove selection"),this,SLOT(removeSelection()),QKeySequence::Delete);
-    QAction * revAction = editMenu->addAction(FIcon(0xf0ec),tr("Revert Sequence"), this,SLOT(revert()),  QKeySequence(Qt::CTRL + Qt::Key_I));
+//    QAction * remAction = editMenu->addAction(FIcon(0xf0c4),tr("Remove selection"),this,SLOT(removeSelection()),QKeySequence::Delete);
+//    QAction * revAction = editMenu->addAction(FIcon(0xf0ec),tr("Revert Sequence"), this,SLOT(revert()),  QKeySequence(Qt::CTRL + Qt::Key_I));
     editMenu->addSeparator();
 
     QAction * findAction = mSearchbar->createSearchAction("Find Sequence ...");

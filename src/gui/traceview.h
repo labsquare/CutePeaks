@@ -118,7 +118,7 @@ protected :
 
     void keyPressEvent(QKeyEvent * event) override;
 
-    void setupViewport();
+    void setupViewportDummy();
 
 
 
