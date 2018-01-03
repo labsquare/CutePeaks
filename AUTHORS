@@ -2,11 +2,13 @@ CutePeaks is a viewer for Sanger trace file made with Qt5. Supports AB1 and SCF 
 
 ## Developers
 @dridk Sacha Schutz <sacha@labsquare.org>
+@Arkanosis Jérémie Roquet <jroquet@arkanosis.net>
 @ikit Olivier Gueudelot<gueudelotolive@gmail.com>
 @Natir Pierre Marijon <pierre@marijon.fr>
 
-## Special Thanks for bug reporter 
+## Special Thanks to
 @Oodnadatta Anne-Sophie Denommé-Pichon <as.denomme@outlook.com>
+@yschutz Yves Schutz <Yves.Schutz@cern.ch> for Mac support 
 
 ## Packagers
 @StuntsPT Francisco Pina-Martins
