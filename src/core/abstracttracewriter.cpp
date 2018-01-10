@@ -1,16 +1,12 @@
 #include "abstracttracewriter.h"
 
 AbstractTraceWriter::AbstractTraceWriter(QIODevice *device)
+    :mDevice(device)
 {
 
 }
 
-AbstractTraceWriter::~AbstractTraceWriter()
-{
-
-}
-
-void AbstractTraceWriter::writeTrace(Trace *trace) const
+void AbstractTraceWriter::writeTrace(Trace *trace)
 {
     writeDatas(trace->datas());
     writeBaseLocations(trace->baseLocations());
@@ -18,4 +14,9 @@ void AbstractTraceWriter::writeTrace(Trace *trace) const
     writeSequence(trace->sequence());
     writeMetadatas(trace->metadatas());
 
+}
+
+QIODevice *AbstractTraceWriter::device()
+{
+    return mDevice;
 }

@@ -11,13 +11,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = cutepeaks
 TEMPLATE = app
 
-INCLUDEPATH += $$PWD/../qscintilla/Qt4Qt5
-DEPENDPATH += $$PWD/../qscintilla/Qt4Qt5
-
 INCLUDEPATH += QFontIcon
 
 include(core/core.pri)
-include(gui/gui.pri)
+#include(gui/gui.pri)
 include(QFontIcon/QFontIcon.pri)
 
 SOURCES += main.cpp

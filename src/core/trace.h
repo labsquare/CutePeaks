@@ -3,8 +3,10 @@
 #include <QtCore>
 #include "sequence.h"
 #include "abstracttracereader.h"
+#include "abstracttracewriter.h"
 
 class AbstractTraceReader;
+class AbstractTraceWriter;
 class Trace;
 class Trace
 {

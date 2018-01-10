@@ -3,9 +3,9 @@
 #include <QScrollArea>
 #include <QtCore>
 #include <iostream>
-#include "mainwindow.h"
+//#include "mainwindow.h"
 #include "qfonticon.h"
-#include "commandlineinterpreter.h"
+//#include "commandlineinterpreter.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,18 +21,18 @@ int main(int argc, char *argv[])
     app.installTranslator(&translator);
 
 
-    CommandLineInterpreter cli(&app);
+//    CommandLineInterpreter cli(&app);
 
-    if (cli.needCLI())
-        return cli.process();
+//    if (cli.needCLI())
+//        return cli.process();
 
-    else {
-        QFontIcon::instance()->addFont(":/font/fontawesome.ttf");
-        MainWindow w;
-        w.setFilename(cli.filename());
-        w.show();
-        return app.exec();
+//    else {
+//        QFontIcon::instance()->addFont(":/font/fontawesome.ttf");
+//        MainWindow w;
+//        w.setFilename(cli.filename());
+//        w.show();
+//        return app.exec();
 
-    }
+//    }
 
 }
