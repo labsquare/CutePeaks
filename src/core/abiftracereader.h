@@ -4,7 +4,7 @@
 
 
 class AbifDir;
-class AbifSequenceTrace;
+class AbifTraceReader;
 
 // define directory from specification
 // Check specification from http://www6.appliedbiosystems.com/support/software_community/ABIF_File_Format.pdf
@@ -23,7 +23,7 @@ public:
 
 };
 
-class AbifSequenceTrace : public AbstractTraceReader
+class AbifTraceReader : public AbstractTraceReader
 {
 public:
     enum Type {
@@ -42,13 +42,13 @@ public:
         Bool    = 13,
         User    = 1024
     };
-    AbifSequenceTrace(QIODevice * device);
+    AbifTraceReader(QIODevice * device);
 
-    const QHash<QChar, QVector<int>>& datas() const override;
-    const Sequence& sequence()const  override;
-    const QVector<int>& baseLocations()const  override;
-    const QVector<int>& baseScores()const  override;
-    const QHash<QString, QVariant>& metadatas() const override;
+    const QHash<QChar, QVector<int>>& readDatas() const override;
+    const Sequence& readSequence()const  override;
+    const QVector<int>& readBaseLocations()const  override;
+    const QVector<int>& readBaseScores()const  override;
+    const QHash<QString, QVariant>& readMetadatas() const override;
 
 
 

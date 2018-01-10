@@ -35,14 +35,14 @@ Trace * TraceFactory::createTrace(const QString &filename)
     QScopedPointer<AbstractTraceReader> reader;
 
     if (TraceFactory::filetype(filename) == ABIF)
-        reader.reset(new AbifSequenceTrace(&file));
+        reader.reset(new AbifTraceReader(&file));
 
     if (TraceFactory::filetype(filename) == SCF)
-        reader.reset(new ScfSequenceTrace(&file));
+        reader.reset(new ScfTraceReader(&file));
 
     if (reader == nullptr)
         return nullptr;
 
-    return reader->createTrace();
+    return reader->readTrace();
 }
 

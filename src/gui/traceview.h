@@ -5,7 +5,7 @@
 #include <QSvgGenerator>
 #include <QPropertyAnimation>
 #include "tracefactory.h"
-#include "abifsequencetrace.h"
+#include "abiftracereader.h"
 #include "tracecolor.h"
 #include "cuttracecommand.h"
 

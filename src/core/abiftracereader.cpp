@@ -1,45 +1,45 @@
-#include "abifsequencetrace.h"
+#include "abiftracereader.h"
 #include <QDebug>
 
-AbifSequenceTrace::AbifSequenceTrace(QIODevice *device)
+AbifTraceReader::AbifTraceReader(QIODevice *device)
     :AbstractTraceReader(device)
 {
     loadData();
 }
 
-const QHash<QChar, QVector<int>>& AbifSequenceTrace::datas() const
+const QHash<QChar, QVector<int>>& AbifTraceReader::readDatas() const
 {
     return mTraces;
 }
-const Sequence& AbifSequenceTrace::sequence()const
+const Sequence& AbifTraceReader::readSequence()const
 {
     return mBaseCalls;
 }
-const QVector<int>& AbifSequenceTrace::baseLocations()const
+const QVector<int>& AbifTraceReader::readBaseLocations()const
 {
     return mBaseLocations;
 }
-const QVector<int>& AbifSequenceTrace::baseScores()const
+const QVector<int>& AbifTraceReader::readBaseScores()const
 {
     return mConfScores;
 }
 
-const QHash<QString, QVariant> &AbifSequenceTrace::metadatas() const
+const QHash<QString, QVariant> &AbifTraceReader::readMetadatas() const
 {
     return mMetadatas;
 }
 
-int AbifSequenceTrace::version() const
+int AbifTraceReader::version() const
 {
     return mVersion;
 }
 
-QStringList AbifSequenceTrace::keys() const
+QStringList AbifTraceReader::keys() const
 {
     return mDirs.keys();
 }
 
-QVariant AbifSequenceTrace::data(const QString &key)
+QVariant AbifTraceReader::data(const QString &key)
 {
     if (!mDirs.contains(key))
         return QVariant();
@@ -47,7 +47,7 @@ QVariant AbifSequenceTrace::data(const QString &key)
     return fromDir(mDirs[key]);
 }
 
-void AbifSequenceTrace::readDictionnaries()
+void AbifTraceReader::readDictionnaries()
 {
     if (device()->open(QIODevice::ReadOnly))
     {
@@ -76,7 +76,7 @@ void AbifSequenceTrace::readDictionnaries()
     }
 }
 
-void AbifSequenceTrace::readTraces()
+void AbifTraceReader::readTraces()
 {
     // read base order
     QByteArray baseorder = data("FWO_.1").toByteArray();
@@ -95,12 +95,12 @@ void AbifSequenceTrace::readTraces()
     }
 }
 
-void AbifSequenceTrace::readBaseCalls()
+void AbifTraceReader::readBaseCalls()
 {
     mBaseCalls = Sequence(data("PBAS.1").toByteArray(), Sequence::Forward, Sequence::Dna);
 }
 
-void AbifSequenceTrace::readBaseLocations()
+void AbifTraceReader::readBaseLocations()
 {
     mBaseLocations.clear();
     for ( QVariant v : data("PLOC.1").toList())
@@ -108,7 +108,7 @@ void AbifSequenceTrace::readBaseLocations()
 
 }
 
-void AbifSequenceTrace::readConfScores()
+void AbifTraceReader::readConfScores()
 {
     mConfScores.clear();
     for ( QVariant v : data("PCON.1").toString()){
@@ -116,7 +116,7 @@ void AbifSequenceTrace::readConfScores()
     }
 }
 
-bool AbifSequenceTrace::loadData()
+bool AbifTraceReader::loadData()
 {
     readDictionnaries();
     readTraces();
@@ -137,7 +137,7 @@ bool AbifSequenceTrace::loadData()
 }
 
 
-AbifDir AbifSequenceTrace::dirFromOffset(int offset)
+AbifDir AbifTraceReader::dirFromOffset(int offset)
 {
     AbifDir dir;
     device()->seek(offset);
@@ -158,7 +158,7 @@ AbifDir AbifSequenceTrace::dirFromOffset(int offset)
 
 }
 
-QVariant AbifSequenceTrace::fromDir(const AbifDir &dir)
+QVariant AbifTraceReader::fromDir(const AbifDir &dir)
 {
     // Try to unserialize all data ! Not sure if all is working
     // Check specification from http://www6.appliedbiosystems.com/support/software_community/ABIF_File_Format.pdf
@@ -293,7 +293,7 @@ QVariant AbifSequenceTrace::fromDir(const AbifDir &dir)
     return QVariant();
 }
 
-QVariant AbifSequenceTrace::reduce(QVariantList &list)
+QVariant AbifTraceReader::reduce(QVariantList &list)
 {
     if (list.count() == 1)
         return list.first();

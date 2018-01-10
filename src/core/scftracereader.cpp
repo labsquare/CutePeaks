@@ -1,43 +1,43 @@
-#include "scfsequencetrace.h"
+#include "scftracereader.h"
 
-ScfSequenceTrace::ScfSequenceTrace(QIODevice * device)
+ScfTraceReader::ScfTraceReader(QIODevice * device)
     :AbstractTraceReader(device)
 {
     load();
 }
 //-------------------------------------------------------------------
 
-const QHash<QChar, QVector<int>>&ScfSequenceTrace::datas() const
+const QHash<QChar, QVector<int>>&ScfTraceReader::readDatas() const
 {
     return mTraces;
 }
 //-------------------------------------------------------------------
 
-const Sequence& ScfSequenceTrace::sequence() const
+const Sequence& ScfTraceReader::readSequence() const
 {
     return mBaseCalls;
 
 }
 //-------------------------------------------------------------------
 
-const QVector<int>& ScfSequenceTrace::baseLocations() const
+const QVector<int>& ScfTraceReader::readBaseLocations() const
 {
     return mBaseLocations;
 }
 //-------------------------------------------------------------------
 
-const QVector<int>& ScfSequenceTrace::baseScores() const
+const QVector<int>& ScfTraceReader::readBaseScores() const
 {
     return mConfScores;
 }
 //-------------------------------------------------------------------
-const QHash<QString, QVariant> &ScfSequenceTrace::metadatas() const
+const QHash<QString, QVariant> &ScfTraceReader::readMetadatas() const
 {
     return mMetadatas;
 }
 //-------------------------------------------------------------------
 
-bool ScfSequenceTrace::load()
+bool ScfTraceReader::load()
 {
     // See specification
     // http://staden.sourceforge.net/scf-rfc.html
@@ -61,7 +61,7 @@ bool ScfSequenceTrace::load()
 
     return false;
 }
-void ScfSequenceTrace::readBases()
+void ScfTraceReader::readBases()
 {
     // Reads base location
     mBaseLocations.clear();
@@ -97,7 +97,7 @@ void ScfSequenceTrace::readBases()
     }
 }
 //-------------------------------------------------------------------
-void ScfSequenceTrace::readMetadatas()
+void ScfTraceReader::readMetadatas()
 {
     mMetadatas.clear();
     device()->reset();
@@ -114,7 +114,7 @@ void ScfSequenceTrace::readMetadatas()
     }
 }
 //-------------------------------------------------------------------
-void ScfSequenceTrace::readHeader()
+void ScfTraceReader::readHeader()
 {
     // Read Header
     device()->reset();
@@ -138,7 +138,7 @@ void ScfSequenceTrace::readHeader()
 }
 //-------------------------------------------------------------------
 template <typename T>
-void ScfSequenceTrace::readTraces()
+void ScfTraceReader::readTraces()
 {
     mTraces.clear();
     device()->reset();
@@ -163,7 +163,7 @@ void ScfSequenceTrace::readTraces()
 }
 //-------------------------------------------------------------------
 template<typename T>
-void ScfSequenceTrace::decodeDelta(QVector<T>& data)
+void ScfTraceReader::decodeDelta(QVector<T>& data)
 {
 
     //std::numeric_limits<T>::max();
@@ -183,7 +183,7 @@ void ScfSequenceTrace::decodeDelta(QVector<T>& data)
     }
 }
 //-------------------------------------------------------------------
-QByteArray ScfSequenceTrace::version() const
+QByteArray ScfTraceReader::version() const
 {
     return QByteArray::fromRawData(mHeader.version,4);
 }

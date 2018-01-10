@@ -11,9 +11,9 @@ AbstractTraceReader::~AbstractTraceReader()
 
 }
 
-Trace * AbstractTraceReader::createTrace() const
+Trace * AbstractTraceReader::readTrace() const
 {
-    return new Trace(datas(), baseLocations(), baseScores(), sequence(), metadatas());
+    return new Trace(readDatas(), readBaseLocations(), readBaseScores(), readSequence(), readMetadatas());
 
 }
 

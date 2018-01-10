@@ -23,16 +23,16 @@ struct ScfHeader
 
 
 
-class ScfSequenceTrace : public AbstractTraceReader
+class ScfTraceReader : public AbstractTraceReader
 {
 public:
-    ScfSequenceTrace(QIODevice * device);
+    ScfTraceReader(QIODevice * device);
 
-    const QHash<QChar, QVector<int>>& datas() const override;
-    const Sequence& sequence()const  override;
-    const QVector<int>& baseLocations()const  override;
-    const QVector<int>& baseScores()const  override;
-    const QHash<QString, QVariant>& metadatas() const override;
+    const QHash<QChar, QVector<int>>& readDatas() const override;
+    const Sequence& readSequence()const  override;
+    const QVector<int>& readBaseLocations()const  override;
+    const QVector<int>& readBaseScores()const  override;
+    const QHash<QString, QVariant>& readMetadatas() const override;
 
     QByteArray version() const;
 
