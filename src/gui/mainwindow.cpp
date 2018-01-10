@@ -74,6 +74,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(mSearchbar, &SearchBar::nextPressed, mView, &TraceView::selectNextSearch);
     connect(mSearchbar, &SearchBar::textChanged, mView, &TraceView::search);
 
+    // disable action with empty file
+    emit fileChanged(false);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -109,6 +113,10 @@ void MainWindow::setFilename(const QString &filename)
             mXSlider->setValue(mView->xFactor() * 100);
             mYSlider->setValue(mView->yFactor() * 1000);
 
+            saveRecentFile(QUrl::fromLocalFile(filename));
+
+            emit fileChanged(true);
+
         }
         else
         {
@@ -122,7 +130,6 @@ void MainWindow::setFilename(const QString &filename)
 
     //    mView->toPng("/tmp/cutepeaks.png");
     //    mView->toSvg("/tmp/cutepeaks.svg");
-
 
 }
 
@@ -260,6 +267,44 @@ void MainWindow::setActionAvaible(bool /*avaible*/)
 
 }
 
+void MainWindow::saveRecentFile(const QUrl &url)
+{
+    QSettings settings;
+    QList<QUrl> listUrl = recentFiles();
+
+    if (listUrl.contains(url))
+        return;
+
+    listUrl.prepend(url);
+    settings.beginWriteArray("recents");
+
+    int size = qMin(listUrl.size(), 10);
+
+    for (int i=0 ; i<size; ++i)
+    {
+        settings.setArrayIndex(i);
+        settings.setValue("url", listUrl[i]);
+    }
+
+    settings.endArray();
+}
+
+QList<QUrl> MainWindow::recentFiles() const
+{
+    QSettings settings;
+    QList<QUrl> urls;
+
+    int size = settings.beginReadArray("recents");
+
+    for (int i=0 ; i<size; ++i)
+    {
+        settings.setArrayIndex(i);
+        urls.append(settings.value("url").toUrl());
+    }
+    settings.endArray();
+    return urls ;
+}
+
 void MainWindow::setupActions()
 {
     QMenuBar * bar = new QMenuBar;
@@ -268,10 +313,21 @@ void MainWindow::setupActions()
     // Create app menus
     // file Menu
     QMenu * fileMenu       = bar->addMenu(tr("&File"));
-//    QAction * openAction   =
+    //    QAction * openAction   =
     fileMenu->addAction(FIcon(0xf115),tr("&Open"), this, SLOT(openFile()), QKeySequence::Open);
-//    QAction * saveAction   =
-    fileMenu->addAction(FIcon(0xf0c7),tr("&Save"), this, SLOT(openFile()), QKeySequence::Save);
+    //    QAction * saveAction   =
+
+    // fichier recents
+    if (!recentFiles().isEmpty())
+    {
+        QAction * recentAction = fileMenu->addAction(tr("recents files"));
+        recentAction->setMenu(new QMenu);
+        for (const QUrl& url : recentFiles())
+            recentAction->menu()->addAction(url.toString(QUrl::PreferLocalFile), [this,url](){setFilename(url.toLocalFile());});
+    }
+
+    // TODO : file saving
+    //fileMenu->addAction(FIcon(0xf0c7),tr("&Save"), this, SLOT(openFile()), QKeySequence::Save);
     QAction * exportAction = fileMenu->addAction(tr("Export As"));
     exportAction->setMenu(new QMenu);
     QAction * exportPng    = exportAction->menu()->addAction(FIcon(0xf1c5),tr("PNG Image"),this,SLOT(exportFile()));
@@ -288,6 +344,9 @@ void MainWindow::setupActions()
 
     fileMenu->addSeparator();
     fileMenu->addAction(FIcon(0xf00d), tr("Close"), qApp, SLOT(closeAllWindows()));
+
+    // disable export if no file
+    connect(this, &MainWindow::fileChanged, exportAction, &QAction::setEnabled);
 
     // edit Menu
     QMenu * editMenu       = bar->addMenu(tr("&Edit"));
@@ -308,9 +367,9 @@ void MainWindow::setupActions()
     editMenu->addSeparator();
     editMenu->addAction(tr("Select all"), mView,SLOT(selectAll()), QKeySequence::SelectAll);
     editMenu->addSeparator();
-//    QAction * remAction =
+    //    QAction * remAction =
     editMenu->addAction(FIcon(0xf0c4),tr("Remove selection"),this,SLOT(removeSelection()),QKeySequence::Delete);
-//    QAction * revAction =
+    //    QAction * revAction =
     editMenu->addAction(FIcon(0xf0ec),tr("Revert Sequence"), this,SLOT(revert()),  QKeySequence(Qt::CTRL + Qt::Key_I));
     editMenu->addSeparator();
 
@@ -333,6 +392,9 @@ void MainWindow::setupActions()
 
     frameGroup->actions().first()->setChecked(true);
 
+    // disable edit menu if no file
+    connect(this, &MainWindow::fileChanged, editMenu, &QMenu::setEnabled);
+
 
     // view Menu
     QMenu * viewMenu             = bar->addMenu(tr("&View"));
@@ -346,8 +408,6 @@ void MainWindow::setupActions()
 
     connect(showQualAction, &QAction::triggered, mView, &TraceView::showQuality);
     connect(showAminoAction, &QAction::triggered, mView, &TraceView::showAminoAcid);
-
-
     viewMenu->addSeparator();
 
     for (auto panel : mPanels)
@@ -356,17 +416,16 @@ void MainWindow::setupActions()
         viewMenu->addAction(dock->toggleViewAction());
     }
 
-
-
     showQualAction->setCheckable(true);
     showAminoAction->setCheckable(true);
-
-
     viewMenu->addSeparator();
 
     QAction * transpAction = viewMenu->addAction("Window transparent");
     transpAction->setCheckable(true);
     connect(transpAction, &QAction::triggered, this, &MainWindow::setTransparent);
+
+    // disable view menu if no file
+    connect(this, &MainWindow::fileChanged, viewMenu, &QMenu::setEnabled);
 
 
     QMenu * helpMenu = bar->addMenu(tr("&Help"));
@@ -378,24 +437,6 @@ void MainWindow::setupActions()
     helpMenu->addSeparator();
     helpMenu->addAction(tr("&About"), this, SLOT(about()));
     helpMenu->addAction(tr("About Qt"), qApp, SLOT(aboutQt()));
-
-    //    QToolBar * toolbar = addToolBar("mainbar");
-    //    toolbar->addAction(openAction);
-    //    toolbar->addAction(saveAction);
-    //    toolbar->addAction(exportAction);
-    //    toolbar->addSeparator();
-    //    toolbar->addAction(remAction);
-    //    toolbar->addAction(revAction);
-    //    toolbar->addSeparator();
-    //    toolbar->addAction(aminoAcidAction);
-
-
-
-    //    QWidget * spacer = new QWidget;
-    //    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    //    toolbar->addWidget(spacer);
-
-    //    toolbar->addWidget(mSearchbar);
 
 
 

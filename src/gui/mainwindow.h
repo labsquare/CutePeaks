@@ -55,6 +55,12 @@ protected Q_SLOTS:
 
     void setActionAvaible(bool avaible);
 
+    void saveRecentFile(const QUrl& url);
+    QList<QUrl> recentFiles() const;
+
+Q_SIGNALS:
+    void fileChanged(bool valid);
+
 protected:
     void setupActions();
     // Overriden methods
