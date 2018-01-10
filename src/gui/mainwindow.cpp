@@ -105,6 +105,10 @@ void MainWindow::setFilename(const QString &filename)
 
             QFileInfo info(filename);
             setWindowTitle(info.fileName());
+
+            mXSlider->setValue(mView->xFactor() * 100);
+            mYSlider->setValue(mView->yFactor() * 1000);
+
         }
         else
         {

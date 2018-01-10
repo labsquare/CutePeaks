@@ -83,6 +83,10 @@ public:
 
     void showQuality(bool show);
 
+    float yFactor() const;
+
+    float xFactor() const;
+
 public Q_SLOTS:
     void setAmplitudeFactor(float factor);
     void setScaleFactor(float factor);

@@ -485,6 +485,16 @@ void TraceView::drawAxis(QPainter &painter) const
 
 
 }
+
+float TraceView::xFactor() const
+{
+    return mXFactor;
+}
+
+float TraceView::yFactor() const
+{
+    return mYFactor;
+}
 //-------------------------------------------------------------------------------
 void TraceView::search(const QString &expression)
 {
