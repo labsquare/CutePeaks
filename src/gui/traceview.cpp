@@ -498,38 +498,48 @@ float TraceView::yFactor() const
 //-------------------------------------------------------------------------------
 void TraceView::search(const QString &expression)
 {
-    mSearchList.clear();
-    mSearchIndex = 0;
+    mMatchList.clear();
+    mMatchIndex = 0;
     qDebug()<<expression;
     QRegularExpression exp;
     exp.setPattern(expression);
     exp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
-    QRegularExpressionMatchIterator it = exp.globalMatch(trace()->sequence().toString());
 
-    while (it.hasNext())
+    if (exp.isValid())
     {
-        mSearchList.append(it.next());
+        QRegularExpressionMatchIterator it = exp.globalMatch(trace()->sequence().byteArray());
+        while (it.hasNext())
+        {
+            mMatchList.append(it.next());
+        }
     }
 
-    selectNextSearch();
+    if (!mMatchList.isEmpty()){
+        mMatchIndex = -1;
+        selectNextSearch();
+    }
+
+    emit matchCountChanged(mMatchList.count());
+
 }
 //-------------------------------------------------------------------------------
 void TraceView::selectNextSearch()
 {
-    if (mSearchIndex < mSearchList.size()-1)
+    if (mMatchIndex < mMatchList.size()-1)
     {
-        mSearchIndex++;
-        QRegularExpressionMatch match = mSearchList[mSearchIndex];
+        mMatchIndex++;
+        QRegularExpressionMatch match = mMatchList[mMatchIndex];
         setSelection(match.capturedStart(), match.capturedLength());
+
     }
 }
 //-------------------------------------------------------------------------------
 void TraceView::selectPreviousSearch()
 {
-    if (mSearchIndex > 0)
+    if (mMatchIndex > 0)
     {
-        mSearchIndex--;
-        QRegularExpressionMatch match = mSearchList[mSearchIndex];
+        mMatchIndex--;
+        QRegularExpressionMatch match = mMatchList[mMatchIndex];
         setSelection(match.capturedStart(), match.capturedLength());
     }
 }
@@ -812,6 +822,11 @@ void TraceView::scrollTo(int pos, bool animate)
 
     else
         horizontalScrollBar()->setValue(pos);
+}
+
+int TraceView::matchCount() const
+{
+    return mMatchList.count();
 }
 
 

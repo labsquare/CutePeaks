@@ -28,6 +28,9 @@ SearchBar::SearchBar(QWidget *parent)
 
     setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
+
+
+
 }
 
 void SearchBar::activate()
@@ -53,6 +56,19 @@ QAction *SearchBar::createSearchAction(const QString &name)
 QString SearchBar::text() const
 {
     return mEdit->text();
+}
+
+void SearchBar::setMatchCount(int count)
+{
+    QPalette pal = mEdit->palette();
+
+    if ( count == 0)
+     pal.setColor(QPalette::Text, Qt::red);
+    else
+        pal.setColor(QPalette::Text, palette().color(QPalette::Text));
+
+    mEdit->setPalette(pal);
+
 }
 
 

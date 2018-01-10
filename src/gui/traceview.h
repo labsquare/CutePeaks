@@ -73,6 +73,8 @@ public:
 
     void scrollTo(int pos, bool animate = true);
 
+    int matchCount() const;
+
     const Selection& currentSelection() const;
 
 
@@ -182,6 +184,7 @@ protected :
 signals:
     void selectionChanged(int pos, int length);
     void changed();
+    void matchCountChanged(int count);
 
 private:
     QString mFilename;
@@ -220,8 +223,8 @@ private:
     QPointF mMousePos;
     Sequence::ReadFame mReadFrame = Sequence::Frame1;
 
-    QList<QRegularExpressionMatch> mSearchList;
-    int mSearchIndex = 0;
+    QList<QRegularExpressionMatch> mMatchList;
+    int mMatchIndex = 0;
 
 };
 

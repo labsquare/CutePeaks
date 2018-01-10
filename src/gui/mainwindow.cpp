@@ -73,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(mSearchbar, &SearchBar::previousPressed, mView, &TraceView::selectPreviousSearch);
     connect(mSearchbar, &SearchBar::nextPressed, mView, &TraceView::selectNextSearch);
     connect(mSearchbar, &SearchBar::textChanged, mView, &TraceView::search);
+    connect(mView, &TraceView::matchCountChanged, mSearchbar, &SearchBar::setMatchCount);
 
     // disable action with empty file
     emit fileChanged(false);
@@ -252,8 +253,11 @@ void MainWindow::addPanel(AbstractPanelWidget *panel, Qt::DockWidgetArea area)
 
 void MainWindow::showSelection(int pos, int length)
 {
+    if (mView->matchCount() == 0 )
+        statusBar()->showMessage(QString("position: %1 length: %2").arg(pos).arg(length));
+    else
+        statusBar()->showMessage(QString("position: %1 length: %2 match: %3").arg(pos).arg(length).arg(mView->matchCount()));
 
-    statusBar()->showMessage(QString("position: %1 length: %2").arg(pos).arg(length));
 }
 
 void MainWindow::showUpdater()
