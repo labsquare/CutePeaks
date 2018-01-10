@@ -399,6 +399,10 @@ void MainWindow::setupActions()
 
     // disable edit menu if no file
     connect(this, &MainWindow::fileChanged, editMenu, &QMenu::setEnabled);
+    // disable edit actions ..
+    for (QAction * a : editMenu->actions())
+        connect(this, &MainWindow::fileChanged, a, &QAction::setEnabled);
+
 
 
     // view Menu
