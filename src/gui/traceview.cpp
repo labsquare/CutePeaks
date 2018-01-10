@@ -505,21 +505,24 @@ void TraceView::search(const QString &expression)
     exp.setPattern(expression);
     exp.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 
-    if (exp.isValid())
+    if (exp.isValid() && !expression.isEmpty())
     {
         QRegularExpressionMatchIterator it = exp.globalMatch(trace()->sequence().byteArray());
         while (it.hasNext())
-        {
             mMatchList.append(it.next());
-        }
-    }
 
-    if (!mMatchList.isEmpty()){
-        mMatchIndex = -1;
-        selectNextSearch();
+        if (!mMatchList.isEmpty()){
+            mMatchIndex = -1;
+            selectNextSearch();
+        }
+
     }
+    else
+        clearSelection();
+
 
     emit matchCountChanged(mMatchList.count());
+
 
 }
 //-------------------------------------------------------------------------------
@@ -670,6 +673,7 @@ void TraceView::clearSelection()
 {
     mCurrentSelection = {0,0};
     viewport()->update();
+    emit selectionChanged(0,0);
 }
 //-------------------------------------------------------------------------------
 Trace *TraceView::cutTrace(int pos, int length)

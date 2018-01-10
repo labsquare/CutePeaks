@@ -376,25 +376,26 @@ void MainWindow::setupActions()
     //    QAction * revAction =
     editMenu->addAction(FIcon(0xf0ec),tr("Revert Sequence"), this,SLOT(revert()),  QKeySequence(Qt::CTRL + Qt::Key_I));
     editMenu->addSeparator();
-
-    QAction * findAction = mSearchbar->createSearchAction("Find Sequence ...");
-    findAction->setShortcut(QKeySequence::Find);
-    findAction->setIcon(FIcon(0xf002));
-    editMenu->addAction(findAction);
-
-    editMenu->addSeparator();
-    QAction * aminoAcidAction = editMenu->addAction(tr("frameshift"));
-    aminoAcidAction->setMenu(new QMenu());
     QActionGroup * frameGroup = new QActionGroup(this);
-    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 1",[this](){mView->setFrameShift(Sequence::Frame1);},QKeySequence(Qt::CTRL + Qt::Key_1)));
-    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 2",[this](){mView->setFrameShift(Sequence::Frame2);},QKeySequence(Qt::CTRL + Qt::Key_2)));
-    frameGroup->addAction(aminoAcidAction->menu()->addAction("frame 3",[this](){mView->setFrameShift(Sequence::Frame3);},QKeySequence(Qt::CTRL + Qt::Key_3)));;
+    frameGroup->addAction(editMenu->addAction("frame 1",[this](){mView->setFrameShift(Sequence::Frame1);},QKeySequence(Qt::CTRL + Qt::Key_1)));
+    frameGroup->addAction(editMenu->addAction("frame 2",[this](){mView->setFrameShift(Sequence::Frame2);},QKeySequence(Qt::CTRL + Qt::Key_2)));
+    frameGroup->addAction(editMenu->addAction("frame 3",[this](){mView->setFrameShift(Sequence::Frame3);},QKeySequence(Qt::CTRL + Qt::Key_3)));;
+    editMenu->addSeparator();
 
     frameGroup->setExclusive(true);
     for (auto a : frameGroup->actions())
         a->setCheckable(true);
 
     frameGroup->actions().first()->setChecked(true);
+
+
+    editMenu->addSeparator();
+    QAction * findAction = mSearchbar->createSearchAction("Find Sequence ...");
+    findAction->setShortcut(QKeySequence::Find);
+    findAction->setIcon(FIcon(0xf002));
+    editMenu->addAction(findAction);
+
+
 
     // disable edit menu if no file
     connect(this, &MainWindow::fileChanged, editMenu, &QMenu::setEnabled);

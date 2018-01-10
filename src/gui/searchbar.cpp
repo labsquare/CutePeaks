@@ -62,7 +62,7 @@ void SearchBar::setMatchCount(int count)
 {
     QPalette pal = mEdit->palette();
 
-    if ( count == 0)
+    if ( count == 0 && mEdit->text().length() > 0)
      pal.setColor(QPalette::Text, Qt::red);
     else
         pal.setColor(QPalette::Text, palette().color(QPalette::Text));
