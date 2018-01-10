@@ -710,7 +710,7 @@ void TraceView::copySequence() const
         return;
 
     Sequence seq = trace()->sequence().mid(mCurrentSelection.pos, mCurrentSelection.length);
-    qApp->clipboard()->setText(seq.toFasta("DNA"));
+    qApp->clipboard()->setText(seq.toString());
 
 }
 //-------------------------------------------------------------------------------
