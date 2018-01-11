@@ -21,8 +21,6 @@ SOURCES += main.cpp
 
 
 
-
-
 # QScintilla
 #LIBS += -L$$OUT_PWD/../qscintilla/Qt4Qt5/ -lqscintilla2
 #PRE_TARGETDEPS += $$OUT_PWD/../qscintilla/Qt4Qt5/qscintilla2.lib

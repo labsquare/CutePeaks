@@ -12,15 +12,22 @@ QMAKE_CXXFLAGS  += -Ofast
 QMAKE_CXXFLAGS += -std=c++14
 
 
-# Installation
+unix {
+    isEmpty(PREFIX) {
+        PREFIX = /usr/local
+    }
+
+target.path = $$PREFIX/bin
 target.files = src/cutepeaks
-target.path = /usr/bin
-desktop.path = /usr/share/applications
+
 desktop.files += cutepeaks.desktop
-icons.path = /usr/share/icons/hicolor/48x48/apps
+desktop.path = $$PREFIX/share/applications/
+
 icons.files += cutepeaks.png
+icons.path = $$PREFIX/share/icons/hicolor/48x48/apps
 
 INSTALLS += target desktop icons
 
+}
 
  
