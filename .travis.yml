@@ -11,7 +11,7 @@ install:
   - sudo apt-get install qt59base qt59svg
   - source /opt/qt59/bin/qt59-env.sh
 
-scripts:
+script:
   - qmake CONFIG+=release PREFIX=/usr
   - make -j$(nproc)
   - make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
