@@ -11,9 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = cutepeaks
 TEMPLATE = app
 
-INCLUDEPATH += $$PWD/../qscintilla/Qt4Qt5
-DEPENDPATH += $$PWD/../qscintilla/Qt4Qt5
-
 INCLUDEPATH += QFontIcon
 
 include(core/core.pri)
@@ -23,11 +20,14 @@ include(QFontIcon/QFontIcon.pri)
 SOURCES += main.cpp
 
 # Installation
-target.path  = /usr/local/bin
-desktop.path = /usr/share/applications
-desktop.files += cutepeaks.desktop
-icons.path = /usr/share/icons/hicolor/48x48/apps
-icons.files += cutepeaks.png
+target.path = /usr/local/bin
+desktop.path = /usr/local/share/applications
+desktop.files += ../cutepeaks.desktop
+icons.path = /usr/local/share/icons/hicolor/48x48/apps
+icons.files += ../cutepeaks.png
+
+INSTALLS += target desktop icons
+
 
 
 # QScintilla
@@ -36,7 +36,6 @@ icons.files += cutepeaks.png
 #PRE_TARGETDEPS += $$OUT_PWD/../qscintilla/Qt4Qt5/libqscintilla2.a
 
 
-INSTALLS += target desktop icons
 TRANSLATIONS = translations/cutepeaks_fr.ts
 
 RESOURCES += \
