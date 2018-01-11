@@ -29,7 +29,12 @@ script:
   - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
   - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -bundle-non-qt-libs
   - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -appimage 
+
+
+after_success:
   - curl --upload-file ./CutePeaks*.AppImage https://transfer.sh/CutePeaks-git.$(git rev-parse --short HEAD)-x86_64.AppImage 
+  - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+  - bash upload.sh ThermusQt*.AppImage
 
 # For gitter 
 notifications:
