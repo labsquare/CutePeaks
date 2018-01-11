@@ -13,7 +13,7 @@ install:
 
 
 script:
-  - /opt/qt58/bin/qmake PREFIX=/usr CONFIG+=release
+  - /opt/qt59/bin/qmake PREFIX=/usr CONFIG+=release
   - make 
   - # Generate AppImage
   - sudo apt-get -y install checkinstall
