@@ -8,8 +8,8 @@ before_install:
   - sudo apt-get update -qq
 
 install:
-  - sudo apt-get install qt58base qt58svg
-  - source /opt/qt58/bin/qt58-env.sh
+  - sudo apt-get install qt59base qt59svg
+  - source /opt/qt59/bin/qt59-env.sh
 
 
 script:
