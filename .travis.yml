@@ -32,9 +32,9 @@ script:
 
 
 after_success:
-  - curl --upload-file ./CutePeaks*.AppImage https://transfer.sh/CutePeaks-git.$(git rev-parse --short HEAD)-x86_64.AppImage 
+  - curl --upload-file ThermusQt*.AppImage https://transfer.sh/ThermusQt-git.$(git rev-parse --short HEAD)-x86_64.AppImage
   - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-  - bash upload.sh ThermusQt*.AppImage
+  - bash upload.sh ThermusQt*.AppImage*
 
 # For gitter 
 notifications:
