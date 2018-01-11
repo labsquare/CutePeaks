@@ -19,7 +19,9 @@ include(QFontIcon/QFontIcon.pri)
 
 SOURCES += main.cpp
 
+target.path = /usr/bin
 
+INSTALLS += target
 
 
 # QScintilla
