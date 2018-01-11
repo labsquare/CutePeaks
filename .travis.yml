@@ -11,12 +11,8 @@ install:
   - sudo apt-get install qt59base qt59svg
   - source /opt/qt59/bin/qt59-env.sh
 
-
-script:
-  - /opt/qt59/bin/qmake PREFIX=/usr CONFIG+=release
-  - make 
-  - # Generate AppImage
-  - sudo apt-get -y install checkinstall
+scripts:
+  - qmake CONFIG+=release PREFIX=/usr
   - make -j$(nproc)
   - make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
   - wget -c -q "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
@@ -30,7 +26,6 @@ after_success:
   - # curl --upload-file CutePeaks*.AppImage https://transfer.sh/CutePeaks-git.$(git rev-parse --short HEAD)-x86_64.AppImage
   - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
   - bash upload.sh CutePeaks*.AppImage*
-
   
 # For gitter 
 notifications:
