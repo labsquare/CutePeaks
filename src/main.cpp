@@ -3,7 +3,7 @@
 #include <QScrollArea>
 #include <QtCore>
 #include <iostream>
-//#include "mainwindow.h"
+#include "mainwindow.h"
 #include "qfonticon.h"
 //#include "commandlineinterpreter.h"
 
@@ -28,10 +28,10 @@ int main(int argc, char *argv[])
 
 //    else {
 //        QFontIcon::instance()->addFont(":/font/fontawesome.ttf");
-//        MainWindow w;
+        MainWindow w;
 //        w.setFilename(cli.filename());
-//        w.show();
-//        return app.exec();
+        w.show();
+        return app.exec();
 
 //    }
 

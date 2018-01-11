@@ -43,7 +43,7 @@ public:
      * construct the trace using virtual methods
      * \return Trace object
      */
-    void writeTrace(Trace * trace);
+     virtual void writeTrace(Trace * trace) = 0;
 
 
     QIODevice *device();

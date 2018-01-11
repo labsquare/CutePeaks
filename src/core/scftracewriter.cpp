@@ -4,6 +4,7 @@ ScfTraceWriter::ScfTraceWriter(QIODevice *device)
     :AbstractTraceWriter(device)
 {
 
+
 }
 
 void ScfTraceWriter::writeDatas(const QHash<QChar, QVector<int> > &datas)
@@ -31,3 +32,41 @@ void ScfTraceWriter::writeMetadatas(const QHash<QString, QVariant> &meta)
 {
 
 }
+
+void ScfTraceWriter::writeHeader(const ScfHeader &header)
+{
+    device()->seek(0);
+
+
+}
+
+void ScfTraceWriter::writeTrace(Trace *trace)
+{
+    if (device()->open(QIODevice::WriteOnly))
+    {
+
+
+
+
+
+    }
+
+
+
+
+}
+
+ScfHeader ScfTraceWriter::computeHeader(Trace *trace)
+{
+    ScfHeader header;
+
+    header.magic_number = SCF_MAGIC;
+
+
+
+
+
+
+    return header;
+}
+

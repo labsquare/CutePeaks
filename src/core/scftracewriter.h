@@ -2,6 +2,8 @@
 #define SCFTRACEWRITER_H
 #include "abstracttracewriter.h"
 #include "scfheader.h"
+#define SCF_MAGIC (((((quint32)'.'<<8)+(quint32)'s'<<8) \
+                       +(quint32)'c'<<8)+(quint32)'f')
 
 class ScfTraceWriter : public AbstractTraceWriter
 {
@@ -32,7 +34,11 @@ public:
      */
     virtual void writeMetadatas(const QHash<QString, QVariant>& meta) override;
 
+    void writeHeader(const ScfHeader& header);
 
+    virtual void writeTrace(Trace * trace) override;
+
+    ScfHeader computeHeader(Trace * trace);
 
 
 };

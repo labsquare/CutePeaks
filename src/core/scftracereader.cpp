@@ -1,5 +1,5 @@
 #include "scftracereader.h"
-
+#include <iostream>
 ScfTraceReader::ScfTraceReader(QIODevice * device)
     :AbstractTraceReader(device)
 {
@@ -135,6 +135,10 @@ void ScfTraceReader::readHeader()
     stream >>mHeader.private_offset;
     stream.readRawData((char*)mHeader.spare, 18);
 
+
+
+
+
 }
 //-------------------------------------------------------------------
 template <typename T>
@@ -147,6 +151,7 @@ void ScfTraceReader::readTraces()
     for (QChar base : {'A','C','G','T'})
     {
         QVector<T> data;
+
         for (quint32 i=0; i<mHeader.samples; ++i)
         {
             T value;

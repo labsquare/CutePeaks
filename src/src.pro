@@ -14,7 +14,7 @@ TEMPLATE = app
 INCLUDEPATH += QFontIcon
 
 include(core/core.pri)
-#include(gui/gui.pri)
+include(gui/gui.pri)
 include(QFontIcon/QFontIcon.pri)
 
 SOURCES += main.cpp
