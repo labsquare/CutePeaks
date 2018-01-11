@@ -19,14 +19,6 @@ include(QFontIcon/QFontIcon.pri)
 
 SOURCES += main.cpp
 
-# Installation
-target.path = /usr/local/bin
-desktop.path = /usr/local/share/applications
-desktop.files += ../cutepeaks.desktop
-icons.path = /usr/local/share/icons/hicolor/48x48/apps
-icons.files += ../cutepeaks.png
-
-INSTALLS += target desktop icons
 
 
 

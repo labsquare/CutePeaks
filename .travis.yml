@@ -18,16 +18,16 @@ script:
   - # Generate AppImage
   - sudo apt-get -y install checkinstall
   - make -j$(nproc)
-  - make INSTALL_ROOT=appdir -j$(nproc) install 
+  - make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
   - wget -c -q "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
   - chmod a+x linuxdeployqt*.AppImage
   - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
-  - ./linuxdeployqt*.AppImage ./src/appdir/usr/local/bin/* -bundle-non-qt-libs
-  - ./linuxdeployqt*.AppImage ./src/appdir/usr/local/bin/* -appimage
+  - ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -bundle-non-qt-libs
+  - ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -appimage
 
 after_success:
-  - find src/appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
-  - curl --upload-file CutePeaks*.AppImage https://transfer.sh/CutePeaks-git.$(git rev-parse --short HEAD)-x86_64.AppImage
+  - find appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq
+  - # curl --upload-file CutePeaks*.AppImage https://transfer.sh/CutePeaks-git.$(git rev-parse --short HEAD)-x86_64.AppImage
   - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
   - bash upload.sh CutePeaks*.AppImage*
 
