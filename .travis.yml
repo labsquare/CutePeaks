@@ -18,7 +18,7 @@ script:
   - # Generate AppImage
   - sudo apt-get -y install checkinstall
   - make -j$(nproc)
-  - make INSTALL_ROOT=appdir -j$(nproc) install ; find appdir/
+  - make INSTALL_ROOT=appdir -j$(nproc) install 
   - wget -c -q "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
   - chmod a+x linuxdeployqt*.AppImage
   - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
