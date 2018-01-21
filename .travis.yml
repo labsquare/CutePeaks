@@ -20,7 +20,6 @@ script:
   - sudo checkinstall --pkgname=app --pkgversion="1" --pkgrelease="1" --backup=no --fstrans=no --default --deldoc 
   - mkdir -p appdir/usr/bin ; cd appdir
   - dpkg -x ../app_1-1_amd64.deb . ; find .
-  - mv ./usr/local/bin/* ./usr/bin/ # Why is this needed despite PREFIX=/usr? Bug?
   - cp ./usr/share/icons/hicolor/48x48/apps/cutepeaks.png .
   - cp ./usr/share/applications/cutepeaks.desktop .
   - cd .. 
@@ -29,7 +28,7 @@ script:
   - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
   - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -bundle-non-qt-libs
   - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -appimage 
-  - curl --upload-file ./CutePeaks*.AppImage https://transfer.sh/CutePeaks-git.$(git rev-parse --short HEAD)-x86_64.AppImage 
+  - curl --upload-file ./cutepeaks-*.AppImage https://transfer.sh/cutepeaks-git.$(git rev-parse --short HEAD)-x86_64.AppImage 
   
 
 
