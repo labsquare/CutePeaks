@@ -31,7 +31,9 @@ script:
   - curl --upload-file ./cutepeaks-*.AppImage https://transfer.sh/cutepeaks-git.$(git rev-parse --short HEAD)-x86_64.AppImage 
   
 
-
+after_success:
+  - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+  - bash upload.sh cutepeaks-*.AppImage*
 
 
 # For gitter 
