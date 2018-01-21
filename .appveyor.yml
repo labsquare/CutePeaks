@@ -12,10 +12,10 @@ build_script:
   - mingw32-make
 after_build:
   - lrelease CutePeaks.pro
-  - cp release/src/cutepeaks.exe release/
-  - windeployqt release/cutepeaks.exe
-  - cp translations/*.qm release/translations
-  - cp LICENSE release/LICENSE.txt
+  - windeployqt src/release/cutepeaks.exe
+  - cp translations/*.qm src/release/translations
+  - cp LICENSE src/release/LICENSE.txt
+  - cp src/release .
   - iscc innosetup.iss
 
 artifacts:

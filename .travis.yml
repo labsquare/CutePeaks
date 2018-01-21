@@ -14,7 +14,7 @@ install:
 
 script:
   - /opt/qt58/bin/qmake PREFIX=/usr
-  - make 
+  - make -j$(nproc)
   - # Generate AppImage
   - sudo apt-get -y install checkinstall
   - sudo checkinstall --pkgname=app --pkgversion="1" --pkgrelease="1" --backup=no --fstrans=no --default --deldoc 
