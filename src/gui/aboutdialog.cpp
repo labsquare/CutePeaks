@@ -118,7 +118,7 @@ void AboutDialog::drawHeader()
 
 void AboutDialog::openGithub()
 {
-    QDesktopServices::openUrl(QUrl("https://github.com/labsquare/fastQt")) ;
+    QDesktopServices::openUrl(QUrl("https://github.com/labsquare/cutepeaks")) ;
 }
 
 void AboutDialog::openTwitter()

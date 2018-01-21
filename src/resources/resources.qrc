@@ -8,4 +8,7 @@
         <file>CREDITS</file>
         <file>LICENSE</file>
     </qresource>
+    <qresource prefix="/icons">
+        <file>cutepeaks.png</file>
+    </qresource>
 </RCC>

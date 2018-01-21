@@ -21,13 +21,14 @@ SOURCES += main.cpp
 
 
 
-# QScintilla
-#LIBS += -L$$OUT_PWD/../qscintilla/Qt4Qt5/ -lqscintilla2
-#PRE_TARGETDEPS += $$OUT_PWD/../qscintilla/Qt4Qt5/qscintilla2.lib
-#PRE_TARGETDEPS += $$OUT_PWD/../qscintilla/Qt4Qt5/libqscintilla2.a
-
-
 TRANSLATIONS = translations/cutepeaks_fr.ts
 
 RESOURCES += \
     resources/resources.qrc
+
+
+unix {
+target.path = /usr/bin
+INSTALLS += target
+}
+
