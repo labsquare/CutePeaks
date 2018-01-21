@@ -13,7 +13,7 @@ build_script:
 after_build:
   - lrelease CutePeaks.pro
   - windeployqt src/release/cutepeaks.exe
-  - cp translations/*.qm src/release/translations
+  #- cp translations/*.qm src/release/translations
   - cp LICENSE src/release/LICENSE.txt
   - cp src/release .
   - iscc innosetup.iss
