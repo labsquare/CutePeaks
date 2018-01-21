@@ -11,6 +11,9 @@ Supports AB1 and SCF 3.0 file formats.
 
 
 # Installation
+## Windows 
+[Download windows binary 32 bits](https://github.com/labsquare/CutePeaks/releases/download/0.2.0/cutepeaks-0.2.0-win32.exe)
+
 ## Linux
 Linux binary is available as [AppImage](http://appimage.org/).
 Download the AppImage from [here](https://github.com/labsquare/CutePeaks/releases).
