@@ -11,20 +11,21 @@ Supports AB1 and SCF 3.0 file formats.
 
 
 # Installation
+## Windows 
+[Download windows binary 32 bits](https://github.com/labsquare/CutePeaks/releases/download/0.2.0/cutepeaks-0.2.0-win32.exe)
+
 ## Linux
 Linux binary is available as [AppImage](http://appimage.org/).
 Download the AppImage from [here](https://github.com/labsquare/CutePeaks/releases).
 Run it as follow:
 
 
-    chmod +x cutepeaks-0.1.0-linux-x86_64.appimage
-    ./cutepeaks-0.1.0-linux-x86_64.appimage
+    chmod +x cutepeaks-0.2.0-linux-x86_64.appimage
+    ./cutepeaks-0.2.0-linux-x86_64.appimage
 
 
 ## Compilation
 ### Prerequisites
-#### Install KArchive
-
 #### Install Qt ≥ 5.7
 
 **From website**: Download Qt ≥ 5.7 from https://www.qt.io/.
