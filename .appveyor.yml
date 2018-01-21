@@ -15,7 +15,7 @@ after_build:
   - windeployqt src/release/cutepeaks.exe
   #- cp translations/*.qm src/release/translations
   - cp LICENSE src/release/LICENSE.txt
-  - cp src/release .
+  - cp -r src/release .
   - iscc innosetup.iss
 
 artifacts:
