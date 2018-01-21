@@ -43,6 +43,7 @@ Source: "release\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\opengl32sw.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "release\Qt5Network.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
