@@ -12,14 +12,4 @@ QMAKE_CXXFLAGS  += -Ofast
 QMAKE_CXXFLAGS += -std=c++14
 
 
-unix {
-desktop.files += cutepeaks.desktop
-desktop.path = /usr/share/applications/
-
-icons.files += cutepeaks.png
-icons.path = /usr/share/icons/hicolor/48x48/apps
-
-INSTALLS += desktop icons
-}
-
 

@@ -15,20 +15,27 @@ install:
 script:
   - /opt/qt59/bin/qmake PREFIX=/usr
   - make -j$(nproc)
-  - # Generate AppImage
-  - sudo apt-get -y install checkinstall
-  - sudo checkinstall --pkgname=app --pkgversion="1" --pkgrelease="1" --backup=no --fstrans=no --default --deldoc 
-  - mkdir -p appdir/usr/bin ; cd appdir
-  - dpkg -x ../app_1-1_amd64.deb . ; find .
-  - cp ./usr/share/icons/hicolor/48x48/apps/cutepeaks.png .
-  - cp ./usr/share/applications/cutepeaks.desktop .
-  - cd .. 
-  - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" 
+  - make INSTALL_ROOT=../appdir -j$(nproc) install ; find appdir/
+  - wget -c -q "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
   - chmod a+x linuxdeployqt*.AppImage
   - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
-  - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -bundle-non-qt-libs
-  - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -appimage 
-  - curl --upload-file ./cutepeaks-*.AppImage https://transfer.sh/cutepeaks-git.$(git rev-parse --short HEAD)-x86_64.AppImage 
+  - ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -bundle-non-qt-libs
+  - ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -appimage
+
+  # - # Generate AppImage
+  # - sudo apt-get -y install checkinstall
+  # - sudo checkinstall --pkgname=app --pkgversion="1" --pkgrelease="1" --backup=no --fstrans=no --default --deldoc 
+  # - mkdir -p appdir/usr/bin ; cd appdir
+  # - dpkg -x ../app_1-1_amd64.deb . ; find .
+  # - cp ./usr/share/icons/hicolor/48x48/apps/cutepeaks.png .
+  # - cp ./usr/share/applications/cutepeaks.desktop .
+  # - cd .. 
+  # - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" 
+  # - chmod a+x linuxdeployqt*.AppImage
+  # - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
+  # - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -bundle-non-qt-libs
+  # - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -appimage 
+  # - curl --upload-file ./cutepeaks-*.AppImage https://transfer.sh/cutepeaks-git.$(git rev-parse --short HEAD)-x86_64.AppImage 
   
 
 after_success:

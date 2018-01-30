@@ -28,8 +28,18 @@ RESOURCES += \
 
 
 unix {
-target.path = /usr/bin
-INSTALLS += target
+desktop.files += ../cutepeaks.desktop
+desktop.path = /usr/share/applications/
+
+icons.files += ../cutepeaks.png
+icons.path = /usr/share/icons/hicolor/48x48/apps
+
+target.path = /usr/bin/
+
+INSTALLS += desktop icons target
+
+
+
 }
 
 win32{
