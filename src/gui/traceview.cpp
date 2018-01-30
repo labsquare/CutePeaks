@@ -313,8 +313,8 @@ void TraceView::drawAminoAcid(QPainter &painter) const
         if (inView(pos,40))
         {
 
-            int leftBase  = traceToView(trace()->shiftBaseLocations().at(i));
-            int rightBase = traceToView(trace()->shiftBaseLocations().at(i+3));
+            int leftBase  = traceToView(trace()->shiftBaseLocations().at(i + shift));
+            int rightBase = traceToView(trace()->shiftBaseLocations().at(i+3 + shift));
 
             // draw rect
             QRect rect;
