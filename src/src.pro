@@ -32,3 +32,8 @@ target.path = /usr/bin
 INSTALLS += target
 }
 
+win32{
+RC_ICONS = ../cutepeaks.ico
+}
+
+
