@@ -512,8 +512,9 @@ void TraceView::search(const QString &expression)
             mMatchList.append(it.next());
 
         if (!mMatchList.isEmpty()){
-            mMatchIndex = -1;
-            selectNextSearch();
+            mMatchIndex = 0;
+            setSelection(mMatchList.first().capturedStart(), mMatchList.first().capturedLength());
+
         }
 
     }
@@ -528,23 +529,23 @@ void TraceView::search(const QString &expression)
 //-------------------------------------------------------------------------------
 void TraceView::selectNextSearch()
 {
-    if (mMatchIndex < mMatchList.size()-1)
-    {
-        mMatchIndex++;
-        QRegularExpressionMatch match = mMatchList[mMatchIndex];
-        setSelection(match.capturedStart(), match.capturedLength());
 
-    }
+    if (mMatchIndex < mMatchList.size() - 1)
+        mMatchIndex++;
+
+    QRegularExpressionMatch match = mMatchList[mMatchIndex];
+    setSelection(match.capturedStart(), match.capturedLength());
+
 }
 //-------------------------------------------------------------------------------
 void TraceView::selectPreviousSearch()
 {
     if (mMatchIndex > 0)
-    {
         mMatchIndex--;
-        QRegularExpressionMatch match = mMatchList[mMatchIndex];
-        setSelection(match.capturedStart(), match.capturedLength());
-    }
+
+    QRegularExpressionMatch match = mMatchList[mMatchIndex];
+    setSelection(match.capturedStart(), match.capturedLength());
+
 }
 //-------------------------------------------------------------------------------
 void TraceView::showQuality(bool showQuality)
