@@ -25,7 +25,7 @@ artifacts:
 
 deploy:
   release: cutepeaks-win32.zip
-  description: 'Release description'
+  description: 'windows version'
   provider: GitHub
   auth_token: 
     secure: Hr9P6O5qjN7JGribam0krn8rvYaHvPkSP0tw2WPh # your encrypted token from GitHub
