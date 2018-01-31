@@ -1,6 +1,6 @@
 # CutePeaks
 
-![](https://travis-ci.org/labsquare/CutePeaks.svg?branch=master)
+![](https://travis-ci.org/labsquare/CutePeaks.svg)
 [![Join the chat at https://gitter.im/labsquare/CutePeaks](https://badges.gitter.im/labsquare/CutePeaks.svg)](https://gitter.im/labsquare/CutePeaks?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.824555.svg)](https://doi.org/10.5281/zenodo.824555)
 
 
@@ -11,20 +11,24 @@ Supports AB1 and SCF 3.0 file formats.
 
 
 # Installation
+## Windows 
+[Download windows binary](https://github.com/labsquare/CutePeaks/releases/download/0.2.0/cutepeaks-0.2.0-win32.exe)
+
+## MacOSX 
+[Downlad MacOS binary](https://github.com/labsquare/CutePeaks/releases/download/0.2.0/cutepeaks-0.2.0-macosx.dmg)
+
 ## Linux
 Linux binary is available as [AppImage](http://appimage.org/).
 Download the AppImage from [here](https://github.com/labsquare/CutePeaks/releases).
 Run it as follow:
 
 
-    chmod +x cutepeaks-0.1.0-linux-x86_64.appimage
-    ./cutepeaks-0.1.0-linux-x86_64.appimage
+    chmod +x cutepeaks-0.2.0-linux-x86_64.appimage
+    ./cutepeaks-0.2.0-linux-x86_64.appimage
 
 
 ## Compilation
 ### Prerequisites
-#### Install KArchive
-
 #### Install Qt ≥ 5.7
 
 **From website**: Download Qt ≥ 5.7 from https://www.qt.io/.
