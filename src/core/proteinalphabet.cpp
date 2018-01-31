@@ -43,8 +43,8 @@ void ProteinAlphabet::initGeneticCode()
         {"GCC" , 'A'},
         {"GCA" , 'A'},
         {"GCG" , 'A'},
-        {"TAT" , 'F'},
-        {"TAC" , 'F'},
+        {"TAT" , 'Y'},
+        {"TAC" , 'Y'},
         {"TAA" , '.'},
         {"TAG" , '.'},
         {"CAT" , 'H'},
@@ -104,7 +104,6 @@ void ProteinAlphabet::initNames()
         {'T',{"Thr", "Threonine"}},
         {'V',{"Val", "Valine"}},
         {'W',{"Trp", "Tryptophan"}},
-        {'Y',{"Tyr", "Tyrosine"}},
         {'Y',{"Tyr", "Tyrosine"}},
         {'.',{"Stop", "Stop"}}
     };
