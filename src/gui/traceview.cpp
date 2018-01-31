@@ -529,6 +529,8 @@ void TraceView::search(const QString &expression)
 //-------------------------------------------------------------------------------
 void TraceView::selectNextSearch()
 {
+    if (mMatchList.isEmpty())
+        return;
 
     if (mMatchIndex < mMatchList.size() - 1)
         mMatchIndex++;
@@ -536,10 +538,15 @@ void TraceView::selectNextSearch()
     QRegularExpressionMatch match = mMatchList[mMatchIndex];
     setSelection(match.capturedStart(), match.capturedLength());
 
+
+
 }
 //-------------------------------------------------------------------------------
 void TraceView::selectPreviousSearch()
 {
+    if (mMatchList.isEmpty())
+        return;
+
     if (mMatchIndex > 0)
         mMatchIndex--;
 
