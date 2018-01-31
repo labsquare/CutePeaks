@@ -25,6 +25,7 @@ artifacts:
 
 deploy:
   provider: GitHub
+  tag: $(APPVEYOR_REPO_TAG_NAME) 
   auth_token: 
     secure: R36zpNK8sKNuluJSJJFroXjPMClQLNcrx2vL89Sd/y29FB2bjwF29vp1J3lNaOPk # your encrypted token from GitHub
   artifact: /.*\.zip/            # upload all NuGet packages to release assets
