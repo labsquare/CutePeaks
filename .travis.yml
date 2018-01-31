@@ -36,4 +36,5 @@ deploy:
   file: "cutepeaks-x86_64.AppImage"
   skip_cleanup: true
   on:
+    branch: master
     tags: true
