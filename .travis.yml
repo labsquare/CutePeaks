@@ -33,5 +33,5 @@ deploy:
   provider: releases
   api_key:
     secure: wX+xE0I3OXGGF61vl/o2S5arVF/DJfF2a2r5hpoTSa2oNiJBZfCMHBGiz9mJaS+0q0MfF1jUZKe6EaAMqDIi1NDqkEIkerR9OBs1rVk8Qofdc/0X1KVJv82xyqqr4D7uBffyd1PImg5gL0aiu20SL49Q2iFUAgzp6mmwChr/1gy5sScorho5/QAHqrcY5vB1xUX7MpTU0fwpsPD9i3/GbXhFR7A+/lItoc/X8z6q6a/E2poQUb9LKMCF0dlh6AVpPlHn4On8YmR/WxkjI8rVknWKbfE1YyfYTyKPPru53TXCargxT3shZPlbEk8o5Skl8l+nLkGyUSw/bm5Bt5xBc+F6TST2ri5vN/7l6RyXh/83G+4AiaA9jx+TZ8W8gkhiTxHWom/GDgoLFnGp4dRHFJqCYjtpB+iUcq6qS2HIFIRyy8a9kT90no9sT/pxnrZV0CAoiZAlK1ER7xwLuZORL80ZskL5tO+vz816kZoxyLFculTvf/tr9EJM5499askESJEt63jSXXd0MCIPNXN59DRO6i/ti8MUKl4qPg8SCAMLHRlWVqxxtr5wz1YDetDCX5jzYQcLc65sOudYhXNI1xRrGgMsTTgxJD3mmGtfNpNN31vIumg8slJcDjVQSX5sY6rQH7y0HjnzD7QTRAzHL1JIGF2CO5kyXWOCctftJuE=
-  file: 'cutepeaks-*.AppImage*'
-  skip_cleaning: true
+  file: "cutepeaks-x86_64.AppImage"
+  skip_cleanup: true
