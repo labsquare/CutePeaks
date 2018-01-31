@@ -5,8 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/)
 
 =======
+## [0.2.2] - 2018-01-30
+- [Hotfix] Fixed wrong amino acid translation #66
+
 ## [0.2.1] - 2018-01-30
-- Fixed wrong amino acid translation #65
+- [Hotfix] Fixed wrong amino acid translation #65
 
 
 ## [0.2.0] - 2018-01-21
