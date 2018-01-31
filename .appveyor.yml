@@ -22,3 +22,16 @@ artifacts:
   - path: Output\cutepeaks-*.exe
   - path: release
     type: zip
+
+deploy:
+  release: cutepeaks-win32.zip
+  description: 'windows version'
+  provider: GitHub
+  auth_token: 
+    secure: Hr9P6O5qjN7JGribam0krn8rvYaHvPkSP0tw2WPh # your encrypted token from GitHub
+  artifact: /.*\.zip/            # upload all NuGet packages to release assets
+  draft: false
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true   
