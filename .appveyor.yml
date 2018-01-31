@@ -28,7 +28,7 @@ deploy:
   description: 'windows version'
   provider: GitHub
   auth_token: 
-    secure: Hr9P6O5qjN7JGribam0krn8rvYaHvPkSP0tw2WPh # your encrypted token from GitHub
+    secure: R36zpNK8sKNuluJSJJFroXjPMClQLNcrx2vL89Sd/y29FB2bjwF29vp1J3lNaOPk # your encrypted token from GitHub
   artifact: /.*\.zip/            # upload all NuGet packages to release assets
   draft: false
   prerelease: false

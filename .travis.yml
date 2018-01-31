@@ -2,58 +2,37 @@ language: cpp
 dist: trusty
 compiler: g++
 sudo: required
-
 before_install:
-  - sudo add-apt-repository ppa:beineri/opt-qt591-trusty -y
-  - sudo apt-get update
-
+- sudo add-apt-repository ppa:beineri/opt-qt591-trusty -y
+- sudo apt-get update
 install:
-  - sudo apt-get install qt59base qt59svg
-  - source /opt/qt59/bin/qt59-env.sh 
-
-
+- sudo apt-get install qt59base qt59svg
+- source /opt/qt59/bin/qt59-env.sh
 script:
-  - /opt/qt59/bin/qmake PREFIX=/usr
-  - make -j$(nproc)
-  - make INSTALL_ROOT=../appdir -j$(nproc) install ; find appdir/
-  - wget -c -q "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-  - chmod a+x linuxdeployqt*.AppImage
-  - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
-  - ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -bundle-non-qt-libs
-  - ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -appimage
-
-  # - # Generate AppImage
-  # - sudo apt-get -y install checkinstall
-  # - sudo checkinstall --pkgname=app --pkgversion="1" --pkgrelease="1" --backup=no --fstrans=no --default --deldoc 
-  # - mkdir -p appdir/usr/bin ; cd appdir
-  # - dpkg -x ../app_1-1_amd64.deb . ; find .
-  # - cp ./usr/share/icons/hicolor/48x48/apps/cutepeaks.png .
-  # - cp ./usr/share/applications/cutepeaks.desktop .
-  # - cd .. 
-  # - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" 
-  # - chmod a+x linuxdeployqt*.AppImage
-  # - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
-  # - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -bundle-non-qt-libs
-  # - ./linuxdeployqt*.AppImage ./appdir/usr/bin/* -appimage 
-  # - curl --upload-file ./cutepeaks-*.AppImage https://transfer.sh/cutepeaks-git.$(git rev-parse --short HEAD)-x86_64.AppImage 
-  
-
+- "/opt/qt59/bin/qmake PREFIX=/usr"
+- make -j$(nproc)
+- make INSTALL_ROOT=../appdir -j$(nproc) install ; find appdir/
+- wget -c -q "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+- chmod a+x linuxdeployqt*.AppImage
+- unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
+- "./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -bundle-non-qt-libs"
+- "./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -appimage"
 after_success:
-  - curl --upload-file ./cutepeaks-*.AppImage https://transfer.sh/cutepeaks-git.$(git rev-parse --short HEAD)-x86_64.AppImage 
-  - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
-  - bash upload.sh cutepeaks-*.AppImage*
-
-
-# For gitter 
+- curl --upload-file ./cutepeaks-*.AppImage https://transfer.sh/cutepeaks-git.$(git
+  rev-parse --short HEAD)-x86_64.AppImage
+- wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
+- bash upload.sh cutepeaks-*.AppImage*
 notifications:
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/222aecab8c95bc7227a1
-    on_success: change  # options: [always|never|change] default: always
-    on_failure: always  # options: [always|never|change] default: always
-    on_start: never     # options: [always|never|change] default: always
-
-# Temporarily disabled so that AppImage generation can be tested
-# branches:
-#   only:
-#    - master
+    - https://webhooks.gitter.im/e/222aecab8c95bc7227a1
+    on_success: change
+    on_failure: always
+    on_start: never
+deploy:
+  provider: releases
+  api_key:
+    secure: wX+xE0I3OXGGF61vl/o2S5arVF/DJfF2a2r5hpoTSa2oNiJBZfCMHBGiz9mJaS+0q0MfF1jUZKe6EaAMqDIi1NDqkEIkerR9OBs1rVk8Qofdc/0X1KVJv82xyqqr4D7uBffyd1PImg5gL0aiu20SL49Q2iFUAgzp6mmwChr/1gy5sScorho5/QAHqrcY5vB1xUX7MpTU0fwpsPD9i3/GbXhFR7A+/lItoc/X8z6q6a/E2poQUb9LKMCF0dlh6AVpPlHn4On8YmR/WxkjI8rVknWKbfE1YyfYTyKPPru53TXCargxT3shZPlbEk8o5Skl8l+nLkGyUSw/bm5Bt5xBc+F6TST2ri5vN/7l6RyXh/83G+4AiaA9jx+TZ8W8gkhiTxHWom/GDgoLFnGp4dRHFJqCYjtpB+iUcq6qS2HIFIRyy8a9kT90no9sT/pxnrZV0CAoiZAlK1ER7xwLuZORL80ZskL5tO+vz816kZoxyLFculTvf/tr9EJM5499askESJEt63jSXXd0MCIPNXN59DRO6i/ti8MUKl4qPg8SCAMLHRlWVqxxtr5wz1YDetDCX5jzYQcLc65sOudYhXNI1xRrGgMsTTgxJD3mmGtfNpNN31vIumg8slJcDjVQSX5sY6rQH7y0HjnzD7QTRAzHL1JIGF2CO5kyXWOCctftJuE=
+  file: 'cutepeaks-*.AppImage*'
+  on:
+    repo: labsquare/CutePeaks
