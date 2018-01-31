@@ -20,17 +20,16 @@ after_build:
 
 artifacts:
   - path: Output\cutepeaks-*.exe
-  - path: release
+  - path: cutepeaks-win32.zip
     type: zip
 
 deploy:
   provider: GitHub
-  tag: $(APPVEYOR_REPO_TAG_NAME) 
+  release: $(APPVEYOR_REPO_TAG_NAME)
   auth_token: 
     secure: R36zpNK8sKNuluJSJJFroXjPMClQLNcrx2vL89Sd/y29FB2bjwF29vp1J3lNaOPk # your encrypted token from GitHub
-  artifact: /.*\.zip/            # upload all NuGet packages to release assets
+  artifact: cutepeaks-win32.zip           # upload all NuGet packages to release assets
   draft: false
   prerelease: false
   on:
     appveyor_repo_tag: true   
-    
