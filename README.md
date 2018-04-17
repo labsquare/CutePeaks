@@ -12,7 +12,7 @@ Supports AB1 and SCF 3.0 file formats.
 
 # Installation
 ## Windows 
-[Download windows binary](https://github.com/labsquare/CutePeaks/releases/download/0.2.0/cutepeaks-0.2.0-win32.exe)
+[Download windows binary](https://github.com/labsquare/CutePeaks/releases/download/0.2.3/CutePeaks-win32.exe)
 
 ## MacOSX 
 [Downlad MacOS binary](https://github.com/labsquare/CutePeaks/releases/download/0.2.0/cutepeaks-0.2.0-macosx.dmg)
