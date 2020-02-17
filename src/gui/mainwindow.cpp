@@ -467,6 +467,22 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 }
 
+void MainWindow::wheelEvent(QWheelEvent *event)
+{
+
+    if (mView->rect().contains(event->pos()))
+    {
+        int factor = 1;
+        if (event->modifiers() == Qt::ControlModifier)
+            factor = 6;
+
+        auto scale = mXSlider->value() + factor * event->delta()/120;
+
+        mXSlider->setValue(scale);
+    }
+
+}
+
 SequencePanelWidget *MainWindow::panel() const
 {
     return mPanel;

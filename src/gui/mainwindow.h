@@ -66,6 +66,7 @@ protected:
     // Overriden methods
     void closeEvent(QCloseEvent*);
     void keyPressEvent(QKeyEvent *event);
+    void wheelEvent(QWheelEvent * event);
 
 private:
 

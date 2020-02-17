@@ -37,6 +37,10 @@ void TraceView::paintEvent(QPaintEvent *event)
         drawAll(painter);
 }
 //-------------------------------------------------------------------------------
+
+
+
+//-------------------------------------------------------------------------------
 void TraceView::scrollContentsBy(int dx, int dy)
 {
     Q_UNUSED(dy)
@@ -104,11 +108,13 @@ bool TraceView::viewportEvent(QEvent *event)
     return QAbstractScrollArea::viewportEvent(event);
 }
 //-------------------------------------------------------------------------------
-void TraceView::wheelEvent(QWheelEvent * /*event*/)
+void TraceView::wheelEvent(QWheelEvent *event)
 {
     // TODO
     //    mXFactor += event->delta()/10;
     //    setScaleFactor(mXFactor);
+
+
 
 
 }
