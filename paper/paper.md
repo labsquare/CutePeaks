@@ -29,7 +29,7 @@ bibliography: paper.bib
 
 # Summary
 
-Despite the major use of Next Generation sequencing, The Sanger method is still commonly used in laboratories as a gold standard to read target dna sequence. Two binary file format, ABIF and FSA, are used to store raw output of a Sanger experiment. Unfortunally few opensource software with a friendly user interface exists to manage these file. Let's note for example Seqtrace.
+Despite the major use of Next Generation sequencing, The Sanger chromatograms method is still commonly used in laboratories as a gold standard to read target dna sequence. Two binary file format, ABIF and FSA, are used to store raw output of a Sanger experiment. Unfortunally few opensource software with a friendly user interface exists to manage these file. Let's note for example Seqtrace.
 
 CutePeaks is a cross plateform Sanger Trace file viewer written in C++ with  Qt5 framework. It was inspired by 4peaks, which is source closed and works on Mac OS only. It can handle ABIF and FSA file and provide some improvement like geasture controls or regular expression pattern finder. 
 Cutepeaks has been packages for Windows, Mac and Linux and is therefore easy to install. 
@@ -44,6 +44,8 @@ All of these actions can be reverted using undo / redo actions thanks to QUndoSt
 Finally, the trace data can be exported into different text format or image format. Notably the SVG file format, which is particular usefull to get a resolution independant trace picture to use for illustation.
 
 # Installation 
+
+
 
 # Citations
 
