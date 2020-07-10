@@ -1,0 +1,51 @@
+include(CheckCXXSourceRuns)
+include(AppendCompilerFlags)
+include(Colors)
+
+
+if (${CMAKE_C_SIZEOF_DATA_PTR} MATCHES 4)
+  message(FATAL_ERROR "${Red}SDSL requires a 64 bit system. 32 bit system detected.${ColourReset}")
+else()
+  message(STATUS "${Green}Found 64 bit system${ColourReset}")
+endif()
+
+set(CMAKE_REQUIRED_FLAGS "-msse4.2")
+file(READ "${CMAKE_MODULE_PATH}/SSE42.cpp" test_source_sse42)
+CHECK_CXX_SOURCE_RUNS("${test_source_sse42}" HAVE_SSE42)
+set(CMAKE_REQUIRED_FLAGS "")
+
+set(CMAKE_REQUIRED_FLAGS "-mbmi2")
+file(READ "${CMAKE_MODULE_PATH}/BMI2.cpp" test_source_bmi2)
+CHECK_CXX_SOURCE_RUNS("${test_source_bmi2}" HAVE_BMI2)
+set(CMAKE_REQUIRED_FLAGS "")
+
+
+if(HAVE_SSE42)
+  message(STATUS "${Green}Compiler supports SSE4.2${ColourReset}")
+  if(NOT MSVC)
+    CheckAndAppendCompilerFlags(${CMAKE_BUILD_TYPE} "-msse4.2")
+  endif()
+else()
+  set(HAVE_SSE42 0)
+  message(STATUS "${Red}Compiler does NOT supports SSE4.2${ColourReset}")
+endif()
+
+if(HAVE_BMI2)
+  message(STATUS "${Green}Compiler supports BMI2${ColourReset}")
+  if(NOT MSVC)
+    CheckAndAppendCompilerFlags(${CMAKE_BUILD_TYPE} "-mbmi2")
+  endif()
+else()
+  set(HAVE_BMI2 0)
+  message(STATUS "${Red}Compiler does NOT supports BMI2${ColourReset}")
+endif()
+
+file(READ "${CMAKE_MODULE_PATH}/MODETI.cpp" test_source_modeti)
+CHECK_CXX_SOURCE_RUNS("${test_source_modeti}" HAVE_MODETI)
+
+if(HAVE_MODETI)
+  message(STATUS "${Green}Compiler supports 128 bit integers${ColourReset}")
+else()
+  message(STATUS "${Red}Compiler supports 128 bit integers${ColourReset}")
+  set(HAVE_MODETI 0)
+endif()

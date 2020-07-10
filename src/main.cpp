@@ -7,8 +7,17 @@
 #include "qfonticon.h"
 #include "commandlineinterpreter.h"
 
+#include "tracy/abif.h"
+
 int main(int argc, char *argv[])
 {
+
+//    tracy::Trace tr;
+//    tracy::readab("/home/schutz/Dev/CutePeaks/examples/B_forward.ab1", tr);
+
+//    qDebug()<<QString::fromStdString(tr.basecalls1);
+//    qDebug()<<QString::fromStdString(tr.basecalls2);
+
     QApplication app(argc, argv);
     app.setApplicationName("CutePeaks");
     app.setOrganizationName("Labsquare");

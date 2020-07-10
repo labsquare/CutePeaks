@@ -9,7 +9,9 @@ HEADERS += \
     $$PWD/trace.h \
     $$PWD/abstracttracereader.h \
     $$PWD/tracefactory.h \
-    $$PWD/commandlineinterpreter.h
+    $$PWD/commandlineinterpreter.h \
+    $$PWD/tracy/abif.h \
+    $$PWD/tracy/trace.h
 
 SOURCES += \
     $$PWD/nucleotidalphabet.cpp \
