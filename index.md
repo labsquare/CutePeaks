@@ -7,10 +7,10 @@ Cutepeaks has been packages for Windows, Mac and Linux.
 
 ### Installation
 ## Windows 
-[Download windows binary](https://github.com/labsquare/CutePeaks/releases/download/0.2.3/CutePeaks-win32.exe)
+[cutepeaks auto installer](https://github.com/labsquare/CutePeaks/releases/download/0.2.3/CutePeaks-win32.exe)
 
 ## MacOSX 
-[Downlad MacOS binary](https://github.com/labsquare/CutePeaks/releases/download/0.2.0/cutepeaks-0.2.0-macosx.dmg)
+[cutepeaks dmg package](https://github.com/labsquare/CutePeaks/releases/download/0.2.0/cutepeaks-0.2.0-macosx.dmg)
 
 ## Linux
 Linux binary is available as [AppImage](http://appimage.org/).
