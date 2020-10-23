@@ -1,37 +1,50 @@
-## Welcome to GitHub Pages
+## CutePeaks
 
-You can use the [editor on GitHub](https://github.com/labsquare/CutePeaks/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+CutePeaks is a user-friendly cross platform Sanger Trace file viewer written in C++ with the framework Qt5. It can handle ABIF and FSA file and provide some improvement like sequence editing, regular expression pattern finder and export as vector image. 
+Cutepeaks has been packages for Windows, Mac and Linux.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+![cutepeaks](https://raw.githubusercontent.com/labsquare/CutePeaks/master/cutepeaks.gif)
 
-### Markdown
+### Installation
+## Windows 
+[Download windows binary](https://github.com/labsquare/CutePeaks/releases/download/0.2.3/CutePeaks-win32.exe)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## MacOSX 
+[Downlad MacOS binary](https://github.com/labsquare/CutePeaks/releases/download/0.2.0/cutepeaks-0.2.0-macosx.dmg)
 
-```markdown
-Syntax highlighted code block
+## Linux
+Linux binary is available as [AppImage](http://appimage.org/).
+Download the AppImage from [here](https://github.com/labsquare/CutePeaks/releases).
+Run it as follow:
 
-# Header 1
-## Header 2
-### Header 3
+### Prerequisites
+#### Install Qt ≥ 5.7
 
-- Bulleted
-- List
+**From website**: Download Qt ≥ 5.7 from https://www.qt.io/.
+Don't forget to check QtChart module during installation.
 
-1. Numbered
-2. List
+**From Ubuntu**: Qt 5.7 is not yet available with Ubuntu. But you can add a PPA to your software system.
+    
+    sudo apt-get install build-essential
+    sudo apt-get install qt5-default libqt5charts5-dev
+  
+**From Fedora**: Qt 5.7 is available.
 
-**Bold** and _Italic_ and `Code` text
+    sudo dnf install qt5-qtbase-devel qt5-qtcharts-devel
 
-[Link](url) and ![Image](src)
-```
+### Compile CutePeaks
+Be sure you have the correct version of Qt (≥ 5.7) by using qmake --version. 
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+     qmake cutepeaks.pro 
+     make
+     sudo make install
 
-### Jekyll Themes
+## Usage
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/labsquare/CutePeaks/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+CutePeaks supports following trace file formats:
 
-### Support or Contact
+- *.ab1
+- *.scf
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+## How to cite CutePeaks
+Labsquare Team (2017). CutePeaks: a simple Sanger trace file. Available online at https://github.com/labsquare/CutePeaks doi:10.5281/zenodo.824555
