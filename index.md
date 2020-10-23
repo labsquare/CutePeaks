@@ -20,7 +20,7 @@ Run it as follow:
     chmod +x cutepeaks-0.2.0-linux-x86_64.appimage
     ./cutepeaks-0.2.0-linux-x86_64.appimage
 
-### Prerequisites
+### From source code 
 #### Install Qt ≥ 5.7
 
 **From website**: Download Qt ≥ 5.7 from https://www.qt.io/.
@@ -35,7 +35,7 @@ Don't forget to check QtChart module during installation.
 
     sudo dnf install qt5-qtbase-devel qt5-qtcharts-devel
 
-### Compile CutePeaks
+#### Compile CutePeaks
 Be sure you have the correct version of Qt (≥ 5.7) by using qmake --version. 
 
      qmake cutepeaks.pro 
