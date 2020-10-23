@@ -17,6 +17,9 @@ Linux binary is available as [AppImage](http://appimage.org/).
 Download the AppImage from [here](https://github.com/labsquare/CutePeaks/releases).
 Run it as follow:
 
+    chmod +x cutepeaks-0.2.0-linux-x86_64.appimage
+    ./cutepeaks-0.2.0-linux-x86_64.appimage
+
 ### Prerequisites
 #### Install Qt ≥ 5.7
 
