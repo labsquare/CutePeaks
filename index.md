@@ -46,8 +46,6 @@ Be sure you have the correct version of Qt (≥ 5.7) by using qmake --version.
 
 CutePeaks supports following trace file formats:
 
-- *.ab1
-- *.scf
+- *.ab1 : (Applied Biosystems Genetic Analysis)[https://projects.nfstc.org/workshops/resources/articles/ABIF_File_Format.pdf)
+- *.scf : (Standard Chromatogram Format) 
 
-## How to cite CutePeaks
-Labsquare Team (2017). CutePeaks: a simple Sanger trace file. Available online at https://github.com/labsquare/CutePeaks doi:10.5281/zenodo.824555
