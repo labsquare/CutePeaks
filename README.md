@@ -1,6 +1,7 @@
 # CutePeaks
 
 ![](https://travis-ci.org/labsquare/CutePeaks.svg)
+
 https://labsquare.github.io/CutePeaks/
 
 A simple viewer for Sanger trace file made with Qt5.
