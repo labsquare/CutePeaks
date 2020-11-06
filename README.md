@@ -6,6 +6,7 @@ https://labsquare.github.io/CutePeaks/
 
 A simple viewer for Sanger trace file made with Qt5.
 Supports AB1 and SCF 3.0 file formats.
+It has regular expression pattern finder and can export trace as SVG vector image.
 
 ![Preview](https://raw.githubusercontent.com/labsquare/CutePeaks/master/cutepeaks.gif)
 
