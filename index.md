@@ -44,9 +44,11 @@ Be sure you have the correct version of Qt (≥ 5.7) by using qmake --version.
      sudo make install
 
 ## Usage
-
 CutePeaks supports following trace file formats:
 
 - *.ab1 : [Applied Biosystems Genetic Analysis](https://projects.nfstc.org/workshops/resources/articles/ABIF_File_Format.pdf)
 - *.scf : Standard Chromatogram Format
 
+### Example file
+An example file is available here for testing purpose 
+[A_forward.ab1](https://github.com/labsquare/CutePeaks/blob/master/examples/A_forward.ab1?raw=true)
