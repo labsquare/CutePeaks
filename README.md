@@ -61,5 +61,3 @@ CutePeaks supports following trace file formats:
 - *.ab1
 - *.scf
 
-## How to cite CutePeaks
-Labsquare Team (2017). CutePeaks: a simple Sanger trace file. Available online at https://github.com/labsquare/CutePeaks doi:10.5281/zenodo.824555
