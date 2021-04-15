@@ -32,7 +32,7 @@ desktop.files += ../cutepeaks.desktop
 desktop.path = /usr/share/applications/
 
 icons.files += ../cutepeaks.png
-icons.path = /usr/share/icons/hicolor/48x48/apps
+icons.path = /usr/share/icons/hicolor/64x64/apps
 
 target.path = /usr/bin/
 
