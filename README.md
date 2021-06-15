@@ -1,6 +1,6 @@
 # CutePeaks
 
-![](https://travis-ci.org/labsquare/CutePeaks.svg)
+[![C/C++ CI](https://github.com/labsquare/CutePeaks/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/labsquare/CutePeaks/actions/workflows/c-cpp.yml)
 
 https://labsquare.github.io/CutePeaks/
 
