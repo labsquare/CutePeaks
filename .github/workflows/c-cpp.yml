@@ -34,23 +34,23 @@ jobs:
         name: CutePeaks
         path: cutepeaks*.AppImage
 
-  windows:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v2
-      with:
-        version: '5.14.2'
-    - name: run qmake
-      run: |
-        call "%programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        qmake cutepeaks.pro
-        nmake
-      working-directory: Software/PC_Application
-      shell: cmd
-    - name: test
-      run: ls
+  # windows:
+  #   runs-on: windows-latest
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Install Qt
+  #     uses: jurplel/install-qt-action@v2
+  #     with:
+  #       version: '5.14.2'
+  #   - name: run qmake
+  #     run: |
+  #       call "%programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+  #       qmake cutepeaks.pro
+  #       nmake
+  #     working-directory: Software/PC_Application
+  #     shell: cmd
+  #   - name: test
+  #     run: ls
 
 
 
