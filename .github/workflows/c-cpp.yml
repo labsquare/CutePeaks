@@ -42,11 +42,11 @@ jobs:
       uses: jurplel/install-qt-action@v2
       with:
         version: '5.14.2'
-        arch: win32_mingw53
     - name: run qmake
-      run: qmake cutepeaks.pro
-    - name: nmake
-      run: nmake
+      run: |
+        call "%programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        qmake cutepeaks.pro
+        nmake
     - name: test
       run: ls
 
