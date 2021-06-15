@@ -47,6 +47,8 @@ jobs:
         call "%programfiles(x86)%\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         qmake cutepeaks.pro
         nmake
+      working-directory: Software/PC_Application
+      shell: cmd
     - name: test
       run: ls
 
