@@ -42,15 +42,10 @@ jobs:
       uses: jurplel/install-qt-action@v2
       with:
         version: '5.15.2'
-        host: 'windows'
-        target: 'desktop'
-        arch: 'win64_msvc2017_64'
-        install-deps: 'true'
-        modules: 'qtsvg'
     - name: run qmake
       run: qmake cutepeaks.pro
-    - name: make
-      run: make
+    - name: nmake
+      run: nmake
     - name: test
       run: ls
 
