@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  linux:
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
@@ -29,6 +29,10 @@ jobs:
       run: ./linuxdeployqt*.AppImage ./appdir/usr/share/applications/*.desktop -appimage
     - name: test
       run: ls
+    - uses: actions/upload-artifact@v2
+      with:
+        name: CutePeaks
+        path: cutepeaks*.AppImage
 
 
 
