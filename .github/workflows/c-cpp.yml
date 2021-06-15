@@ -42,6 +42,7 @@ jobs:
       uses: jurplel/install-qt-action@v2
       with:
         version: '5.14.2'
+        arch: win32_mingw53
     - name: run qmake
       run: qmake cutepeaks.pro
     - name: nmake
