@@ -28,7 +28,8 @@ bibliography: paper.bib
 # Summary
 
 Despite the major use of Next Generation Sequencing, the Sanger method is still widely used in genetic labs as the gold standard to read target DNA sequences. Raw output data of Sanger experiments are stored in files encoded with the ABIF and FSA binary formats. In the present note, we introduce an original Sanger trace viewer steered by a modern and user-friendly graphical interface. Unlike other software, CutePeaks comes with two new features: searching for a regular expression and exporting the traces to svg.    
-CutePeaks is available as a standalone application for Linux, MacOS and Windows at [https://labsquare.github.io/CutePeaks/](https://labsquare.github.io/CutePeaks/).
+CutePeaks is available as a standalone application for Linux, MacOS and Windows at    
+[https://labsquare.github.io/CutePeaks/](https://labsquare.github.io/CutePeaks/).
 
 
 # Software overview
