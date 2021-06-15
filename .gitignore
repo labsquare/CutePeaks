@@ -10,6 +10,9 @@
 *.dll
 *.dylib
 
+# Deploy Qt Application
+appdir
+
 # Qt-es
 
 /.qmake.cache
