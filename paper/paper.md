@@ -27,7 +27,7 @@ bibliography: paper.bib
 
 # Summary
 
-Despite the major use of Next Generation Sequencing, the Sanger method is still widely used in laboratories as the gold standard to read target DNA sequences. Raw output data of Sanger experiments are stored in files encoded with the ABIF and FSA binary formats. In the present note, we introduce an original Sanger trace viewer steered by a user-friendly graphical interface.
+Despite the major use of Next Generation Sequencing, the Sanger method is still widely used in laboratories as the gold standard to read target DNA sequences. Raw output data of Sanger experiments are stored in files encoded with the ABIF and FSA binary formats. In the present note, we introduce an original Sanger trace viewer steered by a user-friendly graphical interface.2 innovative features are present. Searching for a regular expression and exporting to svg.
 
 # Software overview
 ![CutePeaks screenshot with regular expression search bar.\label{fig:example}](figure.png)
