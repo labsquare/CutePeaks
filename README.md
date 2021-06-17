@@ -55,9 +55,26 @@ Be sure you have the correct version of Qt (≥ 5.7) by using qmake --version. F
      sudo make install
 
 ## Usage
-
 CutePeaks supports following trace file formats:
 
 - *.ab1
 - *.scf
+
+Example files are available here: 
+https://github.com/labsquare/CutePeaks/tree/master/examples
+You can open those files from cutepeaks by clicking open from the File menu.
+
+## Features 
+Once the file is open, cutepeaks allows you to : 
+- Explore the trace from a scroll area. ( Finger geasture are supported with touch screen) 
+- Scale the trace horizontally and vertically using 2 sliders at the bottom right.
+- Select a subsequence with the mouse as with any text editor. Then you can cut or copy to the clipboard
+- Make the reverse complement from the edit menu
+- Display Sequence and metadata from the view menu
+- Search for a regular expression pattern. Open the "Find Sequence..." from the edit menu
+- Export trace or sequence to different format. ( e.g: Fasta , SVG or PNG image ) 
+
+
+
+
 
