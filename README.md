@@ -61,8 +61,8 @@ CutePeaks supports following trace file formats:
 - *.scf
 
 Example files are available here: 
-https://github.com/labsquare/CutePeaks/tree/master/examples
-You can open those files from cutepeaks by clicking open from the File menu.
+https://github.com/labsquare/CutePeaks/tree/master/examples       
+You can open those files from cutepeaks by clicking on *open* from the File menu.
 
 ## Features 
 Once the file is open, cutepeaks allows you to : 
