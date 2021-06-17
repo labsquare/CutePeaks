@@ -74,7 +74,3 @@ Once the file is open, cutepeaks allows you to :
 - Search for a regular expression pattern. Open the "Find Sequence..." from the edit menu
 - Export trace or sequence to different format. ( e.g: Fasta, CSV, SVG or PNG image ) 
 
-
-
-
-
