@@ -72,7 +72,7 @@ Once the file is open, cutepeaks allows you to :
 - Make the reverse complement from the edit menu
 - Display Sequence and metadata from the view menu
 - Search for a regular expression pattern. Open the "Find Sequence..." from the edit menu
-- Export trace or sequence to different format. ( e.g: Fasta , SVG or PNG image ) 
+- Export trace or sequence to different format. ( e.g: Fasta, CSV, SVG or PNG image ) 
 
 
 
