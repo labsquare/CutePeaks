@@ -67,7 +67,7 @@ You can open those files from cutepeaks by clicking open from the File menu.
 ## Features 
 Once the file is open, cutepeaks allows you to : 
 - Explore the trace from a scroll area. ( Finger geasture are supported with touch screen) 
-- Scale the trace horizontally and vertically using 2 sliders at the bottom right.
+- Scale the trace horizontally or vertically using 2 sliders at the bottom right.
 - Select a subsequence with the mouse as with any text editor. Then you can cut or copy to the clipboard
 - Make the reverse complement from the edit menu
 - Display Sequence and metadata from the view menu
