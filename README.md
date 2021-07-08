@@ -21,6 +21,8 @@ It has regular expression pattern finder and can export trace as SVG vector imag
 ## Linux
 Linux binary is available as [AppImage](http://appimage.org/).
 Download the AppImage from [here](https://github.com/labsquare/CutePeaks/releases).
+For ubuntu 21.04, Download this one [here](https://github.com/labsquare/CutePeaks/releases/download/0.2.3/cutepeaks-ubuntu_21-04-x86_64.AppImage)
+
 Run it as follow:
 
 
