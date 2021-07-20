@@ -26,11 +26,15 @@ bibliography: paper.bib
 ---
 
 # Summary
-
-Despite the major use of Next Generation Sequencing, the Sanger method is still widely used in genetic labs as the gold standard to read target DNA sequences. Raw output data of Sanger experiments are stored in files encoded with the ABIF and SCF binary formats. In the present note, we introduce an original Sanger trace viewer steered by a modern and user-friendly graphical interface. Unlike other software, CutePeaks comes with two new features: searching for a regular expression and exporting the traces to svg.    
+In the present note, we introduce an original Sanger trace viewer steered by a modern and user-friendly graphical interface. Unlike other software, CutePeaks comes with two new features: searching for a regular expression and exporting the traces to svg.    
 CutePeaks is available as a standalone application for Linux, MacOS and Windows at    
 [https://labsquare.github.io/CutePeaks/](https://labsquare.github.io/CutePeaks/).
 
+# Statement of need
+Despite the major use of Next Generation Sequencing, the Sanger method is still widely used in genetic labs as the gold standard to read target DNA sequences. Very few opensource software is available to explore Sanger trace data and most of labs staff still rely on proprietary software. Moreover, they are not always user-friendly and lack modern look and feel. 
+
+# State of fields
+4peaks[@4Peaks] is a software widely used by biologists that benefits from a user-friendly and modern user interface. Sadly, it is only available on MacOS and source code is not opened to community enhancement. Seqtrace[@seqtrace] is the only standalone application published with its source code. However, it is written with GTK framework in Python 2, the latter being deprecated and slower than C++. 
 
 # Software overview
 ![CutePeaks screenshot with regular expression search bar.\label{fig:example}](figure.png)
