@@ -16,7 +16,7 @@ Despite the major use of Next Generation Sequencing, the Sanger method is still 
 State of fields
 
 # State of field
-4peaks[@4Peaks] is a software widely used by biologists that benefits from a nice User interface. Sadly, it is only available on MacOS and source code is not opened to community enhancement. Seqtrace[@seqtrace] is the only standalone and opensource application we could find. However, it is written with GTK framework in Python 2, the latter being deprecated and slower than C++.
+[4peaks](https://nucleobytes.com/4peaks/) is a software widely used by biologists that benefits from a nice User interface. Sadly, it is only available on MacOS and source code is not opened to community enhancement. [Seqtrace][https://github.com/stuckyb/seqtrace] is the only standalone and opensource application we could find. However, it is written with GTK framework in Python 2, the latter being deprecated and slower than C++.
 
 # Installation
 ## Windows 
