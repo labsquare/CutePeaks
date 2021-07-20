@@ -42,7 +42,7 @@ CutePeaks is a cross-platform application implemented in C++ using the open sour
 The chromatogram is displayed in an interactive window allowing the user to move along the trace. It can also re-scale dynamically the plot using two slider controllers. Finger gestures are also available for scrolling upon using a touch screen.
 Similarily to 4peaks software[@4Peaks], Phred quality scores are displayed behind the trace as a blue histogram. Base calling is displayed at the top of the viewing window, along with adjustable amino-acid translation.
 The trace can be used as with a text editor. Navigating along the trace, copying the sequence to the clipboard or cutting it is done using standard keyboard shortcuts. Revert/complement is also possible.
-An original feature of CutePeaks is the possibility to search for a sequence in the trace using a regular expression. This is especially useful to search for a sequence pattern. Finally, the trace data can be exported to different formats, such as FASTA or SVG image, the latter being particularly useful for resolution-independent illustration.
+An original feature of CutePeaks is the possibility to search for a sequence in the trace using a regular expression. This is especially useful to search for a sequence pattern. For example, the query A[CG]T will search for all instances of ACT or AGT. The query AC.+T will select all instances of the form ACT, ACCT, ACCCCT etc.  Finally, the trace data can be exported to different formats, such as FASTA or SVG image, the latter being particularly useful for resolution-independent illustration.
 
 
 # Installation
