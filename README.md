@@ -11,6 +11,13 @@ It has regular expression pattern finder and can export trace as SVG vector imag
 ![Preview](https://raw.githubusercontent.com/labsquare/CutePeaks/master/cutepeaks.gif)
 
 
+# Statement of need
+Despite the major use of Next Generation Sequencing, the Sanger method is still widely used in genetic labs as the gold standard to read target DNA sequences. Very few opensource software is available to explore Sanger trace data and most of labs staff still rely on proprietary software. Moreover, they are not always user-friendly and lack modern look and feel.
+State of fields
+
+# State of field
+4peaks[@4Peaks] is a software widely used by biologists that benefits from a nice User interface. Sadly, it is only available on MacOS and source code is not opened to community enhancement. Seqtrace[@seqtrace] is the only standalone and opensource application we could find. However, it is written with GTK framework in Python 2, the latter being deprecated and slower than C++.
+
 # Installation
 ## Windows 
 [Download windows binary](https://github.com/labsquare/CutePeaks/releases/download/0.2.3/CutePeaks-win32.exe)
