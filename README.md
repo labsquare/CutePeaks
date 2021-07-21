@@ -84,13 +84,7 @@ Once the file is open, cutepeaks allows you to :
 - Export trace or sequence to different format. ( e.g: Fasta, CSV, SVG or PNG image ) 
 
 ## Contributions / Bugs
-Cutepeaks is a new project and all contributors are welcome
-
-### Issues
-If you found a bug or have a feature request, you can report it from the [Github isse trackers](https://github.com/labsquare/cutepeaks/issues).
-
-### Chat 
-You can join us [on discord](https://discord.gg/7sSH4VSPKK). We are speaking french right now, but we can switch to english. 
+See [how to contributing](https://github.com/labsquare/CutePeaks/edit/master/CONTRIBUTING.md)
 
 ## Licenses
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
