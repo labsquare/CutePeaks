@@ -1,0 +1,36 @@
+{
+    "description": "A simple viewer for Sanger file", 
+    "license": "other-open", 
+    "title": "labsquare/CutePeaks 0.2.3", 
+    "version": "0.2.3", 
+    "upload_type": "software", 
+    "publication_date": "2021-07-29", 
+    "creators": [
+        {
+            "affiliation": "CHRU Brest, Hôpital Morvan, Laboratoire de Génétique Moléculaire, Brest, France", 
+            "name": "Sacha Schutz"
+        }, 
+        {
+            "affiliation": "Univ Brest, Inserm, EFS, UMR 1078, GGB, 29200", 
+            "name": "Charles Monod-Broca"
+        }, 
+        {
+            "affiliation": "Unité Fonctionnelle Innovation en Diagnostic génomique des maladies rares, FHU-TRANSLAD, CHU Dijon Bourgogne, Dijon, France", 
+            "name": "Anne-Sophie Denomm\u00e9-Pichon"
+        }, 
+      
+    ], 
+    "access_right": "open", 
+    "related_identifiers": [
+        {
+            "scheme": "url", 
+            "identifier": "https://github.com/labsquare/CutePeaks/tree/0.2.3", 
+            "relation": "isSupplementTo"
+        }, 
+        {
+            "scheme": "doi", 
+            "identifier": "10.5281/zenodo.1146062", 
+            "relation": "isVersionOf"
+        }
+    ]
+}
