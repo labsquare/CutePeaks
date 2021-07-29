@@ -1,0 +1,20 @@
+cff-version: 1.1.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Schutz
+    given-names: Sacha
+    affiliation: CHRU Brest, Hôpital Morvan, Laboratoire de Génétique Moléculaire, Brest, France
+    orcid: https://orcid.org/0000-0002-4563-7537
+  - family-names: Monod-Broca
+    given-names: Charles
+    affiliation: Univ Brest, Inserm, EFS, UMR 1078, GGB, 29200
+    orcid: https://orcid.org/0000-0003-4095-8099
+  - family-names: Denommé-Pichon
+    given-names: Anne-Sophie
+    affiliation: UMR1231 GAD, Inserm - Université Bourgogne-Franche Comté, Dijon, France
+    orcid: https://orcid.org/0000-0002-8986-8222
+    
+title: labsquare/CutePeaks
+version: 0.2.3
+date-released: 2021-07-29
+            
