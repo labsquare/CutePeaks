@@ -18,7 +18,7 @@ authors:
     affiliation: "3,4"
 
 affiliations:
- - name: CHRU Brest 29200, Brest, France
+ - name: CHRU Brest, Hôpital Morvan, Laboratoire de Génétique Moléculaire, Brest, France
    index: 1
  - name: Univ Brest, Inserm, EFS, UMR 1078, GGB, 29200
    index: 2
