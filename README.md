@@ -1,7 +1,7 @@
 # CutePeaks
 
 [![C/C++ CI](https://github.com/labsquare/CutePeaks/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/labsquare/CutePeaks/actions/workflows/c-cpp.yml)
-[![DOI](https://zenodo.org/badge/79352493.svg)](https://zenodo.org/badge/latestdoi/79352493)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5148809.svg)](https://doi.org/10.5281/zenodo.5148809)
 
 
 
