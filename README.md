@@ -16,7 +16,6 @@ It has regular expression pattern finder and can export trace as SVG vector imag
 
 # Statement of need
 Despite the major use of Next Generation Sequencing, the Sanger method is still widely used in genetic labs as the gold standard to read target DNA sequences. Very few opensource software is available to explore Sanger trace data and most of labs staff still rely on proprietary software. Moreover, they are not always user-friendly and lack modern look and feel.
-State of fields
 
 # State of field
 [4peaks](https://nucleobytes.com/4peaks/) is a software widely used by biologists that benefits from a nice User interface. Sadly, it is only available on MacOS and source code is not opened to community enhancement. [Seqtrace](https://github.com/stuckyb/seqtrace) is the only standalone and opensource application we could find. However, it is written with GTK framework in Python 2, the latter being deprecated and slower than C++.
