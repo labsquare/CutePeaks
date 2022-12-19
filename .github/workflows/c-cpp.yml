@@ -14,9 +14,9 @@ jobs:
     - name: install-deps
       run: sudo apt-get install qt5-default libqt5svg5-dev
     - name: run qmake
-      run: qmake cutepeaks.pro
+      run: qmake cutepeaks.pro PREFIX=/usr
     - name: make
-      run: make -j$(nproc)
+      run: make -j$(nproc) PREFIX=/usr
     - name: make install
       run: make INSTALL_ROOT=../appdir -j$(nproc) install ; find appdir/
     - name: download linuxdeployqt

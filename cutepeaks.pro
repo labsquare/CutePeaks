@@ -11,10 +11,13 @@ linux-g++ {
 
     desktop.path = $$PREFIX/share/applications/
     desktop.files += CutePeaks.desktop
-    icon512.path = $$PREFIX/share/icons/hicolor/512x512/apps
-    icon512.files += cutepeaks.png
+    icon64.path = $$PREFIX/share/icons/hicolor/64x64/apps
+    icon64.files += cutepeaks.png
+    icon256.path = $$PREFIX/share/icons/hicolor/256x256/apps
+    icon256.files += icon/256/cutepeaks.png
 
-    INSTALLS += icon512
+    INSTALLS += icon64
+    INSTALLS += icon256
     INSTALLS += desktop
     INSTALLS += target
 }
