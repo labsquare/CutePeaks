@@ -29,12 +29,12 @@ RESOURCES += \
 
 unix {
 desktop.files += ../cutepeaks.desktop
-desktop.path = /usr/share/applications/
+desktop.path = $$PREFIX/share/applications/
 
 icons.files += ../cutepeaks.png
-icons.path = /usr/share/icons/hicolor/64x64/apps
+icons.path = $$PREFIX/share/icons/hicolor/64x64/apps
 
-target.path = /usr/bin/
+target.path = $$PREFIX/bin/
 
 INSTALLS += desktop icons target
 
