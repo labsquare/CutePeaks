@@ -34,9 +34,12 @@ desktop.path = $$PREFIX/share/applications/
 icons.files += ../cutepeaks.png
 icons.path = $$PREFIX/share/icons/hicolor/64x64/apps
 
+appdata.files += ../io.github.labsquare.CutePeaks.metainfo.xml
+appdata.path = $$PREFIX/share/metainfo
+
 target.path = $$PREFIX/bin/
 
-INSTALLS += desktop icons target
+INSTALLS += desktop icons appdata target
 
 
 
