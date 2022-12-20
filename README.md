@@ -28,15 +28,26 @@ Despite the major use of Next Generation Sequencing, the Sanger method is still 
 [Downlad MacOS binary](https://github.com/labsquare/CutePeaks/releases/download/0.2.3/cutepeaks-macos.dmg)
 
 ## Linux
+
+### AppImage
 Linux binary is available as [AppImage](http://appimage.org/).
 Download the AppImage from [here](https://github.com/labsquare/CutePeaks/releases).
-For ubuntu 21.04, Download this one [here](https://github.com/labsquare/CutePeaks/releases/download/0.2.3/cutepeaks-ubuntu_21-04-x86_64.AppImage)
+For ubuntu >=21.04, Download this one [here](https://github.com/labsquare/CutePeaks/releases/download/0.2.3/cutepeaks-ubuntu_21-04-x86_64.AppImage)
 
 Run it as follow:
 
 
     chmod +x cutepeaks-0.2.0-linux-x86_64.appimage
     ./cutepeaks-0.2.0-linux-x86_64.appimage
+
+### FlatPak
+Cutepeaks is available as a [flatpak](https://flathub.org/apps/details/io.github.labsquare.CutePeaks)
+
+```
+flatpak install flathub io.github.labsquare.CutePeaks
+flatpak run io.github.labsquare.CutePeaks
+```
+
 
 
 ## Compilation
