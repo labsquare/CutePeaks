@@ -28,10 +28,10 @@ RESOURCES += \
 
 
 unix {
-desktop.files += ../cutepeaks.desktop
+desktop.files += ../io.github.labsquare.CutePeaks.desktop
 desktop.path = $$PREFIX/share/applications/
 
-icons.files += ../cutepeaks.png
+icons.files += ../io.github.labsquare.CutePeaks.png
 icons.path = $$PREFIX/share/icons/hicolor/64x64/apps
 
 appdata.files += ../io.github.labsquare.CutePeaks.metainfo.xml
