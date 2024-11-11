@@ -3,6 +3,6 @@ Type=Application
 Name=cutepeaks
 Comment=A simple sanger trace file viewer
 Exec=cutepeaks %F
-Icon=cutepeaks
+Icon=io.github.labsquare.CutePeaks
 Terminal=false
 Categories=Science;Biology;Qt;

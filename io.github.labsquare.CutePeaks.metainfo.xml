@@ -3,8 +3,10 @@
   <!--Created with jdAppdataEdit 5.1-->
   <id>io.github.labsquare.CutePeaks</id>
   <name>CutePeaks</name>
-  <summary>standalone Sanger trace viewer</summary>
-  <developer_name>Labsquare</developer_name>
+  <summary>Standalone Sanger trace viewer</summary>
+  <developer id="org.labsquare">
+    <name>Labsquare</name>
+  </developer>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0+</project_license>
   <description>
@@ -29,4 +31,5 @@
   <url type="homepage">https://labsquare.github.io/CutePeaks/</url>
   <url type="bugtracker">https://github.com/labsquare/CutePeaks/issues</url>
   <content_rating type="oars-1.1"/>
+  <launchable type="desktop-id">io.github.labsquare.CutePeaks.desktop</launchable>
 </component>
