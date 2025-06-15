@@ -100,7 +100,7 @@ void MainWindow::setFilename(const QString &filename)
     mFile = filename;
 
     if (filename.isEmpty()) {
-        setWindowTitle(tr"Cutepeaks");
+        setWindowTitle("Cutepeaks");
         return;
     }
 
