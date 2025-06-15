@@ -377,9 +377,9 @@ void MainWindow::setupActions()
     editMenu->addAction(FIcon(0xf0ec),tr("Revert Sequence"), this,SLOT(revert()),  QKeySequence(Qt::CTRL + Qt::Key_I));
     editMenu->addSeparator();
     QActionGroup * frameGroup = new QActionGroup(this);
-    frameGroup->addAction(editMenu->addAction("frame 1",[this](){mView->setFrameShift(Sequence::Frame1);},QKeySequence(Qt::CTRL + Qt::Key_1)));
-    frameGroup->addAction(editMenu->addAction("frame 2",[this](){mView->setFrameShift(Sequence::Frame2);},QKeySequence(Qt::CTRL + Qt::Key_2)));
-    frameGroup->addAction(editMenu->addAction("frame 3",[this](){mView->setFrameShift(Sequence::Frame3);},QKeySequence(Qt::CTRL + Qt::Key_3)));;
+    frameGroup->addAction(editMenu->addAction("Frame 1",[this](){mView->setFrameShift(Sequence::Frame1);},QKeySequence(Qt::CTRL + Qt::Key_1)));
+    frameGroup->addAction(editMenu->addAction("Frame 2",[this](){mView->setFrameShift(Sequence::Frame2);},QKeySequence(Qt::CTRL + Qt::Key_2)));
+    frameGroup->addAction(editMenu->addAction("Frame 3",[this](){mView->setFrameShift(Sequence::Frame3);},QKeySequence(Qt::CTRL + Qt::Key_3)));;
     editMenu->addSeparator();
 
     frameGroup->setExclusive(true);
@@ -429,7 +429,7 @@ void MainWindow::setupActions()
     showAminoAction->setCheckable(true);
     viewMenu->addSeparator();
 
-    QAction * transpAction = viewMenu->addAction("Window transparent");
+    QAction * transpAction = viewMenu->addAction("Window Transparency");
     transpAction->setCheckable(true);
     connect(transpAction, &QAction::triggered, this, &MainWindow::setTransparent);
 
