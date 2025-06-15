@@ -28,7 +28,7 @@ Sequence Sequence::complement() const
 {
     if (type() == Protein)
     {
-        qWarning()<<QObject::tr("Cannot complement a protein.");
+        qWarning()<<QObject::tr("Cannot complement amino acid sequence.");
         return Sequence();
     }
 
@@ -56,7 +56,7 @@ Sequence Sequence::translate(ReadFame frame) const
     // TODO
     if (type() == Protein)
     {
-        qWarning()<<QObject::tr("Cannot translate a protein.");
+        qWarning()<<QObject::tr("Cannot translate an amino acid sequence.");
         return Sequence();
     }
 
@@ -225,7 +225,7 @@ void Sequence::insert(int pos, const Sequence &sequence)
 {
     if (sequence.type() != type())
     {
-        qWarning()<<Q_FUNC_INFO<<"cannot insert sequence from a different type";
+        qWarning()<<Q_FUNC_INFO<<"Cannot insert sequence from a different type.";
         return;
     }
 
