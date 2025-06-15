@@ -28,7 +28,7 @@ Sequence Sequence::complement() const
 {
     if (type() == Protein)
     {
-        qWarning()<<QObject::tr("cannot complement a protein");
+        qWarning()<<QObject::tr("Cannot complement a protein.");
         return Sequence();
     }
 
@@ -56,7 +56,7 @@ Sequence Sequence::translate(ReadFame frame) const
     // TODO
     if (type() == Protein)
     {
-        qWarning()<<QObject::tr("cannot translate a protein");
+        qWarning()<<QObject::tr("Cannot translate a protein.");
         return Sequence();
     }
 
