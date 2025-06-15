@@ -99,7 +99,10 @@ void MainWindow::setFilename(const QString &filename)
 {
     mFile = filename;
 
-    if (filename.isEmpty()) return;
+    if (filename.isEmpty()) {
+        setWindowTitle(tr"Cutepeaks");
+        return;
+    }
 
     if (QFile::exists(filename)){
         mView->setFilename(filename);
@@ -121,12 +124,12 @@ void MainWindow::setFilename(const QString &filename)
         }
         else
         {
-            QMessageBox::critical(this,tr("Error reading"),tr("Cannot read file"));
+            QMessageBox::critical(this,tr("Error reading."),tr("Cannot read file!"));
         }
 
     }
     else
-        QMessageBox::warning(this,tr("Error"),tr("Cannot find file ") + filename);
+        QMessageBox::warning(this,tr("Error."),tr("Cannot find file ") + filename);
 
 
     //    mView->toPng("/tmp/cutepeaks.png");
