@@ -605,7 +605,7 @@ void TraceView::setTrace(Trace *trace)
 
     mTrace = trace;
     if (!isValid()){
-        qCritical()<<Q_FUNC_INFO<<tr("Cannot read the file");
+        qCritical()<<Q_FUNC_INFO<<tr("Cannot read the file.");
         setDisabled(true);
         return ;
     }
@@ -735,7 +735,7 @@ bool TraceView::toSvg(const QString &filename) const
     generator.setSize(viewport()->size());
     generator.setViewBox(viewport()->rect());
     generator.setTitle("Sanger trace file");
-    generator.setDescription(tr("An SVG rendering from cutepeaks"));
+    generator.setDescription(tr("An SVG rendering from cutepeaks."));
 
     QPainter painter;
     painter.begin(&generator);

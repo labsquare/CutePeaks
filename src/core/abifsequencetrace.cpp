@@ -57,7 +57,7 @@ void AbifSequenceTrace::readDictionnaries()
         QString magic  = device()->read(4);
 
         if (magic.toUpper() != "ABIF")
-            qCritical()<<QObject::tr("Not an ABIF FILE");
+            qCritical()<<QObject::tr("Not an ABIF FILE!");
 
         // read version
         mVersion = qFromBigEndian<qint16>((uchar*)(device()->read(2).data()));

@@ -90,7 +90,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::openFile()
 {
-    QString file = QFileDialog::getOpenFileName(this, tr("Open file"), QDir::currentPath());
+    QString file = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::currentPath());
     setFilename(file);
 
 }
@@ -99,7 +99,10 @@ void MainWindow::setFilename(const QString &filename)
 {
     mFile = filename;
 
-    if (filename.isEmpty()) return;
+    if (filename.isEmpty()) {
+        setWindowTitle("Cutepeaks");
+        return;
+    }
 
     if (QFile::exists(filename)){
         mView->setFilename(filename);
@@ -121,12 +124,12 @@ void MainWindow::setFilename(const QString &filename)
         }
         else
         {
-            QMessageBox::critical(this,tr("Error reading"),tr("Cannot read file"));
+            QMessageBox::critical(this,tr("Error reading."),tr("Cannot read file!"));
         }
 
     }
     else
-        QMessageBox::warning(this,tr("Error"),tr("Cannot find file ") + filename);
+        QMessageBox::warning(this,tr("Error."),tr("Cannot find file ") + filename);
 
 
     //    mView->toPng("/tmp/cutepeaks.png");
@@ -324,7 +327,7 @@ void MainWindow::setupActions()
     // fichier recents
     if (!recentFiles().isEmpty())
     {
-        QAction * recentAction = fileMenu->addAction(tr("recents files"));
+        QAction * recentAction = fileMenu->addAction(tr("Recent Files"));
         recentAction->setMenu(new QMenu);
         for (const QUrl& url : recentFiles())
             recentAction->menu()->addAction(url.toString(QUrl::PreferLocalFile), [this,url](){setFilename(url.toLocalFile());});
@@ -336,9 +339,9 @@ void MainWindow::setupActions()
     exportAction->setMenu(new QMenu);
     QAction * exportPng    = exportAction->menu()->addAction(FIcon(0xf1c5),tr("PNG Image"),this,SLOT(exportFile()));
     QAction * exportSvg    = exportAction->menu()->addAction(FIcon(0xf1c5),tr("SVG Image"),this,SLOT(exportFile()));
-    QAction * exportCsv    = exportAction->menu()->addAction(FIcon(0xf0f6),tr("CSV dataset"),this,SLOT(exportFile()));
-    QAction * exportDna    = exportAction->menu()->addAction(FIcon(0xf0f6),tr("FASTA dna"),this,SLOT(exportFile()));
-    QAction * exportProtein= exportAction->menu()->addAction(FIcon(0xf0f6),tr("FASTA protein"),this,SLOT(exportFile()));
+    QAction * exportCsv    = exportAction->menu()->addAction(FIcon(0xf0f6),tr("CSV Dataset"),this,SLOT(exportFile()));
+    QAction * exportDna    = exportAction->menu()->addAction(FIcon(0xf0f6),tr("FASTA DNA"),this,SLOT(exportFile()));
+    QAction * exportProtein= exportAction->menu()->addAction(FIcon(0xf0f6),tr("FASTA Protein"),this,SLOT(exportFile()));
 
     exportPng->setProperty("format", "PNG");
     exportSvg->setProperty("format", "SVG");
@@ -367,19 +370,19 @@ void MainWindow::setupActions()
     editMenu->addAction(redoAction);
 
     editMenu->addSeparator();
-    editMenu->addAction(FIcon(0xf0c5),tr("Copy selection"), mView, SLOT(copySequence()),QKeySequence::Copy);
+    editMenu->addAction(FIcon(0xf0c5),tr("Copy Selection"), mView, SLOT(copySequence()),QKeySequence::Copy);
     editMenu->addSeparator();
-    editMenu->addAction(tr("Select all"), mView,SLOT(selectAll()), QKeySequence::SelectAll);
+    editMenu->addAction(tr("Select All"), mView,SLOT(selectAll()), QKeySequence::SelectAll);
     editMenu->addSeparator();
     //    QAction * remAction =
-    editMenu->addAction(FIcon(0xf0c4),tr("Remove selection"),this,SLOT(removeSelection()),QKeySequence::Delete);
+    editMenu->addAction(FIcon(0xf0c4),tr("Remove Selection"),this,SLOT(removeSelection()),QKeySequence::Delete);
     //    QAction * revAction =
     editMenu->addAction(FIcon(0xf0ec),tr("Revert Sequence"), this,SLOT(revert()),  QKeySequence(Qt::CTRL + Qt::Key_I));
     editMenu->addSeparator();
     QActionGroup * frameGroup = new QActionGroup(this);
-    frameGroup->addAction(editMenu->addAction("frame 1",[this](){mView->setFrameShift(Sequence::Frame1);},QKeySequence(Qt::CTRL + Qt::Key_1)));
-    frameGroup->addAction(editMenu->addAction("frame 2",[this](){mView->setFrameShift(Sequence::Frame2);},QKeySequence(Qt::CTRL + Qt::Key_2)));
-    frameGroup->addAction(editMenu->addAction("frame 3",[this](){mView->setFrameShift(Sequence::Frame3);},QKeySequence(Qt::CTRL + Qt::Key_3)));;
+    frameGroup->addAction(editMenu->addAction("Frame 1",[this](){mView->setFrameShift(Sequence::Frame1);},QKeySequence(Qt::CTRL + Qt::Key_1)));
+    frameGroup->addAction(editMenu->addAction("Frame 2",[this](){mView->setFrameShift(Sequence::Frame2);},QKeySequence(Qt::CTRL + Qt::Key_2)));
+    frameGroup->addAction(editMenu->addAction("Frame 3",[this](){mView->setFrameShift(Sequence::Frame3);},QKeySequence(Qt::CTRL + Qt::Key_3)));;
     editMenu->addSeparator();
 
     frameGroup->setExclusive(true);
@@ -390,7 +393,7 @@ void MainWindow::setupActions()
 
 
     editMenu->addSeparator();
-    QAction * findAction = mSearchbar->createSearchAction("Find Sequence ...");
+    QAction * findAction = mSearchbar->createSearchAction("Find Sequence");
     findAction->setShortcut(QKeySequence::Find);
     findAction->setIcon(FIcon(0xf002));
     editMenu->addAction(findAction);
@@ -407,8 +410,8 @@ void MainWindow::setupActions()
 
     // view Menu
     QMenu * viewMenu             = bar->addMenu(tr("&View"));
-    QAction * showQualAction     = viewMenu->addAction(tr("Show quality"));
-    QAction * showAminoAction    = viewMenu->addAction(tr("Show aminoacid"));
+    QAction * showQualAction     = viewMenu->addAction(tr("Show Quality"));
+    QAction * showAminoAction    = viewMenu->addAction(tr("Show Amino Acid"));
     showQualAction->setCheckable(true);
     showAminoAction->setCheckable(true);
 
@@ -429,7 +432,7 @@ void MainWindow::setupActions()
     showAminoAction->setCheckable(true);
     viewMenu->addSeparator();
 
-    QAction * transpAction = viewMenu->addAction("Window transparent");
+    QAction * transpAction = viewMenu->addAction("Window Transparency");
     transpAction->setCheckable(true);
     connect(transpAction, &QAction::triggered, this, &MainWindow::setTransparent);
 
@@ -438,10 +441,10 @@ void MainWindow::setupActions()
 
 
     QMenu * helpMenu = bar->addMenu(tr("&Help"));
-    helpMenu->addAction(tr("Check update"),this, SLOT(showUpdater()));
-    helpMenu->addAction(tr("Send issue"), [](){QDesktopServices::openUrl(QUrl("https://github.com/labsquare/CutePeaks/issues/new"));});
+    helpMenu->addAction(tr("Check Update"),this, SLOT(showUpdater()));
+    helpMenu->addAction(tr("Open Issue"), [](){QDesktopServices::openUrl(QUrl("https://github.com/labsquare/CutePeaks/issues/new"));});
     helpMenu->addSeparator();
-    helpMenu->addAction(tr("Join labsquare"), [](){QDesktopServices::openUrl(QUrl("http://www.labsquare.org"));});
+    helpMenu->addAction(tr("Join Labsquare"), [](){QDesktopServices::openUrl(QUrl("http://www.labsquare.org"));});
     helpMenu->addAction(tr("Donate"), [](){QDesktopServices::openUrl(QUrl("http://www.labsquare.org"));});
     helpMenu->addSeparator();
     helpMenu->addAction(tr("&About"), this, SLOT(about()));

@@ -29,11 +29,11 @@ QFontIcon * QFontIcon::mInstance = nullptr;
 
 bool QFontIcon::addFont(const QString &filename)
 {
-    qDebug()<<"add font";
+    qDebug()<<"Add font";
     int id = QFontDatabase::addApplicationFont(filename);
 
     if (id == -1){
-        qDebug()<<"Cannot load font";
+        qDebug()<<"Cannot load font.";
         return false;
     }
 
@@ -54,7 +54,7 @@ QIcon QFontIcon::icon(const QChar &code, const QColor &baseColor, const QString 
 {
     if (instance()->families().isEmpty())
     {
-        qWarning()<<Q_FUNC_INFO<<"No font family installed";
+        qWarning()<<Q_FUNC_INFO<<"No font family installed!";
         return QIcon();
     }
 

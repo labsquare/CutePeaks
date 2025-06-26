@@ -29,7 +29,7 @@ bool CommandLineInterpreter::process()
 {
     if (mParser.positionalArguments().isEmpty())
     {
-        std::cerr<<"filename not provided"<<std::endl;
+        std::cerr<<"Filename not provided!"<<std::endl;
         return false;
     }
 
@@ -37,7 +37,7 @@ bool CommandLineInterpreter::process()
 
     if (!QFile::exists(filename))
     {
-        std::cerr<<"filename doesn't exist"<<std::endl;
+        std::cerr<<"Filename doesn't exist!"<<std::endl;
         return false;
     }
 
@@ -64,7 +64,7 @@ bool CommandLineInterpreter::printMetadatas()
         return false;
     }
 
-    std::cout<<std::setw(10)<<"base count " << trace->baseCount()<<std::endl;
+    std::cout<<std::setw(10)<<"Base Count: " << trace->baseCount()<<std::endl;
 
     auto it  = trace->metadatas().begin();
     while (it != trace->metadatas().end())

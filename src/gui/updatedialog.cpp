@@ -13,7 +13,7 @@ UpdateDialog::UpdateDialog(QWidget */*parent*/)
     connect(buttons, &QDialogButtonBox::accepted, this, &UpdateDialog::close);
 
     mLabel->setAlignment(Qt::AlignCenter|Qt::AlignVCenter);
-    mLabel->setText(tr("check updated ..."));
+    mLabel->setText(tr("Check Updated ..."));
 
     auto mainLayout = new QVBoxLayout;
 
@@ -46,14 +46,14 @@ void UpdateDialog::parse()
     qDebug()<<"current version " << currVersion;
 
     if (lastVersion > currVersion){
-        mLabel->setText(tr("A new version %1 is avaible").arg(lastVersion.toString()));
+        mLabel->setText(tr("A new version %1 is avaible.").arg(lastVersion.toString()));
         mDLUrl = QUrl(doc.object().value("html_url").toString());
         mDLButton->setVisible(true);
     }
 
     else
     {
-        mLabel->setText(tr("You already have the latest update"));
+        mLabel->setText(tr("You already have the latest update."));
         mDLButton->setVisible(false);
     }
 

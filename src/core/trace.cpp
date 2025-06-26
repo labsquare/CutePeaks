@@ -260,9 +260,9 @@ void Trace::trimRight(int size)
 void Trace::debug() const
 {
 
-    qDebug()<<"trace size :"<<mDatas['A'].size();
-    qDebug()<<"seq size"<<sequence().length();
-    qDebug()<<"seq: "<<sequence().byteArray();
+    qDebug()<<"Trace Size: "<<mDatas['A'].size();
+    qDebug()<<"Sequence Size: "<<sequence().length();
+    qDebug()<<"Sequence: "<<sequence().byteArray();
 
 
 
