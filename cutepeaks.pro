@@ -14,7 +14,7 @@ linux-g++ {
     icon64.path = $$PREFIX/share/icons/hicolor/64x64/apps
     icon64.files += cutepeaks.png
     icon256.path = $$PREFIX/share/icons/hicolor/256x256/apps
-    icon256.files += icon/256/cutepeaks.png
+    icon256.files += icon/256/io.github.labsquare.CutePeaks.png
 
     INSTALLS += icon64
     INSTALLS += icon256
